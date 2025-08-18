@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 
 export default function App() {
-  const SERVER_URL = "https://snapguru.onrender.com";
+  const SERVER_URL = "https://viseverse.onrender.com";
 
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
