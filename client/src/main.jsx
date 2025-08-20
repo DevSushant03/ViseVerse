@@ -5,7 +5,7 @@ import "./App.css";
 import Applayout from "./layout/Applayout";
 import App from "./pages/App";
 import Login from "./pages/Login";
-import Register from "./pages/register";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter([
   {
