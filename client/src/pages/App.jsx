@@ -178,7 +178,7 @@ export default function App() {
 
   return (
     <>
-      <div className="container">
+      <div className="container mt-20">
         <div className="header">
           <h1>📸 ViseVerse</h1>
           <p>Upload a text and extract, analyze, or translate text with AI</p>
