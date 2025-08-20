@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import About from '../components/About.jsx'
 
 export default function App() {
   const SERVER_URL = "https://viseverse.onrender.com";
@@ -178,7 +179,7 @@ export default function App() {
 
   return (
     <>
-      <div className="container mt-20">
+      <div className="container">
         <div className="header">
           <h1>📸 ViseVerse</h1>
           <p>Upload a text and extract, analyze, or translate text with AI</p>
@@ -278,7 +279,9 @@ export default function App() {
             </button>
           </div>
         </div>
+       
       </div>
+      <About/>
     </>
   );
 }
