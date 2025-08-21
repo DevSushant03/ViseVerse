@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import About from '../components/About.jsx'
+import About from "../components/About.jsx";
 
 export default function App() {
   const SERVER_URL = "https://viseverse.onrender.com";
@@ -27,6 +27,7 @@ export default function App() {
     try {
       const res = await fetch(SERVER_URL + "/aiResponse", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text, action }),
       });
@@ -110,6 +111,7 @@ export default function App() {
     const res = await fetch(SERVER_URL + "/ocr", {
       method: "POST",
       body: formdata,
+      credentials: "include",
     });
     const data = await res.json();
     setRawText(data.ocrtext);
@@ -279,9 +281,8 @@ export default function App() {
             </button>
           </div>
         </div>
-       
       </div>
-      <About/>
+      <About />
     </>
   );
 }

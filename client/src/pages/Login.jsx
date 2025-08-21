@@ -5,9 +5,17 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async(e) => {
     e.preventDefault();
-    console.log("Login →", { email, password });
+
+    await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({ email, password }),
+    });
   };
 
   return (
@@ -50,7 +58,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition shadow-lg"
+            className="w-full py-3 rounded-xl cursor-pointer bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition shadow-lg"
           >
             Login
           </button>
@@ -58,7 +66,7 @@ export default function Login() {
 
         <p className="text-center text-white/70 text-sm mt-6">
           Don’t have an account?{" "}
-          <Link to="/register" className="text-purple-200 hover:underline">
+          <Link to="/register" className="text-purple-200 cursor-pointer hover:underline">
             Register
           </Link>
         </p>
