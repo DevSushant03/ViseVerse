@@ -48,6 +48,7 @@ export default function App() {
       },
       body: JSON.stringify({ rawText }),
     });
+    console.log(response);
 
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
@@ -85,15 +86,8 @@ export default function App() {
 
   async function downloadAsTxt(rawText) {
     setLoading(true);
-    const response = await fetch(SERVER_URL + "/downloadTxt", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ rawText }),
-    });
 
-    const blob = await response.blob();
+    const blob = new Blob([rawText], { type: "text/plain" });
     const url = window.URL.createObjectURL(blob);
 
     const a = document.createElement("a");

@@ -9,6 +9,13 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
+// app.use(
+//   cors({
+//     origin: "http://localhost:5174", // Vite dev server
+//     methods: ["GET", "POST"],
+//     credentials: true,
+//   })
+// );
 app.use(express.json());
 
 app.use("/", routes);
