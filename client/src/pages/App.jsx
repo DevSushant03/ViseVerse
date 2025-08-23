@@ -3,6 +3,7 @@ import About from "../components/About.jsx";
 
 export default function App() {
   const SERVER_URL = "https://viseverse.onrender.com";
+  // const SERVER_URL = "http://localhost:3000";
 
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");

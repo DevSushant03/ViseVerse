@@ -11,7 +11,7 @@ app.use(cors({
 }));
 // app.use(
 //   cors({
-//     origin: "http://localhost:5174", // Vite dev server
+//     origin: "http://localhost:5173", // Vite dev server
 //     methods: ["GET", "POST"],
 //     credentials: true,
 //   })

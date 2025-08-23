@@ -5,8 +5,10 @@ export const aiResponse = async (req, res, next) => {
     const { text, action } = req.body || {};
     if (!text || !action) return fail(res, 400, "Missing text or action");
     const data = await processText(text, action);
-    return success(res, data);
+    return res.json({data});
   } catch (err) {
+    console.log("ai controller:"+err);
+    
     next(err);
   }
 };
