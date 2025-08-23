@@ -151,14 +151,14 @@ textarea::placeholder {
   border: none;
   padding: 8px 16px;
   border-radius: 8px;
-  margin-top: 5px;
+  margin: 5px;
   cursor: pointer;
   font-size: 0.9em;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .copy-btn:hover {
-  background: #5a6fd8;
+  background: #374799;
   transform: translateY(-1px);
 }
 

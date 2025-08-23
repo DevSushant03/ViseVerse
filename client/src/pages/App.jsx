@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import About from "../components/About.jsx";
-
+import { Copy, FileText, FileType2, File } from "lucide-react";
 export default function App() {
   const SERVER_URL = "https://viseverse.onrender.com";
   // const SERVER_URL = "http://localhost:3000";
@@ -272,7 +272,28 @@ export default function App() {
               className="copy-btn"
               onClick={copyResult}
             >
-              Copy
+              <Copy />
+            </button>
+            <button
+              title="Download as text"
+              className="copy-btn"
+              onClick={()=>downloadAsTxt(result)}
+            >
+              <FileText />
+            </button>
+            <button
+              title="Download as Pdf"
+              className="copy-btn"
+              onClick={()=>downloadAsPdf(result)}
+            >
+              <FileType2 />
+            </button>
+            <button
+              title="Download as Docx"
+              className="copy-btn"
+              onClick={()=>downloadAsDocx(result)}
+            >
+              <File />
             </button>
           </div>
         </div>
