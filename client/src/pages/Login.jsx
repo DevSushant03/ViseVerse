@@ -5,7 +5,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     await fetch("http://localhost:3000/login", {
@@ -13,9 +13,13 @@ export default function Login() {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
 
       body: JSON.stringify({ email, password }),
     });
+
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -66,7 +70,10 @@ export default function Login() {
 
         <p className="text-center text-white/70 text-sm mt-6">
           Don’t have an account?{" "}
-          <Link to="/register" className="text-purple-200 cursor-pointer hover:underline">
+          <Link
+            to="/register"
+            className="text-purple-200 cursor-pointer hover:underline"
+          >
             Register
           </Link>
         </p>

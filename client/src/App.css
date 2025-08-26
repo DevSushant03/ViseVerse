@@ -157,7 +157,7 @@ textarea::placeholder {
   transition: all 0.2s ease;
 }
 
-.copy-btn:hover {
+.copy-btn:hover{
   background: #374799;
   transform: translateY(-1px);
 }

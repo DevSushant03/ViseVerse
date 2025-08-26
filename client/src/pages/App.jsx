@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import About from "../components/About.jsx";
 import { Copy, FileText, FileType2, File } from "lucide-react";
 export default function App() {
-  const SERVER_URL = "https://viseverse.onrender.com";
-  // const SERVER_URL = "http://localhost:3000";
+  // const SERVER_URL = "https://viseverse.onrender.com";
+  const SERVER_URL = "http://localhost:3000";
 
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
@@ -28,8 +28,8 @@ export default function App() {
     try {
       const res = await fetch(SERVER_URL + "/aiResponse", {
         method: "POST",
-        credentials: "include",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ text, action }),
       });
       if (!res.ok) return "Error processing request";

@@ -11,6 +11,7 @@ export default function Register() {
 
     await fetch("http://localhost:3000/register", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
