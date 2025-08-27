@@ -6,9 +6,8 @@ import Applayout from "./layout/Applayout";
 import App from "./pages/App";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import VerifyEmailOtp from "./pages/VerifyEmailOtp";
-import ForgetPasswordFlow from "./pages/ForgetPasswordFlow";
-
+import VerifyEmailOtp from "./pages/VerifyEmailOtp"
+import ForgetPasswordFlow from "./pages/ForgetPasswordFlow"
 const router = createBrowserRouter([
   {
     path: "/",
