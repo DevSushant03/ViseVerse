@@ -6,9 +6,12 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
+    const SERVER_URL = "https://viseverse.onrender.com";
+    // const SERVER_URL = "http://localhost:3000";
+
     e.preventDefault();
 
-    await fetch("http://localhost:3000/login", {
+    await fetch(SERVER_URL + "/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,13 +71,19 @@ export default function Login() {
           </button>
         </form>
 
-        <p className="text-center text-white/70 text-sm mt-6">
-          Don’t have an account?{" "}
+        <p className="flex justify-between text-center text-white/70 text-sm mt-6">
           <Link
             to="/register"
-            className="text-purple-200 cursor-pointer hover:underline"
-          >
+            className="text-purple-100 cursor-pointer hover:underline"
+            >
+            Don’t have an account?
             Register
+          </Link>
+          <Link
+            to="/forgetpassword"
+            className="text-purple-100 cursor-pointer hover:underline"
+          >
+            Forget Password
           </Link>
         </p>
       </div>
