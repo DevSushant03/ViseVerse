@@ -3,10 +3,8 @@ import api from "../../api.js";
 export async function processText(text, action) {
   try {
     const response = await api(text, action);
-  return response;
+    return response;
   } catch (error) {
-    console.log("ai servicces:"+error);
-    
+    console.log("ai servicces:" + error);
   }
-  
 }

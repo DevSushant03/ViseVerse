@@ -51,6 +51,10 @@ export default function ProfilePage() {
     }
   };
 
+   const logout = () => {
+    
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-4 relative overflow-hidden">
       {/* Animated background elements */}
@@ -80,7 +84,7 @@ export default function ProfilePage() {
                     alt="Profile"
                     className="w-20 h-20 rounded-2xl object-cover border-2 border-white/30"
                   />
-                  <button className="absolute inset-0 bg-black/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <button className="absolute inset-0 cursor-pointer bg-black/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <Camera className="w-6 h-6 text-white" />
                   </button>
                 </div>
@@ -105,7 +109,7 @@ export default function ProfilePage() {
               {!isEditing ? (
                 <button
                   onClick={handleEdit}
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-3 rounded-xl transition-all transform hover:scale-105 shadow-lg"
+                  className="bg-gradient-to-r cursor-pointer from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-3 rounded-xl transition-all transform hover:scale-105 shadow-lg"
                 >
                   <Edit2 className="w-5 h-5" />
                 </button>
@@ -113,13 +117,13 @@ export default function ProfilePage() {
                 <div className="flex space-x-2">
                   <button
                     onClick={handleSave}
-                    className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-xl transition-all transform hover:scale-105"
+                    className="bg-green-500 cursor-pointer hover:bg-green-600 text-white p-3 rounded-xl transition-all transform hover:scale-105"
                   >
                     <Check className="w-5 h-5" />
                   </button>
                   <button
                     onClick={handleCancel}
-                    className="bg-red-500 hover:bg-red-600 text-white p-3 rounded-xl transition-all transform hover:scale-105"
+                    className="bg-red-500 hover:bg-red-600 cursor-pointer text-white p-3 rounded-xl transition-all transform hover:scale-105"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -151,7 +155,7 @@ export default function ProfilePage() {
                         ) : (
                           <button
                             onClick={handleVerifyEmail}
-                            className="text-xs bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded-full font-medium transition-colors"
+                            className="text-xs bg-yellow-500 cursor-pointer hover:bg-yellow-600 text-black px-3 py-1 rounded-full font-medium transition-colors"
                           >
                             Verify
                           </button>
@@ -221,7 +225,7 @@ export default function ProfilePage() {
             <button
               onClick={handleVerifyEmail}
               disabled={emailVerified}
-              className={`w-full backdrop-blur-lg border border-white/20 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 flex items-center justify-center space-x-3 ${
+              className={`w-full cursor-pointer backdrop-blur-lg border border-white/20 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 flex items-center justify-center space-x-3 ${
                 emailVerified 
                   ? 'bg-green-500/20 border-green-400/30 cursor-not-allowed' 
                   : 'bg-white/10 hover:bg-white/20'
@@ -235,8 +239,8 @@ export default function ProfilePage() {
 
             {/* Logout Button */}
             <button
-              onClick={() => alert('Logout functionality would be implemented here')}
-              className="w-full backdrop-blur-lg bg-red-500/20 border border-red-400/30 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 hover:bg-red-500/30 flex items-center justify-center space-x-3"
+              onClick={logout}
+              className="w-full cursor-pointer backdrop-blur-lg bg-red-500/20 border border-red-400/30 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 hover:bg-red-500/30 flex items-center justify-center space-x-3"
             >
               <Lock className="w-6 h-6 text-red-300" />
               <span className="text-lg font-semibold text-white">Logout</span>
@@ -266,13 +270,13 @@ export default function ProfilePage() {
               <div className="flex space-x-3">
                 <button
                   onClick={handleVerificationSubmit}
-                  className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-3 rounded-xl font-medium transition-all transform hover:scale-105"
+                  className="flex-1 cursor-pointer bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-3 rounded-xl font-medium transition-all transform hover:scale-105"
                 >
                   Verify
                 </button>
                 <button
                   onClick={() => setShowVerification(false)}
-                  className="flex-1 bg-white/10 border border-white/20 hover:bg-white/20 text-white py-3 rounded-xl font-medium transition-all"
+                  className="flex-1 cursor-pointer bg-white/10 border border-white/20 hover:bg-white/20 text-white py-3 rounded-xl font-medium transition-all"
                 >
                   Cancel
                 </button>

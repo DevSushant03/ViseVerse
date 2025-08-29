@@ -7,7 +7,7 @@ export const aiResponse = async (req, res, next) => {
     const data = await processText(text, action);
     return res.json({data});
   } catch (err) {
-    console.log("ai controller:"+err);
+    console.log("ai controller:",err);
     
     next(err);
   }

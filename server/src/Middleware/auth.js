@@ -1,22 +1,22 @@
 // middleware/auth.js
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
 export function verifyAuth(req, res, next) {
-  const accessToken = req.cookies.access_token;
-  const refreshToken = req.cookies.refresh_token;
-
-  if (!accessToken && !refreshToken) {
-    return res.redirect("/login");
+  const token = req.cookies.accessToken;
+  
+  if (!token) {
+    console.log("token", token);
+    return res.json({success:false,message:"User not login !"});
+    
   }
 
   try {
-    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
-    req.user = decoded;
+    req.user = token;
     next();
   } catch (err) {
-    console.error("Invalid token:", err.message);
-    return res.redirect("/login");
+    console.log("auth",err);
+    
   }
 }

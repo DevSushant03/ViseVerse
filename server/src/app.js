@@ -1,9 +1,13 @@
 // app.js
 import express from "express";
-import cors from "cors";
 import routes from "./routes/index.js";
+import cookieParser from "cookie-parser";
 const app = express();
+import cors from "cors";
 
+
+app.use(cookieParser());
+app.use(express.json());
 app.use(cors({
   origin: "https://viseverse.netlify.app", // your frontend
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -12,11 +16,10 @@ app.use(cors({
 // app.use(
 //   cors({
 //     origin: "http://localhost:5173", // Vite dev server
-//     methods: ["GET", "POST"],
+//     methods: ["GET", "POST", "PUT", "DELETE"],
 //     credentials: true,
 //   })
 // );
-app.use(express.json());
 
 app.use("/", routes);
 

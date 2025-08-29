@@ -212,7 +212,7 @@ export default function ForgetPasswordFlow() {
 
               <button
                 onClick={handleBackToLogin}
-                className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
+                className="w-full bg-gradient-to-r cursor-pointer from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
               >
                 Back to Login
               </button>
@@ -264,7 +264,7 @@ export default function ForgetPasswordFlow() {
           {(currentStep === 2 || currentStep === 3) && (
             <button
               onClick={() => setCurrentStep(currentStep - 1)}
-              className="mb-4 flex items-center text-purple-200 hover:text-white transition-colors duration-200"
+              className="mb-4 flex cursor-pointer items-center text-purple-200 hover:text-white transition-colors duration-200"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
@@ -333,7 +333,7 @@ export default function ForgetPasswordFlow() {
                 <button
                   onClick={handleEmailSubmit}
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:hover:scale-100 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
+                  className="w-full cursor-pointer bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:hover:scale-100 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
                 >
                   {isLoading ? (
                     <>
@@ -424,7 +424,7 @@ export default function ForgetPasswordFlow() {
               <button
                 onClick={handleOTPVerify}
                 disabled={isLoading || otp.join("").length !== 6}
-                className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:hover:scale-100 transition-all duration-200 shadow-lg mb-4 flex items-center justify-center gap-2"
+                className="w-full cursor-pointer bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:hover:scale-100 transition-all duration-200 shadow-lg mb-4 flex items-center justify-center gap-2"
               >
                 {isLoading ? (
                   <>
@@ -446,7 +446,7 @@ export default function ForgetPasswordFlow() {
 
                 <button
                   onClick={handleResend}
-                  className="text-purple-300 hover:text-white font-medium text-sm underline underline-offset-2 hover:underline-offset-4 transition-all duration-200"
+                  className="text-purple-300 cursor-pointer hover:text-white font-medium text-sm underline underline-offset-2 hover:underline-offset-4 transition-all duration-200"
                 >
                   Resend Code
                 </button>
@@ -500,7 +500,7 @@ export default function ForgetPasswordFlow() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors duration-200"
+                      className="absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors duration-200"
                     >
                       {showPassword ? (
                         <EyeOff className="w-5 h-5" />
@@ -534,7 +534,7 @@ export default function ForgetPasswordFlow() {
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors duration-200"
+                      className="absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors duration-200"
                     >
                       {showConfirmPassword ? (
                         <EyeOff className="w-5 h-5" />
@@ -562,7 +562,7 @@ export default function ForgetPasswordFlow() {
                 <button
                   onClick={handlePasswordSubmit}
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:hover:scale-100 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
+                  className="w-full cursor-pointer bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:hover:scale-100 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
                 >
                   {isLoading ? (
                     <>

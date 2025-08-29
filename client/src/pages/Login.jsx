@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [authError, setauthError] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     const SERVER_URL = "https://viseverse.onrender.com";
@@ -11,7 +13,7 @@ export default function Login() {
 
     e.preventDefault();
 
-    await fetch(SERVER_URL + "/login", {
+    const res = await fetch(SERVER_URL + "/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,6 +22,11 @@ export default function Login() {
 
       body: JSON.stringify({ email, password }),
     });
+    const data = await res.json();
+    setauthError(data.message);
+    if(!data.success){
+      navigate("/")
+    }
 
     setEmail("");
     setPassword("");
@@ -62,6 +69,7 @@ export default function Login() {
               required
             />
           </div>
+          <p className="block font-medium text-red-700 mb-4">{authError}</p>
 
           <button
             type="submit"
@@ -75,9 +83,8 @@ export default function Login() {
           <Link
             to="/register"
             className="text-purple-100 cursor-pointer hover:underline"
-            >
-            Don’t have an account?
-            Register
+          >
+            Don’t have an account? Register
           </Link>
           <Link
             to="/forgetpassword"

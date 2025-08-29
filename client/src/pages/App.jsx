@@ -1,10 +1,12 @@
 import React, { useState, useRef } from "react";
 import About from "../components/About.jsx";
 import { Copy, FileText, FileType2, File } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 export default function App() {
-  // const SERVER_URL = "https://viseverse.onrender.com";
-  const SERVER_URL = "http://localhost:3000";
-
+  const SERVER_URL = "https://viseverse.onrender.com";
+  // const SERVER_URL = "http://localhost:3000";
+  
+  const navigate = useNavigate();
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
   const [title, setTitle] = useState("Result");
@@ -32,8 +34,11 @@ export default function App() {
         credentials: "include",
         body: JSON.stringify({ text, action }),
       });
-      if (!res.ok) return "Error processing request";
+     
       const data = await res.json();
+      if(!data.success){
+        navigate("/login")
+      }
       return data.data;
     } catch (err) {
       return "Server error";

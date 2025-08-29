@@ -5,11 +5,14 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [authError, setauthError] = useState("");
 
+  const SERVER_URL = "https://viseverse.onrender.com";
+  // const SERVER_URL = "http://localhost:3000";
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    await fetch("http://localhost:3000/register", {
+    const res = await fetch(SERVER_URL + "/register", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -18,6 +21,11 @@ export default function Register() {
 
       body: JSON.stringify({ username, email, password }),
     });
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    const data = await res.json(); // 👈 parse JSON
+    setauthError(data.message);
   };
 
   return (
@@ -72,10 +80,11 @@ export default function Register() {
               required
             />
           </div>
+          <p className="block font-medium text-red-700 mb-4">{authError}</p>
 
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition shadow-lg"
+            className="w-full py-3 cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition shadow-lg"
           >
             Register
           </button>
