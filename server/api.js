@@ -26,7 +26,7 @@ const api = async (text, action) => {
 
     return result;
   } catch (err) {
-    console.log("api:" + err);
+    console.log("api:" + err.message);
 
     return err;
   }

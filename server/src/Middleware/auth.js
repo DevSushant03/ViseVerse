@@ -1,22 +1,30 @@
 // middleware/auth.js
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
 export function verifyAuth(req, res, next) {
   const token = req.cookies.accessToken;
-  
+
+
   if (!token) {
-    console.log("token", token);
-    return res.json({success:false,message:"User not login !"});
-    
+    return res.json({ success: false, message: "User not login !" });
   }
 
   try {
-    req.user = token;
+    const DecodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (DecodedToken.id) {
+      req.user = {userid:DecodedToken.id}
+    } else {
+      return res.json({
+        success: false,
+        message: "No Authoried user , Login Again !",
+      });
+    }
+
     next();
   } catch (err) {
-    console.log("auth",err);
-    
+    return res.json({ success: false, message: err.message });
   }
 }

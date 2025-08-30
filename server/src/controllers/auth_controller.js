@@ -30,7 +30,7 @@ export const login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.json({ success: true});
+    return res.json({ success: true });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
@@ -95,19 +95,88 @@ Here’s to smarter, faster, and easier workflows. 🚀`,
 };
 
 export const logout = async (req, res) => {
+  const { userid } = req.user;
   try {
-    res.clearCookie("token", token, {
+    const user = await userModel.findByIdAndDelete(userid);
+    res.clearCookie("accessToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
-    res.clearCookie("accessToken", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-    });
-    res.json({ success: true, message: "Logout successfully" });
+    return res.json({ success: true, message: "Logout successfully" });
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    return res.json({ success: false, message: error.message });
+  }
+};
+export const sendVerifyOtp = async (req, res) => {
+  try {
+    const { userid } = req.user;
+
+    const user = await userModel.findById(userid);
+    if (user.isAccountVerified) {
+      return res.json({ success: false, message: "Accout already verified " });
+    }
+    const otp = String(Math.floor(100000 + Math.random() * 900000));
+    user.verifyOtp = otp;
+    user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 10000;
+    await user.save();
+
+    const mailOption = {
+      from: process.env.SENDER_EMAIL,
+      to: user.email,
+      subject: "ViseVerse Email Verification OTP",
+      text: `Your OTP is ${otp}. Verify your accouut using this OTP`,
+    };
+    await transporter.sendMail(mailOption);
+    return res.json({
+      success: true,
+      message: "Verification OTP send on mail",
+    });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+export const verifyEmail = async (req, res) => {
+  const { verificationCode } = req.body;
+  const { userid } = req.user;
+
+  console.log(verificationCode,userid);
+  
+
+  if (!userid || !verificationCode) {
+    console.log("Missing Details");
+
+    return res.json({ success: false, message: "Missing Details" });
+  }
+
+  try {
+    const user = await userModel.findById(userid);
+    if (!user) {
+      console.log("User Not Found");
+
+      return res.json({ success: false, message: "User Not Found" });
+    }
+    if (user.verifyOtp === "" || user.verifyOtp !== verificationCode) {
+      return res.json({ success: false, message: "Invalid OTP" });
+    }
+    if (user.verifyOtpExpireAt < Date.now()) {
+      console.log("Otp is expired");
+      return res.json({ success: false, message: "Otp is expired" });
+    }
+
+    user.isAccountVerified = true;
+    user.verifyOtp = "";
+    user.verifyOtpExpireAt = 0;
+    user.save();
+    console.log("Account verified successfully");
+    return res.json({
+      success: true,
+      message: "Account verified successfully",
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.json({ success: false, message: error.message });
   }
 };
