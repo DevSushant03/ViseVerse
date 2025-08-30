@@ -3,8 +3,7 @@ import About from "../components/About.jsx";
 import { Copy, FileText, FileType2, File } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 export default function App() {
-  const SERVER_URL = "https://viseverse.onrender.com";
-  // const SERVER_URL = "http://localhost:3000";
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   
   const navigate = useNavigate();
   const [rawText, setRawText] = useState("");
@@ -36,6 +35,8 @@ export default function App() {
       });
      
       const data = await res.json();
+      console.log(data);
+      
       if(!data.success){
         navigate("/login")
       }

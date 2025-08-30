@@ -23,6 +23,8 @@ export default function ForgetPasswordFlow() {
   const inputRefs = useRef([]);
   const navigate = useNavigate();
 
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
   useEffect(() => {
     if (currentStep === 2 && inputRefs.current[0]) {
       inputRefs.current[0].focus();

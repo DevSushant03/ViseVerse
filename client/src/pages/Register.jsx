@@ -7,8 +7,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [authError, setauthError] = useState("");
 
-  const SERVER_URL = "https://viseverse.onrender.com";
-  // const SERVER_URL = "http://localhost:3000";
+   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   const handleRegister = async (e) => {
     e.preventDefault();
 

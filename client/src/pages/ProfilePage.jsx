@@ -1,20 +1,37 @@
-import { useState } from 'react';
-import { Mail, User, Phone, MapPin, Edit2, Check, X, Camera, Shield, Lock } from 'lucide-react';
+import { useState } from "react";
+import {
+  Mail,
+  User,
+  Phone,
+  MapPin,
+  Edit2,
+  Check,
+  X,
+  Camera,
+  Shield,
+  Lock,
+} from "lucide-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
   const [isEditing, setIsEditing] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
+  const [verificationCode, setVerificationCode] = useState("");
+  const [message, setmessage] = useState("");
   const [profile, setProfile] = useState({
-    name: 'Alexandra Chen',
-    email: 'alex.chen@example.com',
-    phone: '+1 (555) 123-4567',
-    location: 'San Francisco, CA',
-    bio: 'UI/UX Designer passionate about creating beautiful and intuitive digital experiences.',
-    avatar: '/api/placeholder/150/150'
+    name: "Alexandra Chen",
+    email: "alex.chen@example.com",
+    phone: "+1 (555) 123-4567",
+    location: "San Francisco, CA",
+    bio: "UI/UX Designer passionate about creating beautiful and intuitive digital experiences.",
+    avatar: "/api/placeholder/150/150",
   });
   const [tempProfile, setTempProfile] = useState({ ...profile });
+  const navigate = useNavigate()
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -31,28 +48,52 @@ export default function ProfilePage() {
     setIsEditing(false);
   };
 
-  const handleVerifyEmail = () => {
+  const handleVerifyEmail = async () => {
     setShowVerification(true);
     // Simulate sending verification code
+    const res = await axios.post(
+      SERVER_URL + "/sendVerifyOtp",
+      {},
+      { withCredentials: true }
+    );
+    console.log(res);
+
     setTimeout(() => {
-      alert('Verification code sent to your email!');
+      alert("Verification code sent to your email!");
     }, 500);
   };
 
-  const handleVerificationSubmit = (e) => {
+  const handleVerificationSubmit = async (e) => {
     e.preventDefault();
-    if (verificationCode === '123456') {
-      setEmailVerified(true);
-      setShowVerification(false);
-      setVerificationCode('');
-      alert('Email verified successfully!');
+    console.log(verificationCode);
+    
+    if (verificationCode) {
+      const res = await axios.post(
+        SERVER_URL + "/verifyEmail",
+        { verificationCode },
+        { withCredentials: true }
+      );
+      setmessage(res.data.message);
+      if (res.data.success) {
+        setEmailVerified(true);
+        setShowVerification(false);
+        setVerificationCode("");
+        alert("Email verified successfully!");
+      }
     } else {
-      alert('Invalid verification code. Try 123456 for demo.');
+      setmessage("Missing Details !");
     }
   };
 
-   const logout = () => {
+  const logout = async() => {
+    const res = await axios.post(SERVER_URL +"/logout", {},
+        { withCredentials: true })
+    console.log(res);
     
+    if(res.data.success){
+      alert(res.data.message);
+      navigate("/");
+    }
   };
 
   return (
@@ -70,7 +111,9 @@ export default function ProfilePage() {
           <h1 className="text-4xl font-bold text-white mb-2 bg-gradient-to-r from-purple-200 to-pink-200 bg-clip-text text-transparent">
             Profile Dashboard
           </h1>
-          <p className="text-purple-200">Manage your account settings and preferences</p>
+          <p className="text-purple-200">
+            Manage your account settings and preferences
+          </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
@@ -93,19 +136,27 @@ export default function ProfilePage() {
                     <input
                       type="text"
                       value={tempProfile.name}
-                      onChange={(e) => setTempProfile({ ...tempProfile, name: e.target.value })}
+                      onChange={(e) =>
+                        setTempProfile({ ...tempProfile, name: e.target.value })
+                      }
                       className="text-2xl font-bold bg-transparent border-b border-white/50 text-white focus:outline-none focus:border-purple-400 mb-2"
                     />
                   ) : (
-                    <h2 className="text-2xl font-bold text-white mb-1">{profile.name}</h2>
+                    <h2 className="text-2xl font-bold text-white mb-1">
+                      {profile.name}
+                    </h2>
                   )}
                   <div className="flex items-center space-x-2">
                     <span className="text-purple-200">UI/UX Designer</span>
-                    <div className={`w-2 h-2 rounded-full ${emailVerified ? 'bg-green-400' : 'bg-yellow-400'}`}></div>
+                    <div
+                      className={`w-2 h-2 rounded-full ${
+                        emailVerified ? "bg-green-400" : "bg-yellow-400"
+                      }`}
+                    ></div>
                   </div>
                 </div>
               </div>
-              
+
               {!isEditing ? (
                 <button
                   onClick={handleEdit}
@@ -144,7 +195,12 @@ export default function ProfilePage() {
                       <input
                         type="email"
                         value={tempProfile.email}
-                        onChange={(e) => setTempProfile({ ...tempProfile, email: e.target.value })}
+                        onChange={(e) =>
+                          setTempProfile({
+                            ...tempProfile,
+                            email: e.target.value,
+                          })
+                        }
                         className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                       />
                     ) : (
@@ -174,7 +230,12 @@ export default function ProfilePage() {
                     <input
                       type="tel"
                       value={tempProfile.phone}
-                      onChange={(e) => setTempProfile({ ...tempProfile, phone: e.target.value })}
+                      onChange={(e) =>
+                        setTempProfile({
+                          ...tempProfile,
+                          phone: e.target.value,
+                        })
+                      }
                       className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                     />
                   ) : (
@@ -192,7 +253,12 @@ export default function ProfilePage() {
                   <input
                     type="text"
                     value={tempProfile.location}
-                    onChange={(e) => setTempProfile({ ...tempProfile, location: e.target.value })}
+                    onChange={(e) =>
+                      setTempProfile({
+                        ...tempProfile,
+                        location: e.target.value,
+                      })
+                    }
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                 ) : (
@@ -208,7 +274,9 @@ export default function ProfilePage() {
                 {isEditing ? (
                   <textarea
                     value={tempProfile.bio}
-                    onChange={(e) => setTempProfile({ ...tempProfile, bio: e.target.value })}
+                    onChange={(e) =>
+                      setTempProfile({ ...tempProfile, bio: e.target.value })
+                    }
                     rows="3"
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
                   />
@@ -226,14 +294,22 @@ export default function ProfilePage() {
               onClick={handleVerifyEmail}
               disabled={emailVerified}
               className={`w-full cursor-pointer backdrop-blur-lg border border-white/20 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 flex items-center justify-center space-x-3 ${
-                emailVerified 
-                  ? 'bg-green-500/20 border-green-400/30 cursor-not-allowed' 
-                  : 'bg-white/10 hover:bg-white/20'
+                emailVerified
+                  ? "bg-green-500/20 border-green-400/30 cursor-not-allowed"
+                  : "bg-white/10 hover:bg-white/20"
               }`}
             >
-              <Shield className={`w-6 h-6 ${emailVerified ? 'text-green-400' : 'text-purple-300'}`} />
-              <span className={`text-lg font-semibold ${emailVerified ? 'text-green-300' : 'text-white'}`}>
-                {emailVerified ? 'Email Verified ✓' : 'Verify Email'}
+              <Shield
+                className={`w-6 h-6 ${
+                  emailVerified ? "text-green-400" : "text-purple-300"
+                }`}
+              />
+              <span
+                className={`text-lg font-semibold ${
+                  emailVerified ? "text-green-300" : "text-white"
+                }`}
+              >
+                {emailVerified ? "Email Verified ✓" : "Verify Email"}
               </span>
             </button>
 
@@ -253,9 +329,13 @@ export default function ProfilePage() {
       {showVerification && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl p-8 max-w-md w-full shadow-2xl">
-            <h3 className="text-2xl font-bold text-white mb-4">Verify Your Email</h3>
-            <p className="text-purple-200 mb-6">Enter the 6-digit code sent to your email address.</p>
-            
+            <h3 className="text-2xl font-bold text-white mb-4">
+              Verify Your Email
+            </h3>
+            <p className="text-purple-200 mb-6">
+              Enter the 6-digit code sent to your email address.
+            </p>
+
             <div className="space-y-4">
               <input
                 type="text"
@@ -264,9 +344,12 @@ export default function ProfilePage() {
                 placeholder="Enter verification code"
                 className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 maxLength="6"
-                onKeyPress={(e) => e.key === 'Enter' && handleVerificationSubmit(e)}
+                onKeyPress={(e) =>
+                  e.key === "Enter" && handleVerificationSubmit(e)
+                }
               />
-              
+              <p className="text-white-200 mb-6">{message}</p>
+
               <div className="flex space-x-3">
                 <button
                   onClick={handleVerificationSubmit}
@@ -282,10 +365,6 @@ export default function ProfilePage() {
                 </button>
               </div>
             </div>
-            
-            <p className="text-xs text-purple-300 mt-4 text-center">
-              Demo: Use code "123456" to verify
-            </p>
           </div>
         </div>
       )}

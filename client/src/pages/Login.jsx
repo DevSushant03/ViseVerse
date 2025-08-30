@@ -6,11 +6,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [authError, setauthError] = useState("");
   const navigate = useNavigate();
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
   const handleLogin = async (e) => {
-    const SERVER_URL = "https://viseverse.onrender.com";
-    // const SERVER_URL = "http://localhost:3000";
-
     e.preventDefault();
 
     const res = await fetch(SERVER_URL + "/login", {
@@ -24,8 +22,8 @@ export default function Login() {
     });
     const data = await res.json();
     setauthError(data.message);
-    if(!data.success){
-      navigate("/")
+    if (data.success) {
+      navigate("/");
     }
 
     setEmail("");
