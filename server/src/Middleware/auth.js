@@ -6,7 +6,6 @@ dotenv.config();
 export function verifyAuth(req, res, next) {
   const token = req.cookies.accessToken;
 
-
   if (!token) {
     return res.json({ success: false, message: "User not login !" });
   }
@@ -15,15 +14,14 @@ export function verifyAuth(req, res, next) {
     const DecodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
     if (DecodedToken.id) {
-      req.user = {userid:DecodedToken.id}
+      req.user = { userid: DecodedToken.id };
+      next();
     } else {
       return res.json({
         success: false,
         message: "No Authoried user , Login Again !",
       });
     }
-
-    next();
   } catch (err) {
     return res.json({ success: false, message: err.message });
   }

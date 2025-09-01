@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const [username, setUsername] = useState("");
+  const [name, setname] = useState("");
+  const [surname, setsurname] = useState("");
+  const [gender, setgender] = useState("");
+  const [location, setlocation] = useState("");
+  const [number, setnumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setauthError] = useState("");
@@ -20,39 +24,104 @@ export default function Register() {
         "Content-Type": "application/json",
       },
 
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({
+        name,
+        surname,
+        number,
+        gender,
+        location,
+        email,
+        password,
+      }),
     });
     const data = await res.json();
 
-    if (data.success) {
-      setUsername("");
+    if (!data.success) {
+      setauthError(data.message);
+    } else {
+      setname("");
+      setgender("");
+      setsurname("");
+      setnumber("");
+      setlocation("");
       setEmail("");
       setPassword("");
 
       navigate("/login");
     }
-    setauthError(data.message);
   };
 
   return (
-    <div className="min-h-screen mt-10 flex items-center justify-center bg-gradient-to-r from-purple-700 via-purple-500 to-indigo-500 p-6">
-      <div className="w-full max-w-md p-8 rounded-2xl bg-white/10 backdrop-blur-xl shadow-xl border border-white/20">
+    <div className="min-h-screen  flex items-center justify-center bg-gradient-to-r from-purple-700 via-purple-500 to-indigo-500 p-6">
+      <div className="w-full max-w-md mt-20 p-8 rounded-2xl bg-white/10 backdrop-blur-xl shadow-xl border border-white/20">
         <h2 className="text-3xl font-bold text-center text-white mb-6 drop-shadow-md">
           Register
         </h2>
 
         <form onSubmit={handleRegister} className="space-y-5">
-          {/* Username */}
+          {/* name */}
           <div>
             <label className="block text-sm font-medium text-white/80 mb-1">
-              Username
+              Name
             </label>
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your username"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              value={name}
+              onChange={(e) => setname(e.target.value)}
+              placeholder="Enter your name"
+              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-white/80 mb-1">
+              Surname
+            </label>
+            <input
+              type="text"
+              value={surname}
+              onChange={(e) => setsurname(e.target.value)}
+              placeholder="Enter your surname"
+              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-white/80 mb-1">
+              Mobile Number
+            </label>
+            <input
+              type="text"
+              value={number}
+              onChange={(e) => setnumber(e.target.value)}
+              placeholder="Enter your phone number"
+              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-white/80 mb-1">
+              Gender
+            </label>
+            <input
+              type="text"
+              value={gender}
+              onChange={(e) => setgender(e.target.value)}
+              placeholder="Enter your gender"
+              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-white/80 mb-1">
+              Location
+            </label>
+            <input
+              type="text"
+              value={location}
+              onChange={(e) => setlocation(e.target.value)}
+              placeholder="Enter your name"
+              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
               required
             />
           </div>
@@ -67,7 +136,7 @@ export default function Register() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
               required
             />
           </div>
@@ -82,7 +151,7 @@ export default function Register() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Create a password"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
               required
             />
           </div>

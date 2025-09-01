@@ -19,17 +19,27 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.json({ success: false, message: "Please provide both email and password." });
+    return res.json({
+      success: false,
+      message: "Please provide both email and password.",
+    });
   }
   try {
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.json({ success: false, message: "Email not recognized. Kindly check your input or create a new account." });
+      return res.json({
+        success: false,
+        message:
+          "Email not recognized. Kindly check your input or create a new account.",
+      });
     }
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.json({ success: false, message: "Incorrect password. Please try again." });
+      return res.json({
+        success: false,
+        message: "Incorrect password. Please try again.",
+      });
     }
 
     createAccessToken(jwt, user, res);
@@ -42,25 +52,41 @@ export const login = async (req, res) => {
 
 //! Register functionality------------------------------------
 export const register = async (req, res) => {
-  const { username, email, password } = req.body;
-  if (!username || !email || !password) {
+  const { name, surname, location, gender, number, email, password } = req.body;
+  if (
+    !name ||
+    !surname ||
+    !location ||
+    !gender ||
+    !number ||
+    !email ||
+    !password
+  ) {
     return res.json({ success: false, message: "Missing Details" });
   }
 
   try {
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-      return res.json({ success: false, message: "An account with this email already exists. Please log in instead." });
+      return res.json({
+        success: false,
+        message:
+          "An account with this email already exists. Please log in instead.",
+      });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new userModel({
-      name: username,
+      name,
+      surname,
+      number,
+      gender,
+      location,
       email,
       password: hashedPassword,
     });
     await user.save();
 
-    const { subject, text } = welcomeEmailTemplate(username);
+    const { subject, text } = welcomeEmailTemplate(name);
     await sendWelcomeMail(email, subject, text, transporter);
     return res.json({ success: true });
   } catch (error) {
@@ -103,7 +129,10 @@ export const sendVerifyOtp = async (req, res) => {
     user.verifyOtp = otp;
     user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 10000;
     await user.save();
-    const { subject, text } = verificationEmailTemplate({username:user.name, otp});
+    const { subject, text } = verificationEmailTemplate({
+      name: user.name,
+      otp,
+    });
     await sendOtpMail({ email: user.email, subject, text, transporter });
     return res.json({
       success: true,
@@ -142,7 +171,7 @@ export const sendResetotp = async (req, res) => {
     return res.json({ success: false, message: "Email is required" });
   }
   try {
-    const user = await userModel.findOne({email});
+    const user = await userModel.findOne({ email });
     if (!user) {
       return res.json({ success: false, message: "User not found" });
     }
@@ -150,7 +179,7 @@ export const sendResetotp = async (req, res) => {
     user.resetOtp = otp;
     user.resetOtpExpireAt = Date.now() + 15 * 60 * 10000;
     await user.save();
-    const { subject, text } = resetOtpTemplate({ username: user.name, otp });
+    const { subject, text } = resetOtpTemplate({ name: user.name, otp });
     await sendOtpMail({ email, subject, text, transporter });
     return res.json({
       success: true,
@@ -162,10 +191,10 @@ export const sendResetotp = async (req, res) => {
 };
 
 export const verifyOtp = async (req, res) => {
-  const { otpString,email } = req.body;
+  const { otpString, email } = req.body;
 
   try {
-    const user = await userModel.findOne({email});
+    const user = await userModel.findOne({ email });
     if (user.resetOtp === "" || user.resetOtp !== otpString) {
       return res.json({ success: false, message: "Invalid OTP" });
     }
@@ -186,10 +215,10 @@ export const verifyOtp = async (req, res) => {
 };
 
 export const resetPassword = async (req, res) => {
-  const { confirmPassword,email } = req.body;
+  const { confirmPassword, email } = req.body;
 
   try {
-    const user = await userModel.findOne({email});
+    const user = await userModel.findOne({ email });
     setNewPassword(confirmPassword, bcrypt, user);
 
     return res.json({
