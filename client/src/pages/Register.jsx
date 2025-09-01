@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -7,7 +7,9 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [authError, setauthError] = useState("");
 
-   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+  const navigate = useNavigate();
+
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -20,10 +22,15 @@ export default function Register() {
 
       body: JSON.stringify({ username, email, password }),
     });
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    const data = await res.json(); // 👈 parse JSON
+    const data = await res.json();
+
+    if (data.success) {
+      setUsername("");
+      setEmail("");
+      setPassword("");
+
+      navigate("/login");
+    }
     setauthError(data.message);
   };
 
@@ -79,7 +86,17 @@ export default function Register() {
               required
             />
           </div>
-          <p className="block font-medium text-red-700 mb-4">{authError}</p>
+          <p
+            className="text-red-500 font-bold text-sm text-center mb-4 rounded-lg py-2 px-4"
+            style={{
+              background: "rgba(239, 68, 68, 0.2)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              border: "1px solid rgba(239, 68, 68, 0.3)",
+            }}
+          >
+            {authError}
+          </p>
 
           <button
             type="submit"

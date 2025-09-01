@@ -4,6 +4,10 @@ html,body{
   padding: 0;
   box-sizing: border-box;
 }
+::selection{
+  background-color: #ffffff;
+  color: #a200ff;
+}
 
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -45,8 +49,8 @@ body {
 }
 
 .upload-section {
-  background: #f8f9fa;
-  border: 3px solid #dee2e6;
+  background: #fffffff3;
+  border: 5px solid #dee2e6;
   border-radius: 15px;
   padding: 5px;
   text-align: center;
@@ -73,7 +77,6 @@ textarea:focus {
 }
 .upload-section:hover {
   border-color: #667eea;
-  background: #f0f2ff;
 }
 textarea::placeholder {
   color: #999;

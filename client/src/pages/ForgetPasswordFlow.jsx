@@ -9,6 +9,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function ForgetPasswordFlow() {
   const [currentStep, setCurrentStep] = useState(1); // 1: Email, 2: OTP, 3: New Password, 4: Success
@@ -49,7 +50,16 @@ export default function ForgetPasswordFlow() {
 
     // Simulate API call
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const res = await axios.post(
+        SERVER_URL + "/sendResetOtp",
+        { email },
+        { withCredentials: true }
+      );
+      console.log(res);
+
+      if (!res.data.success) {
+        setError(res.data.message);
+      }
       setCurrentStep(2);
     } catch (err) {
       setError("Failed to send reset code. Please try again.");
@@ -106,9 +116,16 @@ export default function ForgetPasswordFlow() {
     setError("");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      if (otpString === "123456") {
+      if (otpString) {
+        const res = await axios.post(
+          SERVER_URL + "/verifyOtp",
+          { otpString, email },
+          { withCredentials: true }
+        );
+        console.log(res);
+        if (!res.data.success) {
+          setError(res.data.message);
+        }
         setCurrentStep(3);
       } else {
         setError("Invalid OTP. Please try again.");
@@ -141,7 +158,16 @@ export default function ForgetPasswordFlow() {
     setError("");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // await new Promise((resolve) => setTimeout(resolve, 1500));
+      const res = await axios.post(
+        SERVER_URL + "/resetPassword",
+        { confirmPassword, email },
+        { withCredentials: true }
+      );
+      console.log(res);
+      if (!res.data.success) {
+        setError(res.data.message);
+      }
       setCurrentStep(4);
     } catch (err) {
       setError("Failed to reset password. Please try again.");
@@ -320,7 +346,7 @@ export default function ForgetPasswordFlow() {
 
                 {error && (
                   <p
-                    className="text-red-300 text-sm text-center rounded-lg py-2 px-4"
+                    className="text-red-500 font-bold text-sm text-center rounded-lg py-2 px-4"
                     style={{
                       background: "rgba(239, 68, 68, 0.2)",
                       backdropFilter: "blur(10px)",
@@ -410,7 +436,7 @@ export default function ForgetPasswordFlow() {
 
                 {error && (
                   <p
-                    className="text-red-300 text-sm text-center mb-4 rounded-lg py-2 px-4"
+                    className="text-red-500 font-bold text-sm text-center mb-4 rounded-lg py-2 px-4"
                     style={{
                       background: "rgba(239, 68, 68, 0.2)",
                       backdropFilter: "blur(10px)",
@@ -582,15 +608,6 @@ export default function ForgetPasswordFlow() {
             </>
           )}
         </div>
-
-        {/* Helper text for testing */}
-        {currentStep === 2 && (
-          <div className="text-center mt-6">
-            <p className="text-purple-300 text-xs">
-              Enter "123456" to test the verification process
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );

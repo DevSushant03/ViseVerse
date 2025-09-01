@@ -67,7 +67,17 @@ export default function Login() {
               required
             />
           </div>
-          <p className="block font-medium text-red-700 mb-4">{authError}</p>
+          <p
+            className="text-red-500 font-bold text-sm text-center mb-4 rounded-lg py-2 px-4"
+            style={{
+              background: "rgba(239, 68, 68, 0.2)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              border: "1px solid rgba(239, 68, 68, 0.3)",
+            }}
+          >
+            {authError}
+          </p>
 
           <button
             type="submit"

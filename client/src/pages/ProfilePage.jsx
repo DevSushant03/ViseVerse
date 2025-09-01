@@ -10,6 +10,7 @@ import {
   Camera,
   Shield,
   Lock,
+  Delete,
 } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -27,11 +28,11 @@ export default function ProfilePage() {
     email: "alex.chen@example.com",
     phone: "+1 (555) 123-4567",
     location: "San Francisco, CA",
-    bio: "UI/UX Designer passionate about creating beautiful and intuitive digital experiences.",
+    gender: "Male",
     avatar: "/api/placeholder/150/150",
   });
   const [tempProfile, setTempProfile] = useState({ ...profile });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -66,7 +67,7 @@ export default function ProfilePage() {
   const handleVerificationSubmit = async (e) => {
     e.preventDefault();
     console.log(verificationCode);
-    
+
     if (verificationCode) {
       const res = await axios.post(
         SERVER_URL + "/verifyEmail",
@@ -85,16 +86,31 @@ export default function ProfilePage() {
     }
   };
 
-  const logout = async() => {
-    const res = await axios.post(SERVER_URL +"/logout", {},
-        { withCredentials: true })
-    console.log(res);
-    
-    if(res.data.success){
+  const logout = async () => {
+    const res = await axios.post(
+      SERVER_URL + "/logout",
+      {},
+      { withCredentials: true }
+    );
+
+    if (res.data.success) {
       alert(res.data.message);
       navigate("/");
     }
   };
+  const deleteAccount = async () => {
+    const res = await axios.post(
+      SERVER_URL + "/deleteAccount",
+      {},
+      { withCredentials: true }
+    );
+
+    if (res.data.success) {
+      alert(res.data.message);
+      navigate("/");
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-4 relative overflow-hidden">
@@ -123,9 +139,9 @@ export default function ProfilePage() {
               <div className="flex items-center space-x-4">
                 <div className="relative group">
                   <img
-                    src="https://images.unsplash.com/photo-1494790108755-2616b612b886?w=150&h=150&fit=crop&crop=face"
+                    src="./public/profile.png"
                     alt="Profile"
-                    className="w-20 h-20 rounded-2xl object-cover border-2 border-white/30"
+                    className="w-20 h-20 rounded-[50%] object-cover border-2 border-white/30"
                   />
                   <button className="absolute inset-0 cursor-pointer bg-black/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <Camera className="w-6 h-6 text-white" />
@@ -146,14 +162,6 @@ export default function ProfilePage() {
                       {profile.name}
                     </h2>
                   )}
-                  <div className="flex items-center space-x-2">
-                    <span className="text-purple-200">UI/UX Designer</span>
-                    <div
-                      className={`w-2 h-2 rounded-full ${
-                        emailVerified ? "bg-green-400" : "bg-yellow-400"
-                      }`}
-                    ></div>
-                  </div>
                 </div>
               </div>
 
@@ -269,19 +277,19 @@ export default function ProfilePage() {
               <div className="space-y-2">
                 <label className="text-purple-200 text-sm font-medium flex items-center">
                   <User className="w-4 h-4 mr-2" />
-                  Bio
+                  Gender
                 </label>
                 {isEditing ? (
                   <textarea
-                    value={tempProfile.bio}
+                    value={tempProfile.gender}
                     onChange={(e) =>
-                      setTempProfile({ ...tempProfile, bio: e.target.value })
+                      setTempProfile({ ...tempProfile, gender: e.target.value })
                     }
                     rows="3"
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
                   />
                 ) : (
-                  <p className="text-white">{profile.bio}</p>
+                  <p className="text-white">{profile.gender}</p>
                 )}
               </div>
             </div>
@@ -320,6 +328,15 @@ export default function ProfilePage() {
             >
               <Lock className="w-6 h-6 text-red-300" />
               <span className="text-lg font-semibold text-white">Logout</span>
+            </button>
+            <button
+              onClick={deleteAccount}
+              className="w-full cursor-pointer backdrop-blur-lg bg-red-500/20 border border-red-400/30 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 hover:bg-red-500/30 flex items-center justify-center space-x-3"
+            >
+              <Delete className="w-6 h-6 text-red-300" />
+              <span className="text-lg font-semibold text-white">
+                Delete Account
+              </span>
             </button>
           </div>
         </div>
