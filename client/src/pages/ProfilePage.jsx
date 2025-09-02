@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Mail,
   User,
@@ -19,20 +19,47 @@ export default function ProfilePage() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [emailVerified, setEmailVerified] = useState(false);
+  const [isAccountVerified, setisAccountVerified] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [message, setmessage] = useState("");
   const [profile, setProfile] = useState({
-    name: "Alexandra Chen",
-    email: "alex.chen@example.com",
-    phone: "+1 (555) 123-4567",
-    location: "San Francisco, CA",
-    gender: "Male",
-    avatar: "/api/placeholder/150/150",
+    name: "",
+    email: "",
+    number: "",
+    location: "",
+    gender: "",
   });
   const [tempProfile, setTempProfile] = useState({ ...profile });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          SERVER_URL + "/userData",
+          { withCredentials: true } // second object is enough
+        );
+
+        const { name, email, number, location, gender, isAccountVerified } =
+          res.data.message;
+        const filterData = {
+          name,
+          email,
+          number,
+          location,
+          gender,
+        };
+        setisAccountVerified(isAccountVerified);
+        setProfile(filterData);
+        setTempProfile(filterData);
+      } catch (err) {
+        console.error("Error fetching profile:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -76,7 +103,7 @@ export default function ProfilePage() {
       );
       setmessage(res.data.message);
       if (res.data.success) {
-        setEmailVerified(true);
+        setisAccountVerified(true);
         setShowVerification(false);
         setVerificationCode("");
         alert("Email verified successfully!");
@@ -110,7 +137,6 @@ export default function ProfilePage() {
       navigate("/");
     }
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-4 relative overflow-hidden">
@@ -214,7 +240,7 @@ export default function ProfilePage() {
                     ) : (
                       <>
                         <span className="text-white">{profile.email}</span>
-                        {emailVerified ? (
+                        {isAccountVerified ? (
                           <Shield className="w-4 h-4 text-green-400" />
                         ) : (
                           <button
@@ -232,22 +258,22 @@ export default function ProfilePage() {
                 <div className="space-y-2">
                   <label className="text-purple-200 text-sm font-medium flex items-center">
                     <Phone className="w-4 h-4 mr-2" />
-                    Phone
+                    Phone Number
                   </label>
                   {isEditing ? (
                     <input
                       type="tel"
-                      value={tempProfile.phone}
+                      value={tempProfile.number}
                       onChange={(e) =>
                         setTempProfile({
                           ...tempProfile,
-                          phone: e.target.value,
+                          number: e.target.value,
                         })
                       }
                       className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                     />
                   ) : (
-                    <span className="text-white">{profile.phone}</span>
+                    <span className="text-white">{profile.number}</span>
                   )}
                 </div>
               </div>
@@ -300,24 +326,24 @@ export default function ProfilePage() {
             {/* Verify Email Button */}
             <button
               onClick={handleVerifyEmail}
-              disabled={emailVerified}
+              disabled={isAccountVerified}
               className={`w-full cursor-pointer backdrop-blur-lg border border-white/20 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 flex items-center justify-center space-x-3 ${
-                emailVerified
+                isAccountVerified
                   ? "bg-green-500/20 border-green-400/30 cursor-not-allowed"
                   : "bg-white/10 hover:bg-white/20"
               }`}
             >
               <Shield
                 className={`w-6 h-6 ${
-                  emailVerified ? "text-green-400" : "text-purple-300"
+                  isAccountVerified ? "text-green-400" : "text-purple-300"
                 }`}
               />
               <span
                 className={`text-lg font-semibold ${
-                  emailVerified ? "text-green-300" : "text-white"
+                  isAccountVerified ? "text-green-300" : "text-white"
                 }`}
               >
-                {emailVerified ? "Email Verified ✓" : "Verify Email"}
+                {isAccountVerified ? "Email Verified ✓" : "Verify Email"}
               </span>
             </button>
 
