@@ -13,9 +13,9 @@ export const createAccessToken = (jwt, user, res) => {
   });
 };
 
-export const welcomeEmailTemplate = (username) => ({
+export const welcomeEmailTemplate = (name) => ({
   subject: "Welcome to ViseVerse – Let’s Get Started!",
-  text: `Hi ${username},
+  text: `Hi ${name},
 
 Welcome to ViseVerse! 🎉
 We’re thrilled to have you join us.
@@ -33,14 +33,14 @@ Have questions or feedback? Just hit reply—we’d love to hear from you and ma
 Here’s to smarter, faster, and easier workflows. 🚀`,
 });
 
-export const verificationEmailTemplate = ({username, otp}) => ({
+export const verificationEmailTemplate = ({name, otp}) => ({
   subject: "Verify your ViseVerse account",
-  text: `Hi ${username}, please verify your account using this OTP: ${otp}`,
+  text: `Hi ${name}, please verify your account using this OTP: ${otp}`,
 });
 
-export const resetOtpTemplate = ({username, otp}) => ({
+export const resetOtpTemplate = ({name, otp}) => ({
   subject: "Password Reset of ViseVerse account",
-  text: `Hi ${username}, Reset your password using this OTP: ${otp}`,
+  text: `Hi ${name}, Reset your password using this OTP: ${otp}`,
 });
 
 export const sendWelcomeMail = async (email, subject, text, transporter) => {
