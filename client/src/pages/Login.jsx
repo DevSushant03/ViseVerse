@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -7,10 +7,11 @@ export default function Login() {
   const [authError, setauthError] = useState("");
   const navigate = useNavigate();
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-
+  
+  
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    
     const res = await fetch(SERVER_URL + "/login", {
       method: "POST",
       headers: {
@@ -29,7 +30,7 @@ export default function Login() {
     setEmail("");
     setPassword("");
   };
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-700 via-purple-500 to-indigo-500 p-6">
       <div className="w-full max-w-md p-8 rounded-2xl bg-white/10 backdrop-blur-xl shadow-xl border border-white/20">

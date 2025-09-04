@@ -38,7 +38,7 @@ export default function ProfilePage() {
       try {
         const res = await axios.get(
           SERVER_URL + "/userData",
-          { withCredentials: true } // second object is enough
+          { withCredentials: true } 
         );
 
         const { name, email, number, location, gender, isAccountVerified } =
