@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setauthError] = useState("");
+  const [loading, setloading] = useState(false);
   const navigate = useNavigate();
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-  
-  
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+    setloading(true);
     const res = await fetch(SERVER_URL + "/login", {
       method: "POST",
       headers: {
@@ -22,15 +23,16 @@ export default function Login() {
       body: JSON.stringify({ email, password }),
     });
     const data = await res.json();
-    setauthError(data.message);
-    if (data.success) {
-      navigate("/");
+    if (!data.success) {
+      setloading(false);
+      setauthError(data.message);
     }
-
+    setloading(false);
     setEmail("");
     setPassword("");
+    navigate("/");
   };
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-700 via-purple-500 to-indigo-500 p-6">
       <div className="w-full max-w-md p-8 rounded-2xl bg-white/10 backdrop-blur-xl shadow-xl border border-white/20">
@@ -84,14 +86,14 @@ export default function Login() {
             type="submit"
             className="w-full py-3 rounded-xl cursor-pointer bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition shadow-lg"
           >
-            Login
+            {loading ? <Loader /> : "Login"}
           </button>
         </form>
 
-        <p className="flex justify-between text-center text-white/70 text-sm mt-6">
+        <p className="flex justify-between text-center text-white/70 text-sm mt-6 max-sm:flex-col">
           <Link
             to="/register"
-            className="text-purple-100 cursor-pointer hover:underline"
+            className="text-purple-100 cursor-pointer mb-5 hover:underline"
           >
             Don’t have an account? Register
           </Link>

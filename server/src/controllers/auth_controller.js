@@ -87,7 +87,7 @@ export const register = async (req, res) => {
     await user.save();
 
     const { subject, text } = welcomeEmailTemplate(name);
-    await sendWelcomeMail(email, subject, text, transporter);
+    await sendWelcomeMail(res,email, subject, text, transporter);
     return res.json({ success: true });
   } catch (error) {
     res.json({ success: false, message: error.message });

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Loader from "../components/Loader.jsx";
 export default function Register() {
   const [name, setname] = useState("");
   const [surname, setsurname] = useState("");
@@ -10,13 +10,14 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setauthError] = useState("");
+  const [loading, setloading] = useState(false);
 
   const navigate = useNavigate();
 
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   const handleRegister = async (e) => {
     e.preventDefault();
-
+    setloading(true);
     const res = await fetch(SERVER_URL + "/register", {
       method: "POST",
       credentials: "include",
@@ -37,6 +38,7 @@ export default function Register() {
     const data = await res.json();
 
     if (!data.success) {
+      setloading(false);
       setauthError(data.message);
     } else {
       setname("");
@@ -47,6 +49,7 @@ export default function Register() {
       setEmail("");
       setPassword("");
 
+      setloading(false);
       navigate("/login");
     }
   };
@@ -94,6 +97,7 @@ export default function Register() {
               type="text"
               value={number}
               onChange={(e) => setnumber(e.target.value)}
+              maxlength="10"
               placeholder="Enter your phone number"
               className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
               required
@@ -120,7 +124,7 @@ export default function Register() {
               type="text"
               value={location}
               onChange={(e) => setlocation(e.target.value)}
-              placeholder="Enter your name"
+              placeholder="Enter your location"
               className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
               required
             />
@@ -171,7 +175,7 @@ export default function Register() {
             type="submit"
             className="w-full py-3 cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition shadow-lg"
           >
-            Register
+            {loading ? <Loader /> : "Register"}
           </button>
         </form>
 
