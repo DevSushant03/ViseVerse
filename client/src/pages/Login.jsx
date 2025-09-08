@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
+import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -8,6 +10,7 @@ export default function Login() {
   const [authError, setauthError] = useState("");
   const [loading, setloading] = useState(false);
   const navigate = useNavigate();
+  const { setisLoggedIn } = useContext(AppContext);
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
   const handleLogin = async (e) => {
@@ -25,12 +28,19 @@ export default function Login() {
     const data = await res.json();
     if (!data.success) {
       setloading(false);
+      toast.error("Login failed !");
       setauthError(data.message);
     }
-    setloading(false);
-    setEmail("");
-    setPassword("");
-    navigate("/");
+    if (data.success) {
+      toast.success("Login Successfully");
+      setisLoggedIn(true);
+      localStorage.setItem("isLoggedIn", "true");
+
+      setloading(false);
+      setEmail("");
+      setPassword("");
+      navigate("/");
+    }
   };
 
   return (

@@ -2,9 +2,10 @@ import React, { useState, useRef } from "react";
 import About from "../components/About.jsx";
 import { Copy, FileText, FileType2, File } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 export default function App() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-  
+
   const navigate = useNavigate();
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
@@ -33,12 +34,12 @@ export default function App() {
         credentials: "include",
         body: JSON.stringify({ text, action }),
       });
-     
+
       const data = await res.json();
       console.log(data);
-      
-      if(!data.success){
-        navigate("/login")
+
+      if (!data.success) {
+        navigate("/login");
       }
       return data.data;
     } catch (err) {
@@ -183,6 +184,7 @@ export default function App() {
   return (
     <>
       <div className="container">
+      
         <div className="header">
           <h1>📸 ViseVerse</h1>
           <p>Upload a text and extract, analyze, or translate text with AI</p>
@@ -283,21 +285,21 @@ export default function App() {
             <button
               title="Download as text"
               className="copy-btn"
-              onClick={()=>downloadAsTxt(result)}
+              onClick={() => downloadAsTxt(result)}
             >
               <FileText />
             </button>
             <button
               title="Download as Pdf"
               className="copy-btn"
-              onClick={()=>downloadAsPdf(result)}
+              onClick={() => downloadAsPdf(result)}
             >
               <FileType2 />
             </button>
             <button
               title="Download as Docx"
               className="copy-btn"
-              onClick={()=>downloadAsDocx(result)}
+              onClick={() => downloadAsDocx(result)}
             >
               <File />
             </button>

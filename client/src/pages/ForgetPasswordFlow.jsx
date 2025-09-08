@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function ForgetPasswordFlow() {
   const [currentStep, setCurrentStep] = useState(1); // 1: Email, 2: OTP, 3: New Password, 4: Success
@@ -35,12 +36,14 @@ export default function ForgetPasswordFlow() {
   // Email Step Functions
   const handleEmailSubmit = async () => {
     if (!email) {
+      toast.warning("Email required !");
       setError("Please enter your email address");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      toast.warning("Invalid Email !");
       setError("Please enter a valid email address");
       return;
     }
@@ -55,13 +58,15 @@ export default function ForgetPasswordFlow() {
         { email },
         { withCredentials: true }
       );
-      console.log(res);
 
       if (!res.data.success) {
+        toast.error(res.data.message);
         setError(res.data.message);
       }
+      toast.success("Reset OTP send");
       setCurrentStep(2);
     } catch (err) {
+      toast.error("Failed to send reset code. Please try again.");
       setError("Failed to send reset code. Please try again.");
     } finally {
       setIsLoading(false);
@@ -164,7 +169,6 @@ export default function ForgetPasswordFlow() {
         { confirmPassword, email },
         { withCredentials: true }
       );
-      console.log(res);
       if (!res.data.success) {
         setError(res.data.message);
       }

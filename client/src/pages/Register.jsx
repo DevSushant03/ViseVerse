@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader.jsx";
+import { toast } from "react-toastify";
 export default function Register() {
   const [name, setname] = useState("");
   const [surname, setsurname] = useState("");
@@ -40,6 +41,7 @@ export default function Register() {
     if (!data.success) {
       setloading(false);
       setauthError(data.message);
+      toast.error("Registration failed !")
     } else {
       setname("");
       setgender("");
@@ -48,7 +50,7 @@ export default function Register() {
       setlocation("");
       setEmail("");
       setPassword("");
-
+      toast.success("Register Successfully ")
       setloading(false);
       navigate("/login");
     }

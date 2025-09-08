@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import {
   Mail,
   User,
@@ -14,6 +15,8 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader.jsx";
+import { toast } from "react-toastify";
 
 export default function ProfilePage() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
@@ -22,6 +25,7 @@ export default function ProfilePage() {
   const [isAccountVerified, setisAccountVerified] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
+  const [loading, setloading] = useState(false);
   const [message, setmessage] = useState("");
   const [profile, setProfile] = useState({
     name: "",
@@ -36,10 +40,9 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(
-          SERVER_URL + "/userData",
-          { withCredentials: true } 
-        );
+        const res = await axios.get(SERVER_URL + "/userData", {
+          withCredentials: true,
+        });
 
         const { name, email, number, location, gender, isAccountVerified } =
           res.data.message;
@@ -84,16 +87,14 @@ export default function ProfilePage() {
       {},
       { withCredentials: true }
     );
-    console.log(res);
 
     setTimeout(() => {
-      alert("Verification code sent to your email!");
+      toast.info("Verify Otp Send");
     }, 500);
   };
 
   const handleVerificationSubmit = async (e) => {
     e.preventDefault();
-    console.log(verificationCode);
 
     if (verificationCode) {
       const res = await axios.post(
@@ -106,7 +107,7 @@ export default function ProfilePage() {
         setisAccountVerified(true);
         setShowVerification(false);
         setVerificationCode("");
-        alert("Email verified successfully!");
+        toast.success("Account Verify Successfully");
       }
     } else {
       setmessage("Missing Details !");
@@ -114,6 +115,7 @@ export default function ProfilePage() {
   };
 
   const logout = async () => {
+    setloading(true);
     const res = await axios.post(
       SERVER_URL + "/logout",
       {},
@@ -121,8 +123,11 @@ export default function ProfilePage() {
     );
 
     if (res.data.success) {
-      alert(res.data.message);
+      localStorage.removeItem("isLoggedIn");
       navigate("/");
+      toast.success("Logout Successfully");
+      window.location.reload();
+      
     }
   };
   const deleteAccount = async () => {
@@ -133,8 +138,10 @@ export default function ProfilePage() {
     );
 
     if (res.data.success) {
-      alert(res.data.message);
+      localStorage.removeItem("isLoggedIn");
       navigate("/");
+      toast.success("Account Deleted Successfully");
+      window.location.reload();
     }
   };
 
@@ -353,16 +360,24 @@ export default function ProfilePage() {
               className="w-full cursor-pointer backdrop-blur-lg bg-red-500/20 border border-red-400/30 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 hover:bg-red-500/30 flex items-center justify-center space-x-3"
             >
               <Lock className="w-6 h-6 text-red-300" />
-              <span className="text-lg font-semibold text-white">Logout</span>
+              {loading ? (
+                <Loader />
+              ) : (
+                <span className="text-lg font-semibold text-white">Logout</span>
+              )}
             </button>
             <button
               onClick={deleteAccount}
               className="w-full cursor-pointer backdrop-blur-lg bg-red-500/20 border border-red-400/30 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 hover:bg-red-500/30 flex items-center justify-center space-x-3"
             >
               <Delete className="w-6 h-6 text-red-300" />
-              <span className="text-lg font-semibold text-white">
-                Delete Account
-              </span>
+              {loading ? (
+                <Loader />
+              ) : (
+                <span className="text-lg font-semibold text-white">
+                  Delete Account
+                </span>
+              )}
             </button>
           </div>
         </div>
