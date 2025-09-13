@@ -3,6 +3,7 @@ import About from "../components/About.jsx";
 import { Copy, FileText, FileType2, File } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "../components/Footer.jsx";
 export default function App() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -48,6 +49,7 @@ export default function App() {
   }
 
   async function downloadAsPdf(rawText) {
+    const filename = prompt("Enter a file name").toString();
     setLoading(true);
     const response = await fetch(SERVER_URL + "/downloadPdf", {
       method: "POST",
@@ -63,7 +65,7 @@ export default function App() {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "SnapGuruResult.pdf";
+    a.download = filename || "Viseverse.pdf";
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -71,6 +73,7 @@ export default function App() {
   }
 
   async function downloadAsDocx(rawText) {
+    const filename = prompt("Enter a file name").toString();
     setLoading(true);
     const response = await fetch(SERVER_URL + "/downloadDocx", {
       method: "POST",
@@ -85,7 +88,7 @@ export default function App() {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "SnapGuruResult.docx";
+    a.download = filename || "Viseverse.docx";
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -93,6 +96,7 @@ export default function App() {
   }
 
   async function downloadAsTxt(rawText) {
+    const filename = prompt("Enter a file name").toString();
     setLoading(true);
 
     const blob = new Blob([rawText], { type: "text/plain" });
@@ -100,7 +104,7 @@ export default function App() {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "SnapGuruResult.txt";
+    a.download = filename || "Viseverse.txt";
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -184,7 +188,6 @@ export default function App() {
   return (
     <>
       <div className="container">
-      
         <div className="header">
           <h1>📸 ViseVerse</h1>
           <p>Upload a text and extract, analyze, or translate text with AI</p>
@@ -307,6 +310,7 @@ export default function App() {
         </div>
       </div>
       <About />
+      <Footer />
     </>
   );
 }

@@ -38,6 +38,7 @@ export default function ProfilePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setloading(true);
     const fetchData = async () => {
       try {
         const res = await axios.get(SERVER_URL + "/userData", {
@@ -53,6 +54,7 @@ export default function ProfilePage() {
           location,
           gender,
         };
+        setloading(false);
         setisAccountVerified(isAccountVerified);
         setProfile(filterData);
         setTempProfile(filterData);
@@ -127,7 +129,6 @@ export default function ProfilePage() {
       navigate("/");
       toast.success("Logout Successfully");
       window.location.reload();
-      
     }
   };
   const deleteAccount = async () => {
@@ -144,7 +145,6 @@ export default function ProfilePage() {
       window.location.reload();
     }
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-4 relative overflow-hidden">
       {/* Animated background elements */}
@@ -171,14 +171,9 @@ export default function ProfilePage() {
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-center space-x-4">
                 <div className="relative group">
-                  <img
-                    src="./public/profile.png"
-                    alt="Profile"
-                    className="w-20 h-20 rounded-[50%] object-cover border-2 border-white/30"
-                  />
-                  <button className="absolute inset-0 cursor-pointer bg-black/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <Camera className="w-6 h-6 text-white" />
-                  </button>
+                  <span className="bg-green-400 px-4 rounded-full text-white text-4xl font-bold ">
+                    {tempProfile.name.toUpperCase().split("", 1)}
+                  </span>
                 </div>
                 <div>
                   {isEditing ? (
@@ -186,13 +181,16 @@ export default function ProfilePage() {
                       type="text"
                       value={tempProfile.name}
                       onChange={(e) =>
-                        setTempProfile({ ...tempProfile, name: e.target.value })
+                        setTempProfile({
+                          ...tempProfile,
+                          name: e.target.value,
+                        })
                       }
                       className="text-2xl font-bold bg-transparent border-b border-white/50 text-white focus:outline-none focus:border-purple-400 mb-2"
                     />
                   ) : (
                     <h2 className="text-2xl font-bold text-white mb-1">
-                      {profile.name}
+                      {profile.name.toUpperCase()}
                     </h2>
                   )}
                 </div>
@@ -303,7 +301,7 @@ export default function ProfilePage() {
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                 ) : (
-                  <span className="text-white">{profile.location}</span>
+                  <span className="text-white">{profile.location.toUpperCase()}</span>
                 )}
               </div>
 
@@ -316,13 +314,16 @@ export default function ProfilePage() {
                   <textarea
                     value={tempProfile.gender}
                     onChange={(e) =>
-                      setTempProfile({ ...tempProfile, gender: e.target.value })
+                      setTempProfile({
+                        ...tempProfile,
+                        gender: e.target.value,
+                      })
                     }
                     rows="3"
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
                   />
                 ) : (
-                  <p className="text-white">{profile.gender}</p>
+                  <p className="text-white">{profile.gender.toUpperCase()}</p>
                 )}
               </div>
             </div>
@@ -360,24 +361,18 @@ export default function ProfilePage() {
               className="w-full cursor-pointer backdrop-blur-lg bg-red-500/20 border border-red-400/30 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 hover:bg-red-500/30 flex items-center justify-center space-x-3"
             >
               <Lock className="w-6 h-6 text-red-300" />
-              {loading ? (
-                <Loader />
-              ) : (
-                <span className="text-lg font-semibold text-white">Logout</span>
-              )}
+
+              <span className="text-lg font-semibold text-white">Logout</span>
             </button>
             <button
               onClick={deleteAccount}
               className="w-full cursor-pointer backdrop-blur-lg bg-red-500/20 border border-red-400/30 rounded-2xl p-6 shadow-2xl transition-all transform hover:scale-105 hover:bg-red-500/30 flex items-center justify-center space-x-3"
             >
               <Delete className="w-6 h-6 text-red-300" />
-              {loading ? (
-                <Loader />
-              ) : (
-                <span className="text-lg font-semibold text-white">
-                  Delete Account
-                </span>
-              )}
+
+              <span className="text-lg font-semibold text-white">
+                Delete Account
+              </span>
             </button>
           </div>
         </div>

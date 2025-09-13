@@ -1,15 +1,4 @@
-import { useState, useEffect } from "react";
-import {
-  FileText,
-  Zap,
-  Languages,
-  Download,
-  ArrowRight,
-  Sparkles,
-  Globe,
-  Users,
-  Star,
-} from "lucide-react";
+import { Languages, Download, Sparkles, Star, Text } from "lucide-react";
 
 export default function TextFlowLanding() {
   const features = [
@@ -20,10 +9,9 @@ export default function TextFlowLanding() {
         "Transform lengthy documents into concise, meaningful summaries with advanced AI technology.",
     },
     {
-      icon: <FileText className="w-8 h-8" />,
-      title: "Smart Bullet Points",
-      description:
-        "Convert complex text into organized, easy-to-digest bullet points automatically.",
+      icon: <Text className="w-8 h-8" />,
+      title: "Extract Text from Image",
+      description: "Extracted text from image and Summaries with Viseverse",
     },
     {
       icon: <Languages className="w-8 h-8" />,
@@ -119,56 +107,6 @@ export default function TextFlowLanding() {
               </p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Demo Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-20">
-        <div className="bg-white/5 backdrop-blur-md border border-white/20 rounded-3xl p-12">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-              See TextFlow in Action
-            </h2>
-            <p className="text-xl text-purple-200">
-              Watch how easy it is to transform your text content
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-900/50 to-violet-900/50 rounded-2xl p-8 border border-purple-400/20">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex space-x-2">
-                <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-              </div>
-              <span className="text-purple-200 text-sm">
-                TextFlow Processing Engine
-              </span>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h4 className="text-lg font-semibold mb-3 text-purple-300">
-                  Input Text
-                </h4>
-                <div className="bg-black/30 rounded-lg p-4 text-sm text-gray-300 min-h-32">
-                  "Artificial intelligence represents a paradigm shift in how we
-                  approach complex problem-solving..."
-                </div>
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold mb-3 text-purple-300">
-                  AI Summary
-                </h4>
-                <div className="bg-black/30 rounded-lg p-4 text-sm text-gray-300 min-h-32">
-                  • AI transforms problem-solving approaches
-                  <br />
-                  • Enables automated decision making
-                  <br />• Revolutionizes data processing methods
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </div>

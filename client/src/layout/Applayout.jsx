@@ -9,9 +9,8 @@ export default function Applayout() {
   return (
     <>
       <Navbar />
-      <ToastContainer position="top-center"/>
+      <ToastContainer position="top-center" />
       <Outlet />
-      <Footer />
     </>
   );
 }

@@ -162,7 +162,7 @@ export default function Register() {
             />
           </div>
           <p
-            className="text-red-500 font-bold text-sm text-center mb-4 rounded-lg py-2 px-4"
+            className="text-red-200 font-bold text-sm text-center mb-4 rounded-lg py-2 px-4"
             style={{
               background: "rgba(239, 68, 68, 0.2)",
               backdropFilter: "blur(10px)",
