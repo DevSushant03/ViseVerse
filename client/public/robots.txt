@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://viseverse.netlify.app/sitemap.xml
