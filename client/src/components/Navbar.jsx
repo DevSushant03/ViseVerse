@@ -58,7 +58,7 @@ export default function Navbar() {
       </button>
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 w-full bg-black/80 backdrop-blur-xl flex flex-col items-center py-6 space-y-4 border-t border-white/20 sm:hidden">
+        <div className="absolute top-full left-0 w-full bg-[#000b22f2] flex flex-col items-center py-6 space-y-4 border-t border-white/20 sm:hidden">
           {isLoggedIn ? (
             <>
               <Link
