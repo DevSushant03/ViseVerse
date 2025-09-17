@@ -1,6 +1,8 @@
 import env from "dotenv";
 env.config();
 const api = async (text, action) => {
+  console.log("reach");
+
   try {
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -13,20 +15,24 @@ const api = async (text, action) => {
         model: "deepseek/deepseek-r1-0528:free",
         messages: [
           {
+            role: "system",
+            content: `Your task is to strictly perform the given action ${action} on the user content.if action is translate the translate in to english Return only the final result with no markdown, no extra notes, no instructions.`,
+          },
+          {
             role: "user",
-            content: `Your task is to strictly perform the action: ${action}, on the following content:\n\n${text}\n\nIf the action is "summarize" or "explain", return the result professionally, with no markdown, no internal thoughts, and no prompt logic. If the action is "translate", translate the content into ${"english"}. Output only the final result. Do not include instructions, tags like <think>, or any additional commentary.`,
+            content: text,
           },
         ],
       }),
     });
 
     const data = await res.json();
-    
-    const result = data?.choices?.[0]?.message?.content || "Unexpected response";
+
+    const result =
+      data?.choices?.[0]?.message?.content || "Unexpected response";
 
     return result;
   } catch (err) {
-    
     return err.message;
   }
 };

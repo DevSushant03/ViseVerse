@@ -143,9 +143,9 @@ export default function App() {
         res = await sendToBackground(rawText, action);
         ttl = "Bullet Format";
         break;
-      case "numericFormat":
+      case "Text-formated":
         res = await sendToBackground(rawText, action);
-        ttl = "Numeric Format";
+        ttl = "Text-formated";
         break;
       case "grammer_spell-Check":
         res = await sendToBackground(rawText, action);
@@ -228,9 +228,9 @@ export default function App() {
                 { action: "summarize", label: "Summarize", icon: "🔍" },
                 { action: "bulletFormat", label: "Bullet Points", icon: "🅱️" },
                 {
-                  action: "numericFormat",
-                  label: "Numerical Points",
-                  icon: "🔢",
+                  action: "Text-formated",
+                  label: "Text Formated",
+                  icon: "✨",
                 },
                 {
                   action: "grammer_spell-Check",
