@@ -272,3 +272,29 @@ border:2px solid black
 .upload-label:active {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
 }
+
+.shining-text {
+  background: linear-gradient(
+    90deg,
+    #a855f7,
+    #ef8aff,
+    #9333ea,
+    #dab9fc,
+    #a855f7
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+  font-weight: 600;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 300% center;
+  }
+}
+
