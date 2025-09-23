@@ -1,39 +1,45 @@
 import env from "dotenv";
 env.config();
-const api = async (text, action) => {
-  console.log("reach");
 
+const api = async (text, action) => {
   try {
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.DEEKSEEK_KEY}`,
-        "X-Title": "SnapGuru",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "deepseek/deepseek-r1-0528:free",
-        messages: [
-          {
-            role: "system",
-            content: `Your task is to strictly perform the given action ${action} on the user content.if action is translate the translate in to english Return only the final result with no markdown, no extra notes, no instructions.`,
-          },
-          {
-            role: "user",
-            content: text,
-          },
-        ],
-      }),
-    });
+    const res = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-goog-api-key": process.env.GEMINI_API_KEY, // from your .env
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: `Your task is to strictly perform the given action: ${action}, on the user content. 
+                         If action is "translate", then translate into English. 
+                         Return only the final result with no markdown, no extra notes, no instructions.
+
+                         User content: ${text}`,
+                },
+              ],
+            },
+          ],
+        }),
+      }
+    );
 
     const data = await res.json();
 
     const result =
-      data?.choices?.[0]?.message?.content || "Unexpected response";
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "Service Down! Try again later";
 
     return result;
   } catch (err) {
     return err.message;
   }
 };
+
 export default api;
