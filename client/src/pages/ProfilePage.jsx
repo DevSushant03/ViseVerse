@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import emailjs from "@emailjs/browser";
 
 import {
   Mail,
@@ -8,7 +9,6 @@ import {
   Edit2,
   Check,
   X,
-  Camera,
   Shield,
   Lock,
   Delete,
@@ -17,6 +17,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader.jsx";
 import { toast } from "react-toastify";
+import env from "dotenv";
+env.config();
 
 export default function ProfilePage() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
@@ -84,15 +86,40 @@ export default function ProfilePage() {
   const handleVerifyEmail = async () => {
     setShowVerification(true);
     // Simulate sending verification code
+
     const res = await axios.post(
       SERVER_URL + "/sendVerifyOtp",
       {},
       { withCredentials: true }
     );
 
-    setTimeout(() => {
-      toast.info("Verify Otp Send");
-    }, 500);
+    if (res.data.success) {
+      console.log(res.data.email);
+      const templateParams = {
+        email: res.data.email,
+        name: res.data.name,
+        passcode: res.data.otp,
+      };
+
+      emailjs
+        .send(
+          import.meta.env.EMAIL_SERVICE_ID, // your service ID
+          import.meta.env.EMAIL_TEMPLATE_ID, // your template ID
+          templateParams,
+          import.meta.env.EMAIL_PUBLIC_ID // your public key
+        )
+        .then((result) => {
+          console.log(result);
+          toast.info(res.data.message);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          toast.info("Failed to send OTP");
+        });
+    } else {
+      toast.info("Failed to send OTP , server error");
+    }
   };
 
   const handleVerificationSubmit = async (e) => {
@@ -301,7 +328,9 @@ export default function ProfilePage() {
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                 ) : (
-                  <span className="text-white">{profile.location.toUpperCase()}</span>
+                  <span className="text-white">
+                    {profile.location.toUpperCase()}
+                  </span>
                 )}
               </div>
 

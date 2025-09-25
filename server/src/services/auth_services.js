@@ -13,49 +13,11 @@ export const createAccessToken = (jwt, user, res) => {
   });
 };
 
-export const welcomeEmailTemplate = (name) => ({
-  subject: "Welcome to ViseVerse – Let’s Get Started!",
-  text: `Hi ${name},
-
-Welcome to ViseVerse! 🎉
-We’re thrilled to have you join us.
-
-With ViseVerse, you’ll be able to:
-✨ Capture what matters in seconds
-✨ Extract insights with smart AI tools
-✨ Simplify your workflow and save time
-
-You’re all set to dive in—start exploring today:
-👉 [Get Started with ViseVerse]
-
-Have questions or feedback? Just hit reply—we’d love to hear from you and make ViseVerse even better.
-
-Here’s to smarter, faster, and easier workflows. 🚀`,
-});
-
-export const verificationEmailTemplate = ({ name, otp }) => ({
-  subject: "Verify your ViseVerse account",
-  text: `Hi ${name}, please verify your account using this OTP: ${otp}`,
-});
-
 export const resetOtpTemplate = ({ name, otp }) => ({
   subject: "Password Reset of ViseVerse account",
   text: `Hi ${name}, Reset your password using this OTP: ${otp}`,
 });
 
-export const sendWelcomeMail = async (res,email, subject, text, transporter) => {
-  try {
-    const mailOption = {
-      from: process.env.SENDER_EMAIL,
-      to: email,
-      subject,
-      text,
-    };
-    await transporter.sendMail(mailOption);
-  } catch (error) {
-    return res.json({success:false,message:"Something is wrong !"})
-  }
-};
 
 export const sendOtpMail = async ({ email, subject, text, transporter }) => {
   const mailOption = {

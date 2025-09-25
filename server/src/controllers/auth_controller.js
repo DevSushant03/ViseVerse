@@ -8,10 +8,7 @@ import {
   getEmailOtpValidation,
   resetOtpTemplate,
   sendOtpMail,
-  sendWelcomeMail,
   setNewPassword,
-  verificationEmailTemplate,
-  welcomeEmailTemplate,
 } from "../services/auth_services.js";
 
 //! Login functionality---------------------------------------
@@ -44,7 +41,7 @@ export const login = async (req, res) => {
 
     createAccessToken(jwt, user, res);
 
-    return res.json({ success: true});
+    return res.json({ success: true });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
@@ -86,8 +83,6 @@ export const register = async (req, res) => {
     });
     await user.save();
 
-    const { subject, text } = welcomeEmailTemplate(name);
-    await sendWelcomeMail(res, email, subject, text, transporter);
     return res.json({ success: true });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -129,16 +124,16 @@ export const sendVerifyOtp = async (req, res) => {
     user.verifyOtp = otp;
     user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 10000;
     await user.save();
-    const { subject, text } = verificationEmailTemplate({
-      name: user.name,
-      otp,
-    });
-    await sendOtpMail({ email: user.email, subject, text, transporter });
+
     return res.json({
       success: true,
+      otp,
+      email: user.email,
+      name: user.name,
       message: "Verification OTP send on mail",
     });
   } catch (error) {
+    console.log(error);
     return res.json({ success: false, message: error.message });
   }
 };
@@ -179,10 +174,10 @@ export const sendResetotp = async (req, res) => {
     user.resetOtp = otp;
     user.resetOtpExpireAt = Date.now() + 15 * 60 * 10000;
     await user.save();
-    const { subject, text } = resetOtpTemplate({ name: user.name, otp });
-    await sendOtpMail({ email, subject, text, transporter });
+    
     return res.json({
       success: true,
+      otp,
       message: "Reset otp send on your registered email",
     });
   } catch (error) {

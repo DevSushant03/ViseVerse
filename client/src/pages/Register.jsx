@@ -71,6 +71,7 @@ export default function Register() {
             </label>
             <input
               type="text"
+              name="name"
               value={name}
               onChange={(e) => setname(e.target.value)}
               placeholder="Enter your name"
@@ -84,6 +85,7 @@ export default function Register() {
             </label>
             <input
               type="text"
+              name="surname"
               value={surname}
               onChange={(e) => setsurname(e.target.value)}
               placeholder="Enter your surname"
@@ -139,6 +141,7 @@ export default function Register() {
             </label>
             <input
               type="email"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"

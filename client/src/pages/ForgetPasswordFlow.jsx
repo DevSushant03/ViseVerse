@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import emailjs from "@emailjs/browser";
 import {
   Mail,
   Shield,
@@ -10,8 +11,9 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import env from "dotenv"
+env.config();
 import { toast } from "react-toastify";
-
 export default function ForgetPasswordFlow() {
   const [currentStep, setCurrentStep] = useState(1); // 1: Email, 2: OTP, 3: New Password, 4: Success
   const [email, setEmail] = useState("");
@@ -59,12 +61,29 @@ export default function ForgetPasswordFlow() {
         { withCredentials: true }
       );
 
-      if (!res.data.success) {
-        toast.error(res.data.message);
-        setError(res.data.message);
+      if (res.data.success) {
+        const templateParams = {
+          email,
+          passcode: res.data.otp,
+        };
+
+        emailjs
+          .send(
+            import.meta.env.EMAIL_SERVICE_ID, // your service ID
+            import.meta.env.EMAIL_TEMPLATE_ID, // your template ID
+            templateParams,
+            import.meta.env.EMAIL_PUBLIC_ID // your public key
+          )
+          .then((result) => {
+            toast.info(res.data.message);
+            setCurrentStep(2);
+          })
+          .catch((error) => {
+            toast.info("Failed to send OTP");
+          });
+      } else {
+        toast.info("Failed to send OTP , Server error");
       }
-      toast.success("Reset OTP send");
-      setCurrentStep(2);
     } catch (err) {
       toast.error("Failed to send reset code. Please try again.");
       setError("Failed to send reset code. Please try again.");
