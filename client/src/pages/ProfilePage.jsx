@@ -17,8 +17,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader.jsx";
 import { toast } from "react-toastify";
-import env from "dotenv";
-env.config();
+
 
 export default function ProfilePage() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
@@ -103,10 +102,10 @@ export default function ProfilePage() {
 
       emailjs
         .send(
-          import.meta.env.EMAIL_SERVICE_ID, // your service ID
-          import.meta.env.EMAIL_TEMPLATE_ID, // your template ID
+          import.meta.env.VITE_EMAIL_SERVICE_ID, // your service ID
+          import.meta.env.VITE_EMAIL_TEMPLATE_ID, // your template ID
           templateParams,
-          import.meta.env.EMAIL_PUBLIC_ID // your public key
+          import.meta.env.VITE_EMAIL_PUBLIC_ID // your public key
         )
         .then((result) => {
           console.log(result);

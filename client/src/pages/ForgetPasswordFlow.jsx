@@ -11,8 +11,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import env from "dotenv"
-env.config();
+
 import { toast } from "react-toastify";
 export default function ForgetPasswordFlow() {
   const [currentStep, setCurrentStep] = useState(1); // 1: Email, 2: OTP, 3: New Password, 4: Success
@@ -69,10 +68,10 @@ export default function ForgetPasswordFlow() {
 
         emailjs
           .send(
-            import.meta.env.EMAIL_SERVICE_ID, // your service ID
-            import.meta.env.EMAIL_TEMPLATE_ID, // your template ID
+            import.meta.env.VITE_EMAIL_SERVICE_ID, // your service ID
+            import.meta.env.VITE_EMAIL_TEMPLATE_ID, // your template ID
             templateParams,
-            import.meta.env.EMAIL_PUBLIC_ID // your public key
+            import.meta.env.VITE_EMAIL_PUBLIC_ID // your public key
           )
           .then((result) => {
             toast.info(res.data.message);
