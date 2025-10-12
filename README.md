@@ -31,6 +31,7 @@
 - **OCR Engine:** Tesseract.js  
 - **Hosting:** Netlify & Render
 - **State Management:** React Hooks  
+<img width="895" height="375" alt="Screenshot (84)" src="https://github.com/user-attachments/assets/a94655d7-18dc-4947-a47a-6c1516c7cdda" />
 
 ---
 
