@@ -143,9 +143,9 @@ export default function App() {
         res = await sendToBackground(rawText, action);
         ttl = "Bullet Format";
         break;
-      case "Text-formated":
+      case "Polish-Text":
         res = await sendToBackground(rawText, action);
-        ttl = "Text-formated";
+        ttl = "Polish Text";
         break;
       case "grammer_spell-Check":
         res = await sendToBackground(rawText, action);
@@ -228,8 +228,8 @@ export default function App() {
                 { action: "summarize", label: "Summarize", icon: "🔍" },
                 { action: "bulletFormat", label: "Bullet Points", icon: "🅱️" },
                 {
-                  action: "Text-formated",
-                  label: "Text Formated",
+                  action: "Polish-Text",
+                  label: "Polish Text",
                   icon: "✨",
                 },
                 {
