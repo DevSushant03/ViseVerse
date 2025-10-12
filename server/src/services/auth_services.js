@@ -13,22 +13,6 @@ export const createAccessToken = (jwt, user, res) => {
   });
 };
 
-export const resetOtpTemplate = ({ name, otp }) => ({
-  subject: "Password Reset of ViseVerse account",
-  text: `Hi ${name}, Reset your password using this OTP: ${otp}`,
-});
-
-
-export const sendOtpMail = async ({ email, subject, text, transporter }) => {
-  const mailOption = {
-    from: process.env.SENDER_EMAIL,
-    to: email,
-    subject,
-    text,
-  };
-  await transporter.sendMail(mailOption);
-};
-
 export const getEmailOtpValidation = (res, user, verificationCode) => {
   if (!user) {
     console.log("User Not Found");
