@@ -6,8 +6,6 @@ import {
   createAccessToken,
   deleteAccessToken,
   getEmailOtpValidation,
-  resetOtpTemplate,
-  sendOtpMail,
   setNewPassword,
 } from "../services/auth_services.js";
 
