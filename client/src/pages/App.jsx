@@ -187,51 +187,64 @@ export default function App() {
 
   return (
     <>
-      <div className="container">
-        <div className="header">
-          <h1>📸 ViseVerse</h1>
-          <p>Upload a text and extract, analyze, or translate text with AI</p>
+      <div className="max-w-[1200px] mx-auto mt-32 bg-[#0f0f17] border border-white/10 backdrop-blur-xl rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.6)] overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-[#4b50ff] to-[#b45cff] text-white p-8 text-center shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+          <h1 className="text-4xl font-light mb-2 tracking-wide">
+            📸 ViseVerse
+          </h1>
+          <p className="opacity-90 text-lg">
+            Upload text and extract, analyze, or translate with AI
+          </p>
         </div>
 
-        <div className="main-content">
-          <div className="upload-section">
+        <div className="p-10 text-gray-300">
+          {/* Text Upload */}
+          <div className="bg-[#1a1a23] border border-white/10 rounded-xl p-3 mb-8 transition shadow-[0_0_10px_rgba(0,0,0,0.4)] hover:border-indigo-400">
             <textarea
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
               placeholder="Drop your text..."
+              className="h-52 w-full p-4 bg-[#0f0f17] border border-white/10 rounded-lg resize-none text-base 
+        shadow-inner focus:outline-none focus:border-indigo-400 focus:shadow-[0_0_10px_rgba(99,102,241,0.4)]"
             />
           </div>
 
+          {/* Hidden file input */}
           <input
             type="file"
-            className="uploadimage"
             accept="image/*"
             id="imagefile"
+            className="hidden"
             onChange={handleImageChange}
           />
-          <label htmlFor="imagefile" className="upload-label">
+
+          {/* Upload Button */}
+          <label
+            htmlFor="imagefile"
+            className="inline-block px-6 py-3 rounded-xl cursor-pointer text-white mb-4
+      bg-gradient-to-r from-indigo-500 to-purple-600 shadow-[0_4px_20px_rgba(0,0,0,0.5)]
+      font-medium tracking-wide transition hover:opacity-90 active:scale-95"
+          >
             Upload Image
           </label>
+
           <img
             ref={previewRef}
             style={{ width: "100%", display: "none" }}
             alt="preview"
           />
 
-          <div className="options-section">
-            <h3 style={{ marginBottom: "20px", color: "#495057" }}>
-              Choose an action:
-            </h3>
-            <div className="options-grid">
+          {/* Action Buttons */}
+          <div className="mb-10 mt-6">
+            <h3 className="mb-5 text-gray-400 text-lg">Choose an action:</h3>
+
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
               {[
                 { action: "extract-Text", label: "Extract Text", icon: "✂️" },
                 { action: "summarize", label: "Summarize", icon: "🔍" },
                 { action: "bulletFormat", label: "Bullet Points", icon: "🅱️" },
-                {
-                  action: "Polish-Text",
-                  label: "Polish Text",
-                  icon: "✨",
-                },
+                { action: "Polish-Text", label: "Polish Text", icon: "✨" },
                 {
                   action: "grammer_spell-Check",
                   label: "Grammar / Spell Check",
@@ -239,76 +252,84 @@ export default function App() {
                 },
                 { action: "translate", label: "Translate", icon: "🌐" },
                 { action: "explain", label: "Explain", icon: "🧠" },
-                {
-                  action: "downloadTxt",
-                  label: "Download as text",
-                  icon: "📄",
-                },
-                { action: "downloadPdf", label: "Download as Pdf", icon: "📁" },
-                {
-                  action: "downloadDocx",
-                  label: "Download as Docx",
-                  icon: "📃",
-                },
+                { action: "downloadTxt", label: "Download TXT", icon: "📄" },
+                { action: "downloadPdf", label: "Download PDF", icon: "📁" },
+                { action: "downloadDocx", label: "Download DOCX", icon: "📃" },
               ].map((btn) => (
                 <div
                   key={btn.action}
-                  className={`option-btn ${
-                    activeAction === btn.action ? "active" : ""
-                  }`}
                   onClick={() => selectAction(btn.action)}
+                  className={`cursor-pointer text-center font-medium text-[1.05em] p-5 rounded-xl border 
+            transition shadow-[0_0_15px_rgba(0,0,0,0.4)]
+            ${
+              activeAction === btn.action
+                ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white border-indigo-400"
+                : "bg-[#13131a] border-white/10 hover:border-indigo-400 hover:bg-[#1c1c26]"
+            }
+          `}
                 >
-                  <span className="icon">{btn.icon}</span>
+                  <span className="block text-2xl mb-1">{btn.icon}</span>
                   {btn.label}
                 </div>
               ))}
             </div>
           </div>
 
-          {loading ? (
-            <div className="loading">Processing your request...</div>
-          ) : (
-            ""
-          )}
-          <div
-            className="result-container"
-            style={{ display: result ? "block" : "none" }}
-          >
-            <div className="result-header">
-              <div className="result-title">{title}</div>
+          {/* Loading Spinner */}
+          {loading && (
+            <div className="flex items-center justify-center h-24 text-indigo-400 text-lg">
+              Processing your request...
+              <span className="ml-3 w-5 h-5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></span>
             </div>
-            <div className="result-content">{result}</div>
-            <button
-              title="Copy to Clipboard"
-              className="copy-btn"
-              onClick={copyResult}
-            >
-              <Copy />
-            </button>
-            <button
-              title="Download as text"
-              className="copy-btn"
-              onClick={() => downloadAsTxt(result)}
-            >
-              <FileText />
-            </button>
-            <button
-              title="Download as Pdf"
-              className="copy-btn"
-              onClick={() => downloadAsPdf(result)}
-            >
-              <FileType2 />
-            </button>
-            <button
-              title="Download as Docx"
-              className="copy-btn"
-              onClick={() => downloadAsDocx(result)}
-            >
-              <File />
-            </button>
-          </div>
+          )}
+
+          {/* Result Section */}
+          {result && (
+            <div className="bg-[#14141d] rounded-xl p-6 mt-5 border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)] relative">
+              <div className="flex justify-between items-center pb-3 mb-3 border-b border-white/10">
+                <div className="text-xl font-semibold text-white/90">
+                  {title}
+                </div>
+              </div>
+
+              <div className="text-[1.1em] leading-relaxed max-h-52 overflow-y-scroll bg-[#0f0f17] p-5 rounded-lg border border-white/10 whitespace-pre-wrap text-gray-300 shadow-inner">
+                {result}
+              </div>
+
+              <div className="mt-3 flex gap-3 flex-wrap">
+                <button
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm shadow hover:bg-indigo-700"
+                  onClick={copyResult}
+                >
+                  <Copy />
+                </button>
+
+                <button
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm shadow hover:bg-indigo-700"
+                  onClick={() => downloadAsTxt(result)}
+                >
+                  <FileText />
+                </button>
+
+                <button
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm shadow hover:bg-indigo-700"
+                  onClick={() => downloadAsPdf(result)}
+                >
+                  <FileType2 />
+                </button>
+
+                <button
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm shadow hover:bg-indigo-700"
+                  onClick={() => downloadAsDocx(result)}
+                >
+                  <File />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
       <About />
       <Footer />
     </>
