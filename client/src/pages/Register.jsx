@@ -41,7 +41,7 @@ export default function Register() {
     if (!data.success) {
       setloading(false);
       setauthError(data.message);
-      toast.error("Registration failed !")
+      toast.error("Registration failed !");
     } else {
       setname("");
       setgender("");
@@ -50,146 +50,164 @@ export default function Register() {
       setlocation("");
       setEmail("");
       setPassword("");
-      toast.success("Register Successfully ")
+      toast.success("Register Successfully ");
       setloading(false);
       navigate("/login");
     }
   };
 
   return (
-    <div className="min-h-screen  flex items-center justify-center bg-gradient-to-r from-purple-700 via-purple-500 to-indigo-500 p-6">
-      <div className="w-full max-w-md mt-20 p-8 rounded-2xl bg-white/10 backdrop-blur-xl shadow-xl border border-white/20">
-        <h2 className="text-3xl font-bold text-center text-white mb-6 drop-shadow-md">
-          Register
-        </h2>
+    <div className="min-h-screen bg-[#0a0a0f] flex flex-col md:flex-row">
+      {/* Left Branding Section */}
+      <div
+        className="hidden md:flex w-1/2 bg-gradient-to-br from-purple-600/40 to-indigo-600/40 
+      p-12 flex-col justify-center backdrop-blur-xl border-r border-white/10"
+      >
+        <h1 className="text-5xl font-extrabold text-white leading-tight drop-shadow-xl">
+          Create Your Account
+        </h1>
 
-        <form onSubmit={handleRegister} className="space-y-5">
-          {/* name */}
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-1">
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={(e) => setname(e.target.value)}
-              placeholder="Enter your name"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-1">
-              Surname
-            </label>
-            <input
-              type="text"
-              name="surname"
-              value={surname}
-              onChange={(e) => setsurname(e.target.value)}
-              placeholder="Enter your surname"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-1">
-              Mobile Number
-            </label>
-            <input
-              type="text"
-              value={number}
-              onChange={(e) => setnumber(e.target.value)}
-              maxlength="10"
-              placeholder="Enter your phone number"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-1">
-              Gender
-            </label>
-            <input
-              type="text"
-              value={gender}
-              onChange={(e) => setgender(e.target.value)}
-              placeholder="Enter your gender"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-1">
-              Location
-            </label>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setlocation(e.target.value)}
-              placeholder="Enter your location"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
-              required
-            />
-          </div>
-
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
-              required
-            />
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Create a password"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
-              required
-            />
-          </div>
-          <p
-            className="text-red-200 font-bold text-sm text-center mb-4 rounded-lg py-2 px-4"
-            style={{
-              background: "rgba(239, 68, 68, 0.2)",
-              backdropFilter: "blur(10px)",
-              WebkitBackdropFilter: "blur(10px)",
-              border: "1px solid rgba(239, 68, 68, 0.3)",
-            }}
-          >
-            {authError}
-          </p>
-
-          <button
-            type="submit"
-            className="w-full py-3 cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition shadow-lg"
-          >
-            {loading ? <Loader /> : "Register"}
-          </button>
-        </form>
-
-        <p className="text-center text-white/70 text-sm mt-6">
-          Already have an account?{" "}
-          <Link to="/login" className="text-purple-200 hover:underline">
-            Login
-          </Link>
+        <p className="text-gray-300 text-lg mt-4 max-w-sm">
+          Join our platform and access powerful AI tools designed to simplify
+          your workflow.
         </p>
+      </div>
+
+      {/* Right Form */}
+      <div className="flex-1 flex items-center justify-center p-8">
+        <div className="w-full mt-15 max-w-lg space-y-8">
+          <h2 className="text-4xl font-bold text-white text-center">
+            Register
+          </h2>
+
+          <form onSubmit={handleRegister} className="space-y-6">
+            {/* Name Row */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm text-gray-300 mb-1 block">Name</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setname(e.target.value)}
+                  placeholder="First name"
+                  className="w-full px-4 py-3 rounded-xl bg-[#14141c] text-white placeholder-gray-500 border border-white/10 focus:ring-2 focus:ring-purple-500/40 outline-none"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="text-sm text-gray-300 mb-1 block">
+                  Surname
+                </label>
+                <input
+                  type="text"
+                  value={surname}
+                  onChange={(e) => setsurname(e.target.value)}
+                  placeholder="Last name"
+                  className="w-full px-4 py-3 rounded-xl bg-[#14141c] text-white placeholder-gray-500 border border-white/10 focus:ring-2 focus:ring-indigo-500/40 outline-none"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Mobile */}
+            <div>
+              <label className="text-sm text-gray-300 mb-1 block">Mobile</label>
+              <input
+                type="text"
+                value={number}
+                maxLength="10"
+                onChange={(e) => setnumber(e.target.value)}
+                placeholder="Your phone number"
+                className="w-full px-4 py-3 rounded-xl bg-[#14141c] text-white placeholder-gray-500 border border-white/10 focus:ring-2 focus:ring-purple-500/40 outline-none"
+                required
+              />
+            </div>
+
+            {/* Gender & Location */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm text-gray-300 mb-1 block">
+                  Gender
+                </label>
+                <input
+                  type="text"
+                  value={gender}
+                  onChange={(e) => setgender(e.target.value)}
+                  placeholder="Male/Female/Other"
+                  className="w-full px-4 py-3 rounded-xl bg-[#14141c] text-white placeholder-gray-500 border border-white/10 focus:ring-2 focus:ring-purple-500/40 outline-none"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="text-sm text-gray-300 mb-1 block">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  value={location}
+                  onChange={(e) => setlocation(e.target.value)}
+                  placeholder="City / Area"
+                  className="w-full px-4 py-3 rounded-xl bg-[#14141c] text-white placeholder-gray-500 border border-white/10 focus:ring-2 focus:ring-indigo-500/40 outline-none"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="text-sm text-gray-300 mb-1 block">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your email"
+                className="w-full px-4 py-3 rounded-xl bg-[#14141c] text-white placeholder-gray-500 border border-white/10 focus:ring-2 focus:ring-purple-500/40 outline-none"
+                required
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="text-sm text-gray-300 mb-1 block">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Create a password"
+                className="w-full px-4 py-3 rounded-xl bg-[#14141c] text-white placeholder-gray-500 border border-white/10 focus:ring-2 focus:ring-purple-500/40 outline-none"
+                required
+              />
+            </div>
+
+            {/* Error Message */}
+            {authError && (
+              <p className="text-red-300 bg-red-500/10 border border-red-500/20 rounded-lg text-center py-2 text-sm">
+                {authError}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 active:scale-95 transition shadow-lg"
+            >
+              {loading ? <Loader /> : "Register"}
+            </button>
+          </form>
+
+          <p className="text-center text-gray-400 text-sm">
+            Already have an account?
+            <Link
+              to="/login"
+              className="text-purple-300 ml-1 hover:text-purple-200 underline"
+            >
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

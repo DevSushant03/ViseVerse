@@ -44,82 +44,72 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f] p-6">
-      {/* Glass Card */}
-      <div className="w-full max-w-md p-8 rounded-3xl bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.6)]">
-        {/* Title */}
-        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent mb-8">
-          Welcome Back
-        </h2>
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#08080c]">
+      {/* RIGHT GRADIENT PANEL */}
+      <div className="flex-1 order-2 lg:order-1 hidden lg:flex items-center justify-center bg-gradient-to-br from-indigo-600/40 to-purple-600/40 backdrop-blur-xl border-r border-white/10">
+        <h1 className="text-5xl font-extrabold text-white tracking-wide leading-tight">
+          Welcome to <br />
+          <span className="bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent">
+            ViseVerse
+          </span>
+        </h1>
+      </div>
 
-        {/* Form */}
-        <form onSubmit={handleLogin} className="space-y-6">
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
-              Email
-            </label>
+      {/* LOGIN CARD */}
+      <div className="flex-1 order-1 lg:order-2 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          <h2 className="text-3xl font-bold text-center text-white mb-8">
+            Login to your account
+          </h2>
+
+          <form onSubmit={handleLogin} className="space-y-6">
+            {/* Email */}
             <input
               type="email"
+              placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-gray-400 
-          border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/40 
-          focus:border-purple-400 transition"
+              className="w-full px-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-purple-500/40"
               required
             />
-          </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
-              Password
-            </label>
+            {/* Password */}
             <input
               type="password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-gray-400 
-          border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/40 
-          focus:border-purple-400 transition"
+              className="w-full px-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-purple-500/40"
               required
             />
+
+            {/* Error */}
+            {authError && (
+              <p className="text-red-300 bg-red-500/10 border border-red-500/20 rounded-xl py-2 text-center">
+                {authError}
+              </p>
+            )}
+
+            {/* Login Button */}
+            <button className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 active:scale-95 transition">
+              {loading ? <Loader /> : "Login"}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center text-gray-300 text-sm space-y-2">
+            <Link
+              to="/register"
+              className="block text-purple-300 hover:text-purple-200"
+            >
+              Create a new account
+            </Link>
+            <Link
+              to="/forgetpassword"
+              className="block text-purple-300 hover:text-purple-200"
+            >
+              Forgot password?
+            </Link>
           </div>
-
-          {/* Error Message */}
-          {authError && (
-            <p className="text-red-300 bg-red-500/10 border border-red-500/20 rounded-lg text-center py-2 text-sm">
-              {authError}
-            </p>
-          )}
-
-          {/* Button */}
-          <button
-            type="submit"
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 
-        text-white font-semibold shadow-lg hover:opacity-90 active:scale-95 transition"
-          >
-            {loading ? <Loader /> : "Login"}
-          </button>
-        </form>
-
-        {/* Links */}
-        <div className="mt-8 text-center text-gray-300 text-sm">
-          <Link
-            to="/register"
-            className="block mb-3 text-purple-300 hover:text-purple-200 transition"
-          >
-            Don’t have an account? Register
-          </Link>
-
-          <Link
-            to="/forgetpassword"
-            className="text-purple-300 hover:text-purple-200 transition"
-          >
-            Forgot Password?
-          </Link>
         </div>
       </div>
     </div>
