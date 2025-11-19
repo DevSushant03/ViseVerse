@@ -35,23 +35,28 @@ export default function TextFlowLanding() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-violet-900 to-indigo-900 text-white overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0a12] via-[#120d1c] to-[#1a1030] text-white overflow-hidden relative">
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-20">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 py-24">
         <div className="text-center">
-          <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-8">
+          {/* Trust Badge */}
+          <div className="inline-flex items-center px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full mb-10 shadow-[0_0_20px_rgba(255,255,255,0.05)]">
             <Star className="w-4 h-4 mr-2 text-yellow-400" />
-            <span className="text-sm">Trusted by 50,000+ users worldwide</span>
+            <span className="text-sm text-gray-300">
+              Trusted by 50,000+ users worldwide
+            </span>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-violet-200 bg-clip-text text-transparent leading-tight">
+          {/* Heading */}
+          <h1 className="text-6xl md:text-8xl font-extrabold mb-8 bg-gradient-to-r from-white via-purple-200 to-purple-300 bg-clip-text text-transparent leading-tight drop-shadow-[0_0_18px_rgba(255,255,255,0.2)]">
             Transform Text with
-            <span className="block bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-purple-400 to-violet-500 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(168,85,247,0.35)]">
               AI Power
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-purple-200 mb-12 max-w-3xl mx-auto leading-relaxed">
+          {/* Subtext */}
+          <p className="text-xl md:text-2xl text-purple-200 mb-16 max-w-3xl mx-auto leading-relaxed">
             Summarize, explain, translate, and export your content in seconds.
             The ultimate AI-powered text processing platform for modern
             professionals.
@@ -64,11 +69,17 @@ export default function TextFlowLanding() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <div className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent mb-2">
+              <div
+                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 
+                hover:bg-white/10 transition-all duration-300 hover:scale-105 
+                shadow-[0_0_25px_rgba(0,0,0,0.3)] hover:shadow-[0_0_40px_rgba(138,43,226,0.25)]"
+              >
+                <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-violet-500 bg-clip-text text-transparent mb-3">
                   {stat.number}
                 </div>
-                <div className="text-purple-200">{stat.label}</div>
+                <div className="text-purple-200 tracking-wide">
+                  {stat.label}
+                </div>
               </div>
             </div>
           ))}
@@ -78,30 +89,43 @@ export default function TextFlowLanding() {
       {/* Features Section */}
       <section
         id="features"
-        className="relative z-10 max-w-7xl mx-auto px-6 py-20"
+        className="relative z-10 max-w-7xl mx-auto px-6 py-24"
       >
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+        {/* Section Heading */}
+        <div className="text-center mb-20">
+          <h2 className="text-5xl font-extrabold mb-6 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]">
             Powerful Features
           </h2>
+
           <p className="text-xl text-purple-200 max-w-2xl mx-auto">
             Everything you need to process, understand, and transform your text
-            content with AI precision.
+            with AI precision.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+        {/* Feature Cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-10">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 hover:bg-white/15 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20"
+              className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 
+              transition-all duration-500 hover:bg-white/10 hover:scale-105 
+              shadow-[0_0_30px_rgba(0,0,0,0.2)] hover:shadow-[0_0_40px_rgba(168,85,247,0.25)]"
             >
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-violet-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              {/* Icon */}
+              <div
+                className="w-16 h-16 bg-gradient-to-r from-purple-600 to-violet-600 rounded-2xl flex items-center justify-center mb-8 
+                group-hover:scale-110 transition-transform duration-300 shadow-[0_0_25px_rgba(168,85,247,0.3)]"
+              >
                 {feature.icon}
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-purple-200 transition-colors">
+
+              {/* Title */}
+              <h3 className="text-3xl font-bold mb-4 text-white group-hover:text-purple-200 transition-colors">
                 {feature.title}
               </h3>
+
+              {/* Description */}
               <p className="text-purple-200 text-lg leading-relaxed">
                 {feature.description}
               </p>
