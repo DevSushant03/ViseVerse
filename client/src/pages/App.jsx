@@ -231,7 +231,7 @@ export default function App() {
 
           <img
             ref={previewRef}
-            style={{ width: "100%", display: "none" }}
+            style={{ width: "50%", display: "none" }}
             alt="preview"
           />
 
@@ -239,7 +239,7 @@ export default function App() {
           <div className="mb-10 mt-6">
             <h3 className="mb-5 text-gray-400 text-lg">Choose an action:</h3>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-3">
               {[
                 { action: "extract-Text", label: "Extract Text", icon: "✂️" },
                 { action: "summarize", label: "Summarize", icon: "🔍" },

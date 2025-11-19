@@ -44,16 +44,19 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-700 via-purple-500 to-indigo-500 p-6">
-      <div className="w-full max-w-md p-8 rounded-2xl bg-white/10 backdrop-blur-xl shadow-xl border border-white/20">
-        <h2 className="text-3xl font-bold text-center text-white mb-6 drop-shadow-md">
-          Login
+    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f] p-6">
+      {/* Glass Card */}
+      <div className="w-full max-w-md p-8 rounded-3xl bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.6)]">
+        {/* Title */}
+        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent mb-8">
+          Welcome Back
         </h2>
 
-        <form onSubmit={handleLogin} className="space-y-5">
+        {/* Form */}
+        <form onSubmit={handleLogin} className="space-y-6">
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-1">
+            <label className="block text-sm font-medium text-gray-300 mb-1">
               Email
             </label>
             <input
@@ -61,14 +64,16 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
+              className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-gray-400 
+          border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/40 
+          focus:border-purple-400 transition"
               required
             />
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-1">
+            <label className="block text-sm font-medium text-gray-300 mb-1">
               Password
             </label>
             <input
@@ -76,44 +81,46 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-100"
+              className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-gray-400 
+          border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/40 
+          focus:border-purple-400 transition"
               required
             />
           </div>
-          <p
-            className="text-red-200 font-bold text-sm text-center mb-4 rounded-lg py-2 px-4"
-            style={{
-              background: "rgba(239, 68, 68, 0.2)",
-              backdropFilter: "blur(10px)",
-              WebkitBackdropFilter: "blur(10px)",
-              border: "1px solid rgba(239, 68, 68, 0.3)",
-            }}
-          >
-            {authError}
-          </p>
 
+          {/* Error Message */}
+          {authError && (
+            <p className="text-red-300 bg-red-500/10 border border-red-500/20 rounded-lg text-center py-2 text-sm">
+              {authError}
+            </p>
+          )}
+
+          {/* Button */}
           <button
             type="submit"
-            className="w-full py-3 rounded-xl cursor-pointer bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition shadow-lg"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 
+        text-white font-semibold shadow-lg hover:opacity-90 active:scale-95 transition"
           >
             {loading ? <Loader /> : "Login"}
           </button>
         </form>
 
-        <p className="flex justify-between text-center text-white/70 text-sm mt-6 max-sm:flex-col">
+        {/* Links */}
+        <div className="mt-8 text-center text-gray-300 text-sm">
           <Link
             to="/register"
-            className="text-purple-100 cursor-pointer mb-5 hover:underline"
+            className="block mb-3 text-purple-300 hover:text-purple-200 transition"
           >
             Don’t have an account? Register
           </Link>
+
           <Link
             to="/forgetpassword"
-            className="text-purple-100 cursor-pointer hover:underline"
+            className="text-purple-300 hover:text-purple-200 transition"
           >
-            Forget Password
+            Forgot Password?
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );
