@@ -9,6 +9,7 @@ import {
   Check,
   ChevronDown,
 } from "lucide-react";
+import About from "../components/About";
 
 export default function App() {
   const SERVER_URL = "YOUR_SERVER_URL"; // Replace with your actual server URL
@@ -241,26 +242,14 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto px-6 pt-16 pb-12 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium mb-6">
-          <Sparkles className="w-4 h-4" />
-          AI-Powered Text Intelligence
-        </div>
-        <h1 className="text-5xl font-bold text-slate-900 mb-4 tracking-tight">
-          Transform text from
-          <br />
-          anywhere, instantly
-        </h1>
-        <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-          Extract, analyze, polish, and translate text from images or clipboard
-          with cutting-edge AI
-        </p>
+       
       </div>
 
       {/* Main App Card */}
-      <div className="max-w-5xl mx-auto px-6 pb-20">
+      <div className="max-w-6xl mx-auto  px-6 pb-20">
         <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden">
           {/* Input Section */}
-          <div className="p-8 border-b border-slate-100">
+          <div className="p-8 border-b border-slate-100 ">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center">
                 <FileText className="w-5 h-5 text-indigo-600" />
@@ -525,7 +514,7 @@ export default function App() {
           )}
         </div>
 
-       
+        <About />
       </div>
     </div>
   );

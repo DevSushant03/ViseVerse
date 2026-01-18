@@ -31,9 +31,7 @@ export default function Navbar() {
             <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
               Home
             </button>
-            <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-              Features
-            </button>
+           
             <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
               Pricing
             </button>
