@@ -1,9 +1,11 @@
 import { AlignJustify, CircleUserRound, X, Sparkles } from "lucide-react";
-import React, { useState ,useContext} from "react";
+import React, { useState, useContext } from "react";
 import { AppContext } from "../context/AppContext";
+import { Link } from "react-router-dom";
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-   const { isLoggedIn } = useContext(AppContext); // Replace with your actual auth context
+  const { isLoggedIn } = useContext(AppContext); // Replace with your actual auth context
 
   return (
     <nav className="fixed top-0 left-0 w-full px-6 py-3.5 flex justify-between items-center bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm z-50">
@@ -28,19 +30,31 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+            <Link
+              to="/"
+              className="text-sm font-medium text-slate-600 hover:text-slate-900 transition"
+            >
               Home
-            </button>
-           
-            <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+            </Link>
+            <Link
+              to="#"
+              className="text-sm font-medium text-slate-600 hover:text-slate-900 transition"
+            >
               Pricing
-            </button>
-            <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+            </Link>
+            <Link
+              to="/login"
+              className="text-sm font-medium text-slate-600 hover:text-slate-900 transition"
+            >
               Login
-            </button>
-            <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold hover:from-indigo-700 hover:to-purple-700 transition shadow-sm">
+            </Link>
+
+            <Link
+              to="/register"
+              className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold hover:from-indigo-700 hover:to-purple-700 transition shadow-sm"
+            >
               Get Started
-            </button>
+            </Link>
           </>
         )}
       </div>
@@ -93,18 +107,21 @@ export default function Navbar() {
                 >
                   Pricing
                 </button>
-                <button
-                  className="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition"
+                <Link
+                  to="/login"
                   onClick={() => setIsOpen(false)}
+                  className="w-full block px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition"
                 >
                   Login
-                </button>
-                <button
-                  className="w-full px-4 py-3 mt-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold hover:from-indigo-700 hover:to-purple-700 transition shadow-sm"
+                </Link>
+
+                <Link
+                  to="/register"
                   onClick={() => setIsOpen(false)}
+                  className="w-full block text-center px-4 py-3 mt-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold hover:from-indigo-700 hover:to-purple-700 transition shadow-sm"
                 >
                   Get Started
-                </button>
+                </Link>
               </>
             )}
           </div>
@@ -120,8 +137,12 @@ function NavbarDemo() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <Navbar />
       <div className="pt-24 px-6 text-center">
-        <h1 className="text-4xl font-bold text-slate-900 mb-4">Redesigned Navbar</h1>
-        <p className="text-slate-600">Clean, modern, and professional navigation</p>
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">
+          Redesigned Navbar
+        </h1>
+        <p className="text-slate-600">
+          Clean, modern, and professional navigation
+        </p>
       </div>
     </div>
   );

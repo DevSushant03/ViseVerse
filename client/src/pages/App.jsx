@@ -10,9 +10,10 @@ import {
   ChevronDown,
 } from "lucide-react";
 import About from "../components/About";
+import { useNavigate } from "react-router-dom";
 
 export default function App() {
-  const SERVER_URL = "YOUR_SERVER_URL"; // Replace with your actual server URL
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
@@ -23,6 +24,7 @@ export default function App() {
   const [copied, setCopied] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("Spanish");
   const [showLangDropdown, setShowLangDropdown] = useState(false);
+  const navigate = useNavigate()
 
   const previewRef = useRef(null);
 
@@ -60,7 +62,7 @@ export default function App() {
       console.log(data);
 
       if (!data.success) {
-        alert("Authentication required. Please log in.");
+        navigate("/login")
       }
       return data.data;
     } catch (err) {

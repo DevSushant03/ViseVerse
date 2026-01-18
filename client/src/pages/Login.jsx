@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Sparkles, Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -7,8 +9,9 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+  const { setisLoggedIn } = useContext(AppContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,6 +28,9 @@ export default function Login() {
       setLoading(false);
       setAuthError(data.message);
     } else {
+      setLoading(false);
+      setisLoggedIn(true)
+      navigate("/");
     }
   };
 
