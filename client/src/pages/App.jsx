@@ -1,21 +1,40 @@
 import React, { useState, useRef } from "react";
-import About from "../components/About.jsx";
-import { Copy, FileText, FileType2, File } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
-import Footer from "../components/Footer.jsx";
-export default function App() {
-  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+import {
+  Copy,
+  FileText,
+  FileType2,
+  File,
+  Image,
+  Sparkles,
+  Check,
+  ChevronDown,
+} from "lucide-react";
 
-  const navigate = useNavigate();
+export default function App() {
+  const SERVER_URL = "YOUR_SERVER_URL"; // Replace with your actual server URL
+
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
   const [title, setTitle] = useState("Result");
   const [img, setImg] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeAction, setActiveAction] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("Spanish");
+  const [showLangDropdown, setShowLangDropdown] = useState(false);
 
   const previewRef = useRef(null);
+
+  const languages = [
+    "Spanish",
+    "French",
+    "German",
+    "Japanese",
+    "Chinese",
+    "Hindi",
+    "Arabic",
+    "Portuguese",
+  ];
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -40,7 +59,7 @@ export default function App() {
       console.log(data);
 
       if (!data.success) {
-        navigate("/login");
+        alert("Authentication required. Please log in.");
       }
       return data.data;
     } catch (err) {
@@ -182,156 +201,332 @@ export default function App() {
   };
 
   const copyResult = () => {
-    navigator.clipboard.writeText(result).then(() => alert("Copied!"));
+    navigator.clipboard.writeText(result).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
   };
 
+  const actions = [
+    {
+      id: "extract-Text",
+      label: "Extract Text",
+      icon: "📝",
+      desc: "Pull text from images",
+    },
+    { id: "summarize", label: "Summarize", icon: "📊", desc: "Get key points" },
+    {
+      id: "bulletFormat",
+      label: "Bullet Points",
+      icon: "•",
+      desc: "Format as list",
+    },
+    { id: "Polish-Text", label: "Polish", icon: "✨", desc: "Improve writing" },
+    {
+      id: "grammer_spell-Check",
+      label: "Grammar Check",
+      icon: "✓",
+      desc: "Fix errors",
+    },
+    {
+      id: "translate",
+      label: "Translate",
+      icon: "🌐",
+      desc: "Change language",
+    },
+    { id: "explain", label: "Explain", icon: "💡", desc: "Clarify content" },
+  ];
+
   return (
-    <>
-      <div className="max-w-[1200px] mx-auto mt-32 bg-[#0f0f17] border border-white/10 backdrop-blur-xl rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.6)] overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-[#4b50ff] to-[#b45cff] text-white p-8 text-center shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-          <h1 className="text-4xl font-light mb-2 tracking-wide">
-            📸 ViseVerse
-          </h1>
-          <p className="opacity-90 text-lg">
-            Upload text and extract, analyze, or translate with AI
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Hero Section */}
+      <div className="max-w-6xl mx-auto px-6 pt-16 pb-12 text-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium mb-6">
+          <Sparkles className="w-4 h-4" />
+          AI-Powered Text Intelligence
         </div>
-
-        <div className="p-10 text-gray-300">
-          {/* Text Upload */}
-          <div className="bg-[#1a1a23] border border-white/10 rounded-xl p-3 mb-8 transition shadow-[0_0_10px_rgba(0,0,0,0.4)] hover:border-indigo-400">
-            <textarea
-              value={rawText}
-              onChange={(e) => setRawText(e.target.value)}
-              placeholder="Drop your text..."
-              className="h-52 w-full p-4 bg-[#0f0f17] border border-white/10 rounded-lg resize-none text-base 
-        shadow-inner focus:outline-none focus:border-indigo-400 focus:shadow-[0_0_10px_rgba(99,102,241,0.4)]"
-            />
-          </div>
-
-          {/* Hidden file input */}
-          <input
-            type="file"
-            accept="image/*"
-            id="imagefile"
-            className="hidden"
-            onChange={handleImageChange}
-          />
-
-          {/* Upload Button */}
-          <label
-            htmlFor="imagefile"
-            className="inline-block px-6 py-3 rounded-xl cursor-pointer text-white mb-4
-      bg-gradient-to-r from-indigo-500 to-purple-600 shadow-[0_4px_20px_rgba(0,0,0,0.5)]
-      font-medium tracking-wide transition hover:opacity-90 active:scale-95"
-          >
-            Upload Image
-          </label>
-
-          <img
-            ref={previewRef}
-            style={{ width: "50%", display: "none" }}
-            alt="preview"
-          />
-
-          {/* Action Buttons */}
-          <div className="mb-10 mt-6">
-            <h3 className="mb-5 text-gray-400 text-lg">Choose an action:</h3>
-
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-3">
-              {[
-                { action: "extract-Text", label: "Extract Text", icon: "✂️" },
-                { action: "summarize", label: "Summarize", icon: "🔍" },
-                { action: "bulletFormat", label: "Bullet Points", icon: "🅱️" },
-                { action: "Polish-Text", label: "Polish Text", icon: "✨" },
-                {
-                  action: "grammer_spell-Check",
-                  label: "Grammar / Spell Check",
-                  icon: "☑️",
-                },
-                { action: "translate", label: "Translate", icon: "🌐" },
-                { action: "explain", label: "Explain", icon: "🧠" },
-                { action: "downloadTxt", label: "Download TXT", icon: "📄" },
-                { action: "downloadPdf", label: "Download PDF", icon: "📁" },
-                { action: "downloadDocx", label: "Download DOCX", icon: "📃" },
-              ].map((btn) => (
-                <div
-                  key={btn.action}
-                  onClick={() => selectAction(btn.action)}
-                  className={`cursor-pointer text-center font-medium text-[1.05em] p-5 rounded-xl border 
-            transition shadow-[0_0_15px_rgba(0,0,0,0.4)]
-            ${
-              activeAction === btn.action
-                ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white border-indigo-400"
-                : "bg-[#13131a] border-white/10 hover:border-indigo-400 hover:bg-[#1c1c26]"
-            }
-          `}
-                >
-                  <span className="block text-2xl mb-1">{btn.icon}</span>
-                  {btn.label}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Loading Spinner */}
-          {loading && (
-            <div className="flex items-center justify-center h-24 text-indigo-400 text-lg">
-              Processing your request...
-              <span className="ml-3 w-5 h-5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></span>
-            </div>
-          )}
-
-          {/* Result Section */}
-          {result && (
-            <div className="bg-[#14141d] rounded-xl p-6 mt-5 border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)] relative">
-              <div className="flex justify-between items-center pb-3 mb-3 border-b border-white/10">
-                <div className="text-xl font-semibold text-white/90">
-                  {title}
-                </div>
-              </div>
-
-              <div className="text-[1.1em] leading-relaxed max-h-52 overflow-y-scroll bg-[#0f0f17] p-5 rounded-lg border border-white/10 whitespace-pre-wrap text-gray-300 shadow-inner">
-                {result}
-              </div>
-
-              <div className="mt-3 flex gap-3 flex-wrap">
-                <button
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm shadow hover:bg-indigo-700"
-                  onClick={copyResult}
-                >
-                  <Copy />
-                </button>
-
-                <button
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm shadow hover:bg-indigo-700"
-                  onClick={() => downloadAsTxt(result)}
-                >
-                  <FileText />
-                </button>
-
-                <button
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm shadow hover:bg-indigo-700"
-                  onClick={() => downloadAsPdf(result)}
-                >
-                  <FileType2 />
-                </button>
-
-                <button
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm shadow hover:bg-indigo-700"
-                  onClick={() => downloadAsDocx(result)}
-                >
-                  <File />
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+        <h1 className="text-5xl font-bold text-slate-900 mb-4 tracking-tight">
+          Transform text from
+          <br />
+          anywhere, instantly
+        </h1>
+        <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+          Extract, analyze, polish, and translate text from images or clipboard
+          with cutting-edge AI
+        </p>
       </div>
 
-      <About />
-      <Footer />
-    </>
+      {/* Main App Card */}
+      <div className="max-w-5xl mx-auto px-6 pb-20">
+        <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden">
+          {/* Input Section */}
+          <div className="p-8 border-b border-slate-100">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center">
+                <FileText className="w-5 h-5 text-indigo-600" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">Input</h2>
+                <p className="text-sm text-slate-500">
+                  Paste text or upload an image
+                </p>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              {/* Text Input */}
+              <div className="relative">
+                <textarea
+                  value={rawText}
+                  onChange={(e) => setRawText(e.target.value)}
+                  placeholder="Type or paste your text here..."
+                  className="w-full h-48 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl resize-none text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                />
+                <div className="absolute bottom-3 right-3 text-xs text-slate-400">
+                  {rawText.length} characters
+                </div>
+              </div>
+
+              {/* Image Upload */}
+              <div className="relative">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                  id="image-upload"
+                />
+                <label
+                  htmlFor="image-upload"
+                  className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-indigo-400 hover:bg-indigo-50/50 transition group"
+                >
+                  {img ? (
+                    <img
+                      ref={previewRef}
+                      alt="Preview"
+                      className="w-full h-full object-cover rounded-xl"
+                    />
+                  ) : (
+                    <>
+                      <Image className="w-10 h-10 text-slate-400 group-hover:text-indigo-500 mb-3 transition" />
+                      <span className="text-sm font-medium text-slate-600 group-hover:text-indigo-600">
+                        Click to upload image
+                      </span>
+                      <span className="text-xs text-slate-400 mt-1">
+                        PNG, JPG, WEBP up to 10MB
+                      </span>
+                    </>
+                  )}
+                </label>
+                {img && (
+                  <button
+                    onClick={() => {
+                      setImg(null);
+                      if (previewRef.current) {
+                        previewRef.current.style.display = "none";
+                      }
+                    }}
+                    className="absolute top-2 right-2 px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Actions Section */}
+          <div className="p-8 bg-slate-50/50">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-purple-600" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Actions
+                </h2>
+                <p className="text-sm text-slate-500">
+                  Choose how to process your content
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+              {actions.map((action) => (
+                <button
+                  key={action.id}
+                  onClick={() => selectAction(action.id)}
+                  disabled={loading}
+                  className={`p-4 rounded-xl border-2 transition text-left disabled:opacity-50 disabled:cursor-not-allowed ${
+                    activeAction === action.id
+                      ? "border-indigo-500 bg-indigo-50 shadow-sm"
+                      : "border-slate-200 bg-white hover:border-indigo-300 hover:shadow-sm"
+                  }`}
+                >
+                  <div className="text-2xl mb-2">{action.icon}</div>
+                  <div className="text-sm font-semibold text-slate-900">
+                    {action.label}
+                  </div>
+                  <div className="text-xs text-slate-500 mt-1">
+                    {action.desc}
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Translation Language Selector */}
+            {activeAction === "translate" && (
+              <div className="mb-6 p-4 bg-white border border-slate-200 rounded-xl">
+                <label className="text-sm font-medium text-slate-700 mb-2 block">
+                  Target Language
+                </label>
+                <div className="relative">
+                  <button
+                    onClick={() => setShowLangDropdown(!showLangDropdown)}
+                    className="w-full md:w-64 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-left flex items-center justify-between hover:border-indigo-400 transition"
+                  >
+                    <span className="text-slate-900">{selectedLanguage}</span>
+                    <ChevronDown className="w-4 h-4 text-slate-400" />
+                  </button>
+                  {showLangDropdown && (
+                    <div className="absolute top-full mt-2 w-full md:w-64 bg-white border border-slate-200 rounded-lg shadow-lg z-10">
+                      {languages.map((lang) => (
+                        <button
+                          key={lang}
+                          onClick={() => {
+                            setSelectedLanguage(lang);
+                            setShowLangDropdown(false);
+                          }}
+                          className="w-full px-4 py-2 text-left hover:bg-indigo-50 text-slate-900 text-sm"
+                        >
+                          {lang}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Download Actions */}
+            <div className="border-t border-slate-200 pt-6 mt-6">
+              <h3 className="text-sm font-medium text-slate-700 mb-3">
+                Export Options
+              </h3>
+              <div className="grid grid-cols-3 gap-3">
+                <button
+                  onClick={() => selectAction("downloadTxt")}
+                  disabled={!rawText || loading}
+                  className="p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 hover:bg-indigo-50 transition disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                >
+                  <FileText className="w-5 h-5 text-slate-600 mx-auto mb-1" />
+                  <span className="text-xs font-medium text-slate-700">
+                    TXT
+                  </span>
+                </button>
+                <button
+                  onClick={() => selectAction("downloadPdf")}
+                  disabled={!rawText || loading}
+                  className="p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 hover:bg-indigo-50 transition disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                >
+                  <FileType2 className="w-5 h-5 text-slate-600 mx-auto mb-1" />
+                  <span className="text-xs font-medium text-slate-700">
+                    PDF
+                  </span>
+                </button>
+                <button
+                  onClick={() => selectAction("downloadDocx")}
+                  disabled={!rawText || loading}
+                  className="p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 hover:bg-indigo-50 transition disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                >
+                  <File className="w-5 h-5 text-slate-600 mx-auto mb-1" />
+                  <span className="text-xs font-medium text-slate-700">
+                    DOCX
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Loading State */}
+          {loading && (
+            <div className="p-8 border-t border-slate-200 bg-slate-50">
+              <div className="flex items-center justify-center gap-3 text-indigo-600">
+                <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                <span className="text-sm font-medium">
+                  Processing your request...
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Results Section */}
+          {result && !loading && (
+            <div className="p-8 border-t border-slate-200">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                    <Check className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold text-slate-900">
+                      {title}
+                    </h2>
+                    <p className="text-sm text-slate-500">
+                      Your processed content
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={copyResult}
+                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-medium transition flex items-center gap-2"
+                  >
+                    {copied ? (
+                      <Check className="w-4 h-4" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-6 bg-slate-50 border border-slate-200 rounded-xl max-h-96 overflow-y-auto">
+                <pre className="whitespace-pre-wrap font-sans text-slate-800 leading-relaxed">
+                  {result}
+                </pre>
+              </div>
+
+              <div className="mt-4 flex gap-2 flex-wrap">
+                <button
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition flex items-center gap-2"
+                  onClick={() => downloadAsTxt(result)}
+                >
+                  <FileText className="w-4 h-4" />
+                  Download TXT
+                </button>
+                <button
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition flex items-center gap-2"
+                  onClick={() => downloadAsPdf(result)}
+                >
+                  <FileType2 className="w-4 h-4" />
+                  Download PDF
+                </button>
+                <button
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition flex items-center gap-2"
+                  onClick={() => downloadAsDocx(result)}
+                >
+                  <File className="w-4 h-4" />
+                  Download DOCX
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+       
+      </div>
+    </div>
   );
 }

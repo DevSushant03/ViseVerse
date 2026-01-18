@@ -1,102 +1,130 @@
-import { AlignJustify, CircleUserRound, X } from "lucide-react";
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { AlignJustify, CircleUserRound, X, Sparkles } from "lucide-react";
+import React, { useState ,useContext} from "react";
 import { AppContext } from "../context/AppContext";
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoggedIn } = useContext(AppContext);
-  const navigate = useNavigate();
+   const { isLoggedIn } = useContext(AppContext); // Replace with your actual auth context
 
   return (
-    <nav className="fixed top-0 left-0 w-full px-6 py-4 flex justify-between items-center bg-black/10 backdrop-blur-xl border-b border-white/20 shadow-md z-50">
-      <div
-        onClick={() => navigate("/")}
-        className="text-2xl font-bold text-white drop-shadow-md cursor-pointer"
-      >
-        ViseVerse
+    <nav className="fixed top-0 left-0 w-full px-6 py-3.5 flex justify-between items-center bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm z-50">
+      {/* Logo */}
+      <div className="flex items-center gap-2 cursor-pointer group">
+        <div className="w-9 h-9 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
+          <Sparkles className="w-5 h-5 text-white" />
+        </div>
+        <span className="text-xl font-semibold text-slate-900">ViseVerse</span>
       </div>
-      <div className="hidden sm:flex items-center space-x-6">
+
+      {/* Desktop Navigation */}
+      <div className="hidden md:flex items-center gap-6">
         {isLoggedIn ? (
-          <Link
-            to="/profilepage"
-            className="text-white/80 hover:text-white transition font-medium"
-          >
-            <CircleUserRound />
-          </Link>
+          <>
+            <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+              Dashboard
+            </button>
+            <button className="w-9 h-9 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center transition">
+              <CircleUserRound className="w-5 h-5 text-slate-700" />
+            </button>
+          </>
         ) : (
           <>
-            {" "}
-            <Link
-              to="/"
-              className="text-white/80 hover:text-white transition font-medium"
-            >
+            <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
               Home
-            </Link>
-            <Link
-              to="/login"
-              className="text-white/80 hover:text-white transition font-medium"
-            >
+            </button>
+            <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+              Features
+            </button>
+            <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+              Pricing
+            </button>
+            <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
               Login
-            </Link>
-            <Link
-              to="/register"
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition shadow-lg"
-            >
-              Register
-            </Link>
+            </button>
+            <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold hover:from-indigo-700 hover:to-purple-700 transition shadow-sm">
+              Get Started
+            </button>
           </>
         )}
       </div>
-      {/* Mobile Hamburger Button */}
 
+      {/* Mobile Hamburger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="sm:hidden text-white"
+        className="md:hidden w-9 h-9 flex items-center justify-center text-slate-700 hover:bg-slate-100 rounded-lg transition"
       >
-        {isOpen ? <X size={28} /> : <AlignJustify size={28} />}
+        {isOpen ? <X size={20} /> : <AlignJustify size={20} />}
       </button>
-      {/* Mobile Dropdown */}
+
+      {/* Mobile Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-full left-0 w-full bg-[#000b22f2] flex flex-col items-center py-6 space-y-4 border-t border-white/20 sm:hidden">
-          {isLoggedIn ? (
-            <>
-              <Link
-                to="/"
-                className="text-white/80 hover:text-white transition font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                to="/profilepage"
-                className="text-white/80 hover:text-white transition font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Profile
-              </Link>
-            </>
-          ) : (
-            <>
-              {" "}
-              <Link
-                to="/login"
-                className="text-white/80 hover:text-white transition font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:opacity-90 transition shadow-lg"
-                onClick={() => setIsOpen(false)}
-              >
-                Register
-              </Link>
-            </>
-          )}
+        <div className="absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-lg md:hidden">
+          <div className="flex flex-col p-4 space-y-2">
+            {isLoggedIn ? (
+              <>
+                <button
+                  className="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Dashboard
+                </button>
+                <button
+                  className="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition flex items-center gap-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <CircleUserRound className="w-4 h-4" />
+                  Profile
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Home
+                </button>
+                <button
+                  className="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Features
+                </button>
+                <button
+                  className="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Pricing
+                </button>
+                <button
+                  className="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Login
+                </button>
+                <button
+                  className="w-full px-4 py-3 mt-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold hover:from-indigo-700 hover:to-purple-700 transition shadow-sm"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Get Started
+                </button>
+              </>
+            )}
+          </div>
         </div>
       )}
     </nav>
+  );
+}
+
+// Demo wrapper to show navbar
+function NavbarDemo() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <Navbar />
+      <div className="pt-24 px-6 text-center">
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">Redesigned Navbar</h1>
+        <p className="text-slate-600">Clean, modern, and professional navigation</p>
+      </div>
+    </div>
   );
 }
