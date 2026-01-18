@@ -95,12 +95,7 @@ export default function Navbar() {
                 >
                   Home
                 </button>
-                <button
-                  className="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Features
-                </button>
+                
                 <button
                   className="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition"
                   onClick={() => setIsOpen(false)}
