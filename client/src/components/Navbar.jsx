@@ -100,9 +100,12 @@ function ProfileMenu() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
   const handleLogout = async () => {
-    await fetch(SERVER_URL + "/logout", { credentials: "include" });
+    await fetch(SERVER_URL + "/logout", {
+      credentials: "include",
+      method: "POST",
+    });
     setUser(null);
-    navigate("/login");
+    navigate("/");
   };
 
   const handleDeleteAccount = async () => {
@@ -111,8 +114,8 @@ function ProfileMenu() {
     );
     if (!confirmDelete) return;
 
-    await fetch(SERVER_URL + "/delete-account", {
-      method: "DELETE",
+    await fetch(SERVER_URL + "/deleteAccount", {
+      method: "POST",
       credentials: "include",
     });
 
@@ -121,7 +124,23 @@ function ProfileMenu() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative flex items-center">
+      <div className="flex items-center mx-5 gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100 shadow-sm">
+        <div className="w-5 h-5 flex items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white text-sm font-bold">
+          ⚡
+        </div>
+        <div className="flex flex-col leading-tight">
+          <span className="text-sm font-semibold text-slate-900">
+            <a
+              href="/pricing"
+              title="4 words = 1 credit. Credits are used for AI features."
+            >
+              {user?.tokens ?? 0} left
+            </a>
+          </span>
+        </div>
+      </div>
+
       {/* Avatar Button */}
       <button
         onClick={() => setOpen(!open)}
@@ -132,7 +151,7 @@ function ProfileMenu() {
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border overflow-hidden">
+        <div className="absolute right-0 top-10 mt-2 w-64 bg-white rounded-xl shadow-lg border overflow-hidden">
           {/* Profile Info */}
           <div className="p-4 border-b">
             <p className="font-semibold text-slate-800">

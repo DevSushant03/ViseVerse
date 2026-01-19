@@ -17,9 +17,10 @@ export function verifyAuth(req, res, next) {
       req.user = { userid: DecodedToken.id };
       next();
     } else {
-      return res.json({
+      return res.status(401).json({
         success: false,
-        message: "No Authoried user , Login Again !",
+        errorType: "AUTH",
+        message: "Not authorized. Login again.",
       });
     }
   } catch (err) {

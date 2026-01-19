@@ -28,7 +28,7 @@ export const aiResponse = async (req, res, next) => {
         message: "Missing text or action",
       });
     }
-    const user = await userModel.findById(req.user.userid);
+    const user = await userModel.findById(req.user.userid).select("-password");
 
     if (!user) {
       return res.status(401).json({
@@ -64,8 +64,7 @@ export const aiResponse = async (req, res, next) => {
     return res.json({
       success: true,
       data,
-      tokensUsed: estimatedTokens,
-      tokensLeft: user.tokens,
+      user
     });
   } catch (err) {
     console.log("ai controller:", err.message);

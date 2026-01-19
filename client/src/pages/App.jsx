@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import {
   Copy,
   FileText,
@@ -11,9 +11,12 @@ import {
 } from "lucide-react";
 import About from "../components/About";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+
 
 export default function App() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+  const {setUser} = useContext(AppContext)
 
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
@@ -45,11 +48,15 @@ export default function App() {
       });
 
       const data = await res.json();
-      console.log(data);
-
       if (!data.success) {
-        navigate("/login");
+        if (data.errorType === "AUTH") {
+          navigate("/login");
+        } else {
+          return data.message;
+        }
       }
+
+      setUser(data.user);
       return data.data;
     } catch (err) {
       return "Server error";

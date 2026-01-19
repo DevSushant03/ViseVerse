@@ -45,6 +45,7 @@ export const login = async (req, res) => {
         name: user.name,
         surname: user.surname,
         email: user.email,
+        tokens:user.tokens
       },
     });
   } catch (error) {
@@ -54,32 +55,47 @@ export const login = async (req, res) => {
 
 //! Register functionality------------------------------------
 export const register = async (req, res) => {
-  const { name, surname, email, password } = req.body;
-  if (!name || !surname || !email || !password) {
-    return res.json({ success: false, message: "Missing Details" });
-  }
-
   try {
+    const { name, surname, email, password } = req.body;
+
+    if (!name || !surname || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing Details",
+      });
+    }
+
     const existingUser = await userModel.findOne({ email });
+
     if (existingUser) {
-      return res.json({
+      return res.status(400).json({
         success: false,
         message:
           "An account with this email already exists. Please log in instead.",
       });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = new userModel({
       name,
       surname,
       email,
       password: hashedPassword,
     });
+
     await user.save();
 
-    return res.json({ success: true });
+    return res.status(201).json({
+      success: true,
+      message: "Registered successfully",
+    });
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    console.error("REGISTER ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
 };
 
