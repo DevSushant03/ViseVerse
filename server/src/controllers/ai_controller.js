@@ -12,7 +12,7 @@ const resetTokensIfNeeded = async (user) => {
   const HOURS_24 = 24 * 60 * 60 * 1000;
 
   if (now - lastReset >= HOURS_24) {
-    user.tokens = 1000;
+    user.tokens = 500;
     user.lastTokenReset = new Date();
     await user.save();
   }

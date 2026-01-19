@@ -135,7 +135,7 @@ function ProfileMenu() {
               href="/pricing"
               title="4 words = 1 credit. Credits are used for AI features."
             >
-              {user?.tokens ?? 0} left
+              {user?.tokens ?? 0} credits
             </a>
           </span>
         </div>

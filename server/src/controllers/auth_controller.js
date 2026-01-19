@@ -1,13 +1,13 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/user_model.js";
-import transporter from "../config/nodemailer.js";
 import {
   createAccessToken,
   deleteAccessToken,
   getEmailOtpValidation,
   setNewPassword,
 } from "../services/auth_services.js";
+import DeletedAccountModel from "../models/deletedAccount_model.js";
 
 //! Login functionality---------------------------------------
 export const login = async (req, res) => {
@@ -45,7 +45,7 @@ export const login = async (req, res) => {
         name: user.name,
         surname: user.surname,
         email: user.email,
-        tokens:user.tokens
+        tokens: user.tokens,
       },
     });
   } catch (error) {
@@ -54,6 +54,7 @@ export const login = async (req, res) => {
 };
 
 //! Register functionality------------------------------------
+
 export const register = async (req, res) => {
   try {
     const { name, surname, email, password } = req.body;
@@ -66,7 +67,6 @@ export const register = async (req, res) => {
     }
 
     const existingUser = await userModel.findOne({ email });
-
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -77,11 +77,30 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    let tokens = 500;
+    let lastTokenReset = new Date();
+
+    // 🔍 Check if user existed before
+    const oldUser = await DeletedAccountModel.findOne({ email });
+
+    if (oldUser) {
+      const now = new Date();
+      const hoursPassed = (now - oldUser.lastTokenReset) / (1000 * 60 * 60);
+
+      if (hoursPassed < 24) {
+        // ♻ Restore previous tokens
+        tokens = oldUser.tokensLeft;
+        lastTokenReset = oldUser.lastTokenReset;
+      }
+    }
+
     const user = new userModel({
       name,
       surname,
       email,
       password: hashedPassword,
+      tokens,
+      lastTokenReset,
     });
 
     await user.save();
@@ -98,11 +117,14 @@ export const register = async (req, res) => {
     });
   }
 };
-
 //! logout functionality------------------------------------
 export const logout = async (req, res) => {
   const { userid } = req.user;
   try {
+    const user = await userModel.findById(userid);
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
     deleteAccessToken(res);
     return res.json({ success: true, message: "Logout successfully" });
   } catch (error) {
@@ -111,16 +133,37 @@ export const logout = async (req, res) => {
 };
 
 //! Delete Account functionality-----------------------------------
+
 export const deleteAccount = async (req, res) => {
   const { userid } = req.user;
+
   try {
-    const user = await userModel.findByIdAndDelete(userid);
+    const user = await userModel.findById(userid);
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    await DeletedAccountModel.findOneAndUpdate(
+      { email: user.email },
+      {
+        email: user.email,
+        tokensLeft: user.tokens,
+        lastTokenReset: user.lastTokenReset,
+        deletedAt: new Date(),
+      },
+      { upsert: true, new: true },
+    );
+
+    await userModel.findByIdAndDelete(userid);
+
     deleteAccessToken(res);
-    return res.json({ success: true, message: "Account Deleted successfully" });
+
+    return res.json({ success: true, message: "Account deleted successfully" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
 };
+
 //! Send Otp functionality----------------------------------
 export const sendVerifyOtp = async (req, res) => {
   try {

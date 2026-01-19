@@ -16,7 +16,6 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    // ✅ Email verification
     verifyOtp: {
       type: String,
       default: "",
@@ -26,7 +25,6 @@ const userSchema = new mongoose.Schema(
       default: 0,
     },
 
-    // ✅ Password reset
     resetOtp: {
       type: String,
       default: "",
@@ -38,7 +36,7 @@ const userSchema = new mongoose.Schema(
 
     tokens: {
       type: Number,
-      default: 1000,
+      default: 0,
     },
 
     tokensUsed: {
@@ -49,10 +47,6 @@ const userSchema = new mongoose.Schema(
     lastTokenReset: {
       type: Date,
       default: Date.now,
-    },
-    isVerified: {
-      type: Boolean,
-      default: false,
     },
   },
   { timestamps: true },
