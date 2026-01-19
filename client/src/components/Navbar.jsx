@@ -2,6 +2,7 @@ import { AlignJustify, CircleUserRound, X, Sparkles } from "lucide-react";
 import React, { useState, useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "/public/icon128.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,8 +12,8 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full px-6 py-3.5 flex justify-between items-center bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm z-50">
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2 cursor-pointer group">
-        <div className="w-9 h-9 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
-          <Sparkles className="w-5 h-5 text-white" />
+        <div className="w-9 h-9 bg-gradient-to-br overflow-hidden from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
+          <img src={logo} className="w-full " />
         </div>
         <span className="text-xl font-semibold text-slate-900">ViseVerse</span>
       </Link>
@@ -144,9 +145,9 @@ function ProfileMenu() {
       {/* Avatar Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="w-9 h-9 bg-slate-200 hover:bg-slate-300 rounded-full flex items-center justify-center"
+        className="w-9 h-9 bg-slate-200 hover:bg-slate-300 rounded-full flex text-bold items-center justify-center"
       >
-        <CircleUserRound className="w-5 h-5 text-slate-700" />
+        {user.name[0].toUpperCase() + user.surname[0].toUpperCase()}
       </button>
 
       {/* Dropdown */}
