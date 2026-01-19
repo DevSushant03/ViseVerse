@@ -1,54 +1,57 @@
 import React, { useState } from "react";
-import {
-  Sparkles,
-  User,
-  Mail,
-  Lock,
-  MapPin,
-  Phone,
-  ArrowRight,
-  Eye,
-  EyeOff,
-} from "lucide-react";
+import { User, Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
-  const [gender, setGender] = useState("");
-  const [location, setLocation] = useState("");
-  const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const SERVER_URL = "YOUR_SERVER_URL"; // Replace with import.meta.env.VITE_SERVER_URL
-
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setAuthError("");
 
-    const res = await fetch(SERVER_URL + "/register", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name,
-        surname,
-        number,
-        gender,
-        location,
-        email,
-        password,
-      }),
-    });
-    const data = await res.json();
-    if (!data.success) {
+    try {
+      const res = await axios.post(
+        SERVER_URL + "/register",
+        {
+          name,
+          surname,
+          email,
+          password,
+        },
+        {
+          withCredentials: true, // same as credentials: "include"
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const data = res.data;
+
+      if (!data.success) {
+        setAuthError(data.message);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Register error:", error);
+
       setLoading(false);
-      setAuthError(data.message);
-    } else {
-      // Success handling
+      setAuthError(
+        error.response?.data?.message || "Something went wrong. Try again.",
+      );
     }
   };
 
@@ -79,7 +82,7 @@ export default function Register() {
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
                     type="text"
-                    placeholder="John"
+                    placeholder="Jethalal"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
@@ -96,7 +99,7 @@ export default function Register() {
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
                     type="text"
-                    placeholder="Doe"
+                    placeholder="Gada"
                     value={surname}
                     onChange={(e) => setSurname(e.target.value)}
                     className="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
@@ -115,69 +118,12 @@ export default function Register() {
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="gadaelectronics@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                   required
                 />
-              </div>
-            </div>
-
-            {/* Phone Number */}
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Phone Number
-              </label>
-              <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                <input
-                  type="tel"
-                  placeholder="+1 (555) 000-0000"
-                  value={number}
-                  maxLength="15"
-                  onChange={(e) => setNumber(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Gender & Location */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Gender
-                </label>
-                <select
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                  required
-                >
-                  <option value="">Select gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                  <option value="prefer-not">Prefer not to say</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Location
-                </label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                  <input
-                    type="text"
-                    placeholder="City, Country"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                    required
-                  />
-                </div>
               </div>
             </div>
 
@@ -214,26 +160,6 @@ export default function Register() {
               </p>
             </div>
 
-            {/* Terms & Privacy */}
-            <div className="flex items-start gap-2">
-              <input
-                type="checkbox"
-                id="terms"
-                className="w-4 h-4 mt-1 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                required
-              />
-              <label htmlFor="terms" className="text-sm text-slate-600">
-                I agree to the{" "}
-                <button className="text-indigo-600 hover:text-indigo-700 font-medium">
-                  Terms of Service
-                </button>{" "}
-                and{" "}
-                <button className="text-indigo-600 hover:text-indigo-700 font-medium">
-                  Privacy Policy
-                </button>
-              </label>
-            </div>
-
             {/* Error Message */}
             {authError && (
               <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -264,9 +190,12 @@ export default function Register() {
           {/* Login Link */}
           <p className="mt-8 text-center text-sm text-slate-600">
             Already have an account?{" "}
-            <button className="font-semibold text-indigo-600 hover:text-indigo-700">
+            <Link
+              to="/login"
+              className="font-semibold text-indigo-600 hover:text-indigo-700"
+            >
               Sign in
-            </button>
+            </Link>
           </p>
         </div>
       </div>
@@ -282,16 +211,9 @@ export default function Register() {
         {/* Content */}
         <div className="relative z-10 max-w-lg text-white">
           <div className="mb-8">
-            <div className="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-6">
-              <Sparkles className="w-8 h-8 text-white" />
-            </div>
             <h2 className="text-4xl font-bold mb-4">
               Start your journey with ViseVerse
             </h2>
-            <p className="text-lg text-indigo-100 leading-relaxed">
-              Join 50,000+ professionals who are already transforming their text
-              processing workflow with AI.
-            </p>
           </div>
 
           {/* Benefits */}

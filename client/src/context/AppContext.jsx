@@ -1,18 +1,15 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 export const AppContext = createContext();
 
-export const AppContextProvider = (props) => {
-  const [isLoggedIn, setisLoggedIn] = useState(false);
-  // useEffect(() => {
-  //   const stored = localStorage.getItem("isLoggedIn");
-  //   if (stored === "true") {
-  //     setisLoggedIn(true);
-  //   }
-  // }, []);
+export const AppContextProvider = ({ children }) => {
+  const [user, setUser] = useState(null); // null = not logged in
 
-  const value = { isLoggedIn, setisLoggedIn };
-  return (
-    <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
-  );
+  const value = {
+    user,
+    setUser,
+    isLoggedIn: !!user,
+  };
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

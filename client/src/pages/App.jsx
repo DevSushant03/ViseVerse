@@ -22,30 +22,16 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [activeAction, setActiveAction] = useState("");
   const [copied, setCopied] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("Spanish");
-  const [showLangDropdown, setShowLangDropdown] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const previewRef = useRef(null);
-
-  const languages = [
-    "Spanish",
-    "French",
-    "German",
-    "Japanese",
-    "Chinese",
-    "Hindi",
-    "Arabic",
-    "Portuguese",
-  ];
+  const [preview, setpreview] = useState(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImg(file);
       const imgurl = URL.createObjectURL(file);
-      previewRef.current.src = imgurl;
-      previewRef.current.style.display = "block";
+      setpreview(imgurl);
     }
   };
 
@@ -62,7 +48,7 @@ export default function App() {
       console.log(data);
 
       if (!data.success) {
-        navigate("/login")
+        navigate("/login");
       }
       return data.data;
     } catch (err) {
@@ -243,9 +229,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Hero Section */}
-      <div className="max-w-6xl mx-auto px-6 pt-16 pb-12 text-center">
-       
-      </div>
+      <div className="max-w-6xl mx-auto px-6 pt-16 pb-12 text-center"></div>
 
       {/* Main App Card */}
       <div className="max-w-6xl mx-auto  px-6 pb-20">
@@ -293,7 +277,7 @@ export default function App() {
                 >
                   {img ? (
                     <img
-                      ref={previewRef}
+                      src={preview}
                       alt="Preview"
                       className="w-full h-full object-cover rounded-xl"
                     />
@@ -313,9 +297,7 @@ export default function App() {
                   <button
                     onClick={() => {
                       setImg(null);
-                      if (previewRef.current) {
-                        previewRef.current.style.display = "none";
-                      }
+                      setpreview(null);
                     }}
                     className="absolute top-2 right-2 px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600"
                   >
@@ -364,40 +346,6 @@ export default function App() {
                 </button>
               ))}
             </div>
-
-            {/* Translation Language Selector */}
-            {activeAction === "translate" && (
-              <div className="mb-6 p-4 bg-white border border-slate-200 rounded-xl">
-                <label className="text-sm font-medium text-slate-700 mb-2 block">
-                  Target Language
-                </label>
-                <div className="relative">
-                  <button
-                    onClick={() => setShowLangDropdown(!showLangDropdown)}
-                    className="w-full md:w-64 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-left flex items-center justify-between hover:border-indigo-400 transition"
-                  >
-                    <span className="text-slate-900">{selectedLanguage}</span>
-                    <ChevronDown className="w-4 h-4 text-slate-400" />
-                  </button>
-                  {showLangDropdown && (
-                    <div className="absolute top-full mt-2 w-full md:w-64 bg-white border border-slate-200 rounded-lg shadow-lg z-10">
-                      {languages.map((lang) => (
-                        <button
-                          key={lang}
-                          onClick={() => {
-                            setSelectedLanguage(lang);
-                            setShowLangDropdown(false);
-                          }}
-                          className="w-full px-4 py-2 text-left hover:bg-indigo-50 text-slate-900 text-sm"
-                        >
-                          {lang}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
 
             {/* Download Actions */}
             <div className="border-t border-slate-200 pt-6 mt-6">

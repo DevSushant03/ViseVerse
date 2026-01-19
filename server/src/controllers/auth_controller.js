@@ -39,7 +39,14 @@ export const login = async (req, res) => {
 
     createAccessToken(jwt, user, res);
 
-    return res.json({ success: true });
+    res.json({
+      success: true,
+      user: {
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+      },
+    });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
@@ -47,16 +54,8 @@ export const login = async (req, res) => {
 
 //! Register functionality------------------------------------
 export const register = async (req, res) => {
-  const { name, surname, location, gender, number, email, password } = req.body;
-  if (
-    !name ||
-    !surname ||
-    !location ||
-    !gender ||
-    !number ||
-    !email ||
-    !password
-  ) {
+  const { name, surname, email, password } = req.body;
+  if (!name || !surname || !email || !password) {
     return res.json({ success: false, message: "Missing Details" });
   }
 
@@ -73,9 +72,6 @@ export const register = async (req, res) => {
     const user = new userModel({
       name,
       surname,
-      number,
-      gender,
-      location,
       email,
       password: hashedPassword,
     });
@@ -172,7 +168,7 @@ export const sendResetotp = async (req, res) => {
     user.resetOtp = otp;
     user.resetOtpExpireAt = Date.now() + 15 * 60 * 10000;
     await user.save();
-    
+
     return res.json({
       success: true,
       otp,

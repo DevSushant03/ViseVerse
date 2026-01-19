@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
-import { Sparkles, Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
 export default function Login() {
@@ -11,7 +11,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-  const { setisLoggedIn } = useContext(AppContext);
+  const { setUser } = useContext(AppContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ export default function Login() {
       setAuthError(data.message);
     } else {
       setLoading(false);
-      setisLoggedIn(true)
+      setUser(data.user);
       navigate("/");
     }
   };
@@ -145,9 +145,12 @@ export default function Login() {
           {/* Sign Up Link */}
           <p className="mt-8 text-center text-sm text-slate-600">
             Don't have an account?{" "}
-            <button className="font-semibold text-indigo-600 hover:text-indigo-700">
+            <Link
+              to="/register"
+              className="font-semibold text-indigo-600 hover:text-indigo-700"
+            >
               Create account
-            </button>
+            </Link>
           </p>
         </div>
       </div>

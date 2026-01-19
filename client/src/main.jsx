@@ -8,7 +8,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgetPasswordFlow from "./pages/ForgetPasswordFlow";
 import { ToastContainer } from "react-toastify";
-import ProfilePage from "./pages/ProfilePage";
 import { AppContextProvider } from "./context/AppContext";
 const router = createBrowserRouter([
   {
@@ -31,10 +30,7 @@ const router = createBrowserRouter([
         path: "forgetpassword",
         element: <ForgetPasswordFlow />,
       },
-      {
-        path: "profilepage",
-        element: <ProfilePage />,
-      },
+      
     ],
   },
 ]);
