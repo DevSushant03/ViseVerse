@@ -12,11 +12,11 @@ import {
 import About from "../components/About";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-
+import Footer from "../components/Footer";
 
 export default function App() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-  const {setUser} = useContext(AppContext)
+  const { setUser } = useContext(AppContext);
 
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
@@ -470,9 +470,9 @@ export default function App() {
             </div>
           )}
         </div>
-
-        <About />
       </div>
+      <About />
+      <Footer />
     </div>
   );
 }
