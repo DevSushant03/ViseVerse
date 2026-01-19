@@ -41,7 +41,7 @@ function PublicMenu() {
           Home
         </Link>
         <Link
-          to="/pricing"
+          to="#"
           className="text-sm font-medium text-slate-600 hover:text-slate-900"
         >
           Pricing
@@ -74,7 +74,7 @@ function PublicMenu() {
             <Link to="/" onClick={() => setIsOpen(false)}>
               Home
             </Link>
-            <Link to="/pricing" onClick={() => setIsOpen(false)}>
+            <Link to="#" onClick={() => setIsOpen(false)}>
               Pricing
             </Link>
             <Link to="/login" onClick={() => setIsOpen(false)}>
