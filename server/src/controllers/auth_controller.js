@@ -8,6 +8,7 @@ import {
   setNewPassword,
 } from "../services/auth_services.js";
 import DeletedAccountModel from "../models/deletedAccount_model.js";
+import otpModel from "../models/OtpStorage.js";
 
 //! Login functionality---------------------------------------
 export const login = async (req, res) => {
@@ -57,7 +58,7 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   try {
-    const { name, surname, email, password } = req.body;
+    const { name, surname, email, password, otp } = req.body;
 
     if (!name || !surname || !email || !password) {
       return res.status(400).json({
@@ -66,14 +67,36 @@ export const register = async (req, res) => {
       });
     }
 
-    const existingUser = await userModel.findOne({ email });
-    if (existingUser) {
+    const otpDoc = await otpModel.findOne({ email });
+
+    if (!otpDoc) {
       return res.status(400).json({
         success: false,
-        message:
-          "An account with this email already exists. Please log in instead.",
+        message: "OTP expired or not found",
       });
     }
+
+    // Check expiry
+    if (otpDoc.expiresAt < new Date()) {
+      await otpModel.deleteMany({ email });
+      return res.status(400).json({
+        success: false,
+        message: "OTP expired. Please try again.",
+      });
+    }
+
+    // Compare hashed OTP
+    const isOtpValid = await bcrypt.compare(otp, otpDoc.otp);
+
+    if (!isOtpValid) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    // Delete OTP after success
+    await otpModel.deleteMany({ email });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -165,29 +188,39 @@ export const deleteAccount = async (req, res) => {
 };
 
 //! Send Otp functionality----------------------------------
-export const sendVerifyOtp = async (req, res) => {
+export const sendEmailVerificationOtp = async (req, res) => {
   try {
-    const { userid } = req.user;
+    const { email } = req.body;
 
-    const user = await userModel.findById(userid);
-    if (user.isAccountVerified) {
-      return res.json({ success: false, message: "Accout already verified " });
+    const user = await userModel.findOne({ email });
+    if (user) {
+      return res.json({
+        success: false,
+        message:
+          "An account with this email already exists. Please log in instead.",
+      });
     }
+
     const otp = String(Math.floor(100000 + Math.random() * 900000));
-    user.verifyOtp = otp;
-    user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 10000;
-    await user.save();
+    const hashedOtp = await bcrypt.hash(otp, 10);
+
+    await otpModel.deleteMany({ email });
+
+    await otpModel.create({
+      email,
+      otp: hashedOtp,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+    });
 
     return res.json({
       success: true,
-      otp,
-      email: user.email,
-      name: user.name,
-      message: "Verification OTP send on mail",
+      otp, // for EmailJS
+      email,
+      message: "OTP generated",
     });
   } catch (error) {
     console.log(error);
-    return res.json({ success: false, message: error.message });
+    return res.json({ success: false, message: "Failed to generate OTP" });
   }
 };
 

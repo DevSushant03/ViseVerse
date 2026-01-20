@@ -1,4 +1,11 @@
-import { AlignJustify, CircleUserRound, X, Sparkles } from "lucide-react";
+import {
+  AlignJustify,
+  CircleUserRound,
+  X,
+  Sparkles,
+  PlusIcon,
+  PlusCircle,
+} from "lucide-react";
 import React, { useState, useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,7 +22,9 @@ export default function Navbar() {
         <div className="w-9 h-9 bg-gradient-to-br overflow-hidden from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
           <img src={logo} className="w-full " />
         </div>
-        <span className="text-xl font-semibold text-slate-900">ViseVerse</span>
+        <span className="text-[max(5px,20px)] font-semibold text-slate-900">
+          ViseVerse
+        </span>
       </Link>
 
       {/* Right Side */}
@@ -130,13 +139,16 @@ function ProfileMenu() {
         <div className="w-5 h-5 flex items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white text-sm font-bold">
           ⚡
         </div>
-        <div className="flex flex-col leading-tight">
-          <span className="text-sm font-semibold text-slate-900">
+        <div className="flex leading-tight">
+          <span className="text-sm font-semibold text-slate-900 flex gap-2">
             <a
               href="/pricing"
               title="4 words = 1 credit. Credits are used for AI features."
             >
-              {user?.tokens ?? 0} credits
+              {user?.tokens ?? 0}
+            </a>
+            <a href="/pricing">
+              <PlusCircle spacing={20} size={20} />
             </a>
           </span>
         </div>

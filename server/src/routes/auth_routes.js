@@ -5,8 +5,8 @@ import {
   logout,
   register,
   resetPassword,
+  sendEmailVerificationOtp,
   sendResetotp,
-  sendVerifyOtp,
   verifyEmail,
   verifyOtp,
 } from "../controllers/auth_controller.js";
@@ -18,8 +18,8 @@ router.post("/register", register);
 router.post("/logout", verifyAuth, logout);
 router.post("/deleteAccount", verifyAuth, deleteAccount);
 //! Email verification
-router.post("/sendVerifyOtp", verifyAuth, sendVerifyOtp);
-router.post("/verifyEmail", verifyAuth, verifyEmail);
+router.post("/sendEmailVerificationOtp", sendEmailVerificationOtp);
+router.post("/verifyEmail",  verifyEmail);
 //! Reset password 
 router.post("/sendResetOtp", sendResetotp);
 router.post("/verifyOtp", verifyOtp);
