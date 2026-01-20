@@ -4,7 +4,6 @@ import userModel from "../models/user_model.js";
 import {
   createAccessToken,
   deleteAccessToken,
-  getEmailOtpValidation,
   setNewPassword,
 } from "../services/auth_services.js";
 import DeletedAccountModel from "../models/deletedAccount_model.js";
@@ -224,26 +223,6 @@ export const sendEmailVerificationOtp = async (req, res) => {
   }
 };
 
-//! Email verifiaction functionality---------------------------------
-export const verifyEmail = async (req, res) => {
-  const { verificationCode } = req.body;
-  const { userid } = req.user;
-
-  if (!userid || !verificationCode) {
-    return res.json({ success: false, message: "Missing Details" });
-  }
-
-  try {
-    const user = await userModel.findById(userid);
-    getEmailOtpValidation(res, user, verificationCode);
-    return res.json({
-      success: true,
-      message: "Account verified successfully",
-    });
-  } catch (error) {
-    return res.json({ success: false, message: error.message });
-  }
-};
 
 //! Reset password functionality---------------------------------
 export const sendResetotp = async (req, res) => {
@@ -258,7 +237,7 @@ export const sendResetotp = async (req, res) => {
     }
     const otp = String(Math.floor(100000 + Math.random() * 900000));
     user.resetOtp = otp;
-    user.resetOtpExpireAt = Date.now() + 15 * 60 * 10000;
+    user.resetOtpExpireAt = Date.now() + 10 * 60 * 1000;
     await user.save();
 
     return res.json({

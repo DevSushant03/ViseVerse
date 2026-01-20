@@ -107,12 +107,12 @@ export default function Login() {
                 />
                 <span className="text-sm text-slate-600">Remember me</span>
               </label>
-              <button
-                type="button"
+              <a
+                href="/forgetpassword"
                 className="text-sm font-medium text-indigo-600 hover:text-indigo-700"
               >
                 Forgot password?
-              </button>
+              </a>
             </div>
 
             {/* Error Message */}

@@ -57,7 +57,7 @@ export default function ForgetPasswordFlow() {
       const res = await axios.post(
         SERVER_URL + "/sendResetOtp",
         { email },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       if (res.data.success) {
@@ -71,7 +71,7 @@ export default function ForgetPasswordFlow() {
             import.meta.env.VITE_EMAIL_SERVICE_ID, // your service ID
             import.meta.env.VITE_EMAIL_TEMPLATE_ID, // your template ID
             templateParams,
-            import.meta.env.VITE_EMAIL_PUBLIC_ID // your public key
+            import.meta.env.VITE_EMAIL_PUBLIC_ID, // your public key
           )
           .then((result) => {
             toast.info(res.data.message);
@@ -143,7 +143,7 @@ export default function ForgetPasswordFlow() {
         const res = await axios.post(
           SERVER_URL + "/verifyOtp",
           { otpString, email },
-          { withCredentials: true }
+          { withCredentials: true },
         );
         console.log(res);
         if (!res.data.success) {
@@ -185,7 +185,7 @@ export default function ForgetPasswordFlow() {
       const res = await axios.post(
         SERVER_URL + "/resetPassword",
         { confirmPassword, email },
-        { withCredentials: true }
+        { withCredentials: true },
       );
       if (!res.data.success) {
         setError(res.data.message);
@@ -274,362 +274,135 @@ export default function ForgetPasswordFlow() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-700 to-indigo-800 flex items-center justify-center p-4">
-      {/* Background decorations */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-      </div>
-
-      <div className="relative w-full max-w-md">
-        {/* Progress indicator */}
-        <div className="mb-8">
-          <div className="flex justify-center space-x-2">
-            {[1, 2, 3].map((step) => (
-              <div
-                key={step}
-                className={`w-8 h-1 rounded-full transition-all duration-300 ${
-                  step <= currentStep
-                    ? "bg-gradient-to-r from-purple-400 to-indigo-500"
-                    : "bg-white/20"
-                }`}
-              />
-            ))}
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+        {/* Progress */}
+        <div className="flex justify-center gap-2 mb-6">
+          {[1, 2, 3].map((step) => (
+            <div
+              key={step}
+              className={`h-1.5 w-10 rounded-full ${
+                step <= currentStep ? "bg-indigo-600" : "bg-slate-200"
+              }`}
+            />
+          ))}
         </div>
 
-        {/* Main Card */}
-        <div
-          className="rounded-3xl mt-20 p-8 shadow-2xl border"
-          style={{
-            background: "rgba(255, 255, 255, 0.1)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-          }}
-        >
-          {/* Back button for steps 2 and 3 */}
-          {(currentStep === 2 || currentStep === 3) && (
+        {/* Back */}
+        {(currentStep === 2 || currentStep === 3) && (
+          <button
+            onClick={() => setCurrentStep(currentStep - 1)}
+            className="flex items-center text-sm text-slate-600 hover:text-black mb-4"
+          >
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            Back
+          </button>
+        )}
+
+        {/* STEP 1 */}
+        {currentStep === 1 && (
+          <>
+            <h1 className="text-2xl font-bold text-center mb-2">
+              Forgot Password
+            </h1>
+            <p className="text-center text-slate-500 text-sm mb-6">
+              Enter your email to receive a reset code
+            </p>
+
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="w-full border rounded-lg px-4 py-3 mb-4 focus:ring-2 focus:ring-indigo-500 outline-none"
+            />
+
+            {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
+
             <button
-              onClick={() => setCurrentStep(currentStep - 1)}
-              className="mb-4 flex cursor-pointer items-center text-purple-200 hover:text-white transition-colors duration-200"
+              onClick={handleEmailSubmit}
+              disabled={isLoading}
+              className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
+              {isLoading ? "Sending..." : "Send Reset Code"}
             </button>
-          )}
+          </>
+        )}
 
-          {/* Step 1: Email Entry */}
-          {currentStep === 1 && (
-            <>
-              <div className="text-center mb-8">
-                <div
-                  className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4"
-                  style={{
-                    background: "rgba(168, 85, 247, 0.3)",
-                    backdropFilter: "blur(10px)",
-                    WebkitBackdropFilter: "blur(10px)",
-                  }}
-                >
-                  <Lock className="w-8 h-8 text-white" />
-                </div>
+        {/* STEP 2 */}
+        {currentStep === 2 && (
+          <>
+            <h1 className="text-2xl font-bold text-center mb-2">Verify Code</h1>
+            <p className="text-center text-slate-500 text-sm mb-6">
+              Enter the 6-digit code sent to <b>{email}</b>
+            </p>
 
-                <h1 className="text-3xl font-bold text-white mb-2">
-                  Forgot Password?
-                </h1>
+            <div className="flex justify-center gap-2 mb-4">
+              {otp.map((digit, index) => (
+                <input
+                  key={index}
+                  ref={(el) => (inputRefs.current[index] = el)}
+                  value={digit}
+                  onChange={(e) => handleInputChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  onPaste={handlePaste}
+                  maxLength={1}
+                  className="w-12 h-12 text-center text-lg border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+                />
+              ))}
+            </div>
 
-                <p className="text-purple-200 text-sm">
-                  No worries! Enter your email address and we'll send you a
-                  reset code.
-                </p>
-              </div>
+            {error && (
+              <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
+            )}
 
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200"
-                    style={{
-                      background: "rgba(255, 255, 255, 0.15)",
-                      backdropFilter: "blur(10px)",
-                      WebkitBackdropFilter: "blur(10px)",
-                      border: "1px solid rgba(255, 255, 255, 0.2)",
-                    }}
-                    placeholder="Enter your email"
-                  />
-                </div>
+            <button
+              onClick={handleOTPVerify}
+              disabled={isLoading}
+              className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
+            >
+              {isLoading ? "Verifying..." : "Verify Code"}
+            </button>
+          </>
+        )}
 
-                {error && (
-                  <p
-                    className="text-red-500 font-bold text-sm text-center rounded-lg py-2 px-4"
-                    style={{
-                      background: "rgba(239, 68, 68, 0.2)",
-                      backdropFilter: "blur(10px)",
-                      WebkitBackdropFilter: "blur(10px)",
-                      border: "1px solid rgba(239, 68, 68, 0.3)",
-                    }}
-                  >
-                    {error}
-                  </p>
-                )}
+        {/* STEP 3 */}
+        {currentStep === 3 && (
+          <>
+            <h1 className="text-2xl font-bold text-center mb-2">
+              New Password
+            </h1>
+            <p className="text-center text-slate-500 text-sm mb-6">
+              Create a new password for your account
+            </p>
 
-                <button
-                  onClick={handleEmailSubmit}
-                  disabled={isLoading}
-                  className="w-full cursor-pointer bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:hover:scale-100 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
-                >
-                  {isLoading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                      Sending Code...
-                    </>
-                  ) : (
-                    <>
-                      <Mail className="w-5 h-5" />
-                      Send Reset Code
-                    </>
-                  )}
-                </button>
-              </div>
-            </>
-          )}
+            <input
+              type={showPassword ? "text" : "password"}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="New password"
+              className="w-full border rounded-lg px-4 py-3 mb-4 focus:ring-2 focus:ring-indigo-500 outline-none"
+            />
 
-          {/* Step 2: OTP Verification */}
-          {currentStep === 2 && (
-            <>
-              <div className="text-center mt-20 mb-8">
-                <div
-                  className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4"
-                  style={{
-                    background: "rgba(168, 85, 247, 0.3)",
-                    backdropFilter: "blur(10px)",
-                    WebkitBackdropFilter: "blur(10px)",
-                  }}
-                >
-                  <Shield className="w-8 h-8 text-white" />
-                </div>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm password"
+              className="w-full border rounded-lg px-4 py-3 mb-4 focus:ring-2 focus:ring-indigo-500 outline-none"
+            />
 
-                <h1 className="text-3xl font-bold text-white mb-2">
-                  Verify Reset Code
-                </h1>
+            {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
 
-                <p className="text-purple-200 text-sm">
-                  We've sent a 6-digit code to
-                </p>
-
-                <p className="text-purple-300 font-medium mt-1">{email}</p>
-              </div>
-
-              <div className="mb-6">
-                <label className="block text-white text-sm font-medium mb-4 text-center">
-                  Enter Reset Code
-                </label>
-
-                <div className="flex gap-3 justify-center mb-4">
-                  {otp.map((digit, index) => (
-                    <input
-                      key={index}
-                      ref={(el) => (inputRefs.current[index] = el)}
-                      type="text"
-                      inputMode="numeric"
-                      pattern="\d"
-                      value={digit}
-                      onChange={(e) => handleInputChange(index, e.target.value)}
-                      onKeyDown={(e) => handleKeyDown(index, e)}
-                      onPaste={handlePaste}
-                      className="w-12 h-14 text-center text-xl font-bold rounded-xl text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.15)",
-                        backdropFilter: "blur(10px)",
-                        WebkitBackdropFilter: "blur(10px)",
-                        border: "1px solid rgba(255, 255, 255, 0.2)",
-                      }}
-                      maxLength={1}
-                    />
-                  ))}
-                </div>
-
-                {error && (
-                  <p
-                    className="text-red-500 font-bold text-sm text-center mb-4 rounded-lg py-2 px-4"
-                    style={{
-                      background: "rgba(239, 68, 68, 0.2)",
-                      backdropFilter: "blur(10px)",
-                      WebkitBackdropFilter: "blur(10px)",
-                      border: "1px solid rgba(239, 68, 68, 0.3)",
-                    }}
-                  >
-                    {error}
-                  </p>
-                )}
-              </div>
-
-              <button
-                onClick={handleOTPVerify}
-                disabled={isLoading || otp.join("").length !== 6}
-                className="w-full cursor-pointer bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:hover:scale-100 transition-all duration-200 shadow-lg mb-4 flex items-center justify-center gap-2"
-              >
-                {isLoading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                    Verifying...
-                  </>
-                ) : (
-                  <>
-                    <Shield className="w-5 h-5" />
-                    Verify Code
-                  </>
-                )}
-              </button>
-
-              <div className="text-center">
-                <p className="text-purple-200 text-sm mb-2">
-                  Didn't receive the code?
-                </p>
-
-                <button
-                  onClick={handleResend}
-                  className="text-purple-300 cursor-pointer hover:text-white font-medium text-sm underline underline-offset-2 hover:underline-offset-4 transition-all duration-200"
-                >
-                  Resend Code
-                </button>
-              </div>
-            </>
-          )}
-
-          {/* Step 3: New Password */}
-          {currentStep === 3 && (
-            <>
-              <div className="text-center mt-20 mb-8">
-                <div
-                  className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4"
-                  style={{
-                    background: "rgba(168, 85, 247, 0.3)",
-                    backdropFilter: "blur(10px)",
-                    WebkitBackdropFilter: "blur(10px)",
-                  }}
-                >
-                  <Lock className="w-8 h-8 text-white" />
-                </div>
-
-                <h1 className="text-3xl font-bold text-white mb-2">
-                  Create New Password
-                </h1>
-
-                <p className="text-purple-200 text-sm">
-                  Please create a strong password for your account.
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">
-                    New Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      className="w-full px-4 py-3 pr-12 rounded-xl text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.15)",
-                        backdropFilter: "blur(10px)",
-                        WebkitBackdropFilter: "blur(10px)",
-                        border: "1px solid rgba(255, 255, 255, 0.2)",
-                      }}
-                      placeholder="Enter new password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors duration-200"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">
-                    Confirm New Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showConfirmPassword ? "text" : "password"}
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full px-4 py-3 pr-12 rounded-xl text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.15)",
-                        backdropFilter: "blur(10px)",
-                        WebkitBackdropFilter: "blur(10px)",
-                        border: "1px solid rgba(255, 255, 255, 0.2)",
-                      }}
-                      placeholder="Confirm new password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                      className="absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors duration-200"
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                {error && (
-                  <p
-                    className="text-red-300 text-sm text-center rounded-lg py-2 px-4"
-                    style={{
-                      background: "rgba(239, 68, 68, 0.2)",
-                      backdropFilter: "blur(10px)",
-                      WebkitBackdropFilter: "blur(10px)",
-                      border: "1px solid rgba(239, 68, 68, 0.3)",
-                    }}
-                  >
-                    {error}
-                  </p>
-                )}
-
-                <button
-                  onClick={handlePasswordSubmit}
-                  disabled={isLoading}
-                  className="w-full cursor-pointer bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:hover:scale-100 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
-                >
-                  {isLoading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                      Resetting Password...
-                    </>
-                  ) : (
-                    <>
-                      <Lock className="w-5 h-5" />
-                      Reset Password
-                    </>
-                  )}
-                </button>
-              </div>
-            </>
-          )}
-        </div>
+            <button
+              onClick={handlePasswordSubmit}
+              disabled={isLoading}
+              className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
+            >
+              {isLoading ? "Resetting..." : "Reset Password"}
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
