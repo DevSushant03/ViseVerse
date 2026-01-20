@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import ForgetPasswordFlow from "./pages/ForgetPasswordFlow";
 import { ToastContainer } from "react-toastify";
 import { AppContextProvider } from "./context/AppContext";
+import Pricing from "./pages/Pricing";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "pricing",
+        element: <Pricing />,
       },
       {
         path: "forgetpassword",
