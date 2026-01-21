@@ -16,7 +16,6 @@ export const AppContextProvider = ({ children }) => {
       });
 
       if (res.data.success) {
-        console.log(res.data.user);
         
         setUser(res.data.user);
       } else {

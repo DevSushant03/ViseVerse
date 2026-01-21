@@ -15,7 +15,7 @@ import Footer from "../components/Footer";
 
 export default function App() {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-  const { setUser } = useContext(AppContext);
+  const { setUser, user, isLoggedIn } = useContext(AppContext);
 
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
@@ -63,7 +63,15 @@ export default function App() {
   }
 
   async function downloadAsPdf(rawText) {
-    const filename = prompt("Enter a file name").toString();
+    const filename = prompt("Enter a file name");
+    if (filename === null) {
+      return;
+    }
+
+    if (filename?.trim() === "") {
+      alert("Filename cannot be empty");
+      return;
+    }
     setLoading(true);
     const response = await fetch(SERVER_URL + "/downloadPdf", {
       method: "POST",
@@ -72,7 +80,6 @@ export default function App() {
       },
       body: JSON.stringify({ rawText }),
     });
-    console.log(response);
 
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
@@ -87,7 +94,15 @@ export default function App() {
   }
 
   async function downloadAsDocx(rawText) {
-    const filename = prompt("Enter a file name").toString();
+    const filename = prompt("Enter a file name");
+    if (filename === null) {
+      return;
+    }
+
+    if (filename?.trim() === "") {
+      alert("Filename cannot be empty");
+      return;
+    }
     setLoading(true);
     const response = await fetch(SERVER_URL + "/downloadDocx", {
       method: "POST",
@@ -110,7 +125,16 @@ export default function App() {
   }
 
   async function downloadAsTxt(rawText) {
-    const filename = prompt("Enter a file name").toString();
+    const filename = prompt("Enter a file name");
+    if (filename === null) {
+      return;
+    }
+
+    if (filename?.trim() === "") {
+      alert("Filename cannot be empty");
+      return;
+    }
+
     setLoading(true);
 
     const blob = new Blob([rawText], { type: "text/plain" });
@@ -235,7 +259,7 @@ export default function App() {
       id: "humanize",
       label: "Humanise Content",
       icon: "👱",
-      desc: "Fix errors",
+      desc: "look real",
     },
     {
       id: "translate",
@@ -273,12 +297,22 @@ export default function App() {
               <div className="relative">
                 <textarea
                   value={rawText}
+                  maxLength={user?.tokens * 4}
                   onChange={(e) => setRawText(e.target.value)}
                   placeholder="Type or paste your text here..."
-                  className="w-full h-48 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl resize-none text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                  className={`w-full h-48 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl resize-none text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${rawText.length >= (user?.tokens || 0) * 4 && isLoggedIn ? "focus:ring-red-500" : "focus:ring-indigo-500"}  focus:border-transparent transition`}
                 />
                 <div className="absolute bottom-3 right-3 text-xs text-slate-400">
                   {rawText?.length} characters
+                </div>
+                <div
+                  className={`${
+                    rawText.length >= (user?.tokens || 0) * 4 && isLoggedIn
+                      ? "absolute"
+                      : "hidden"
+                  } bottom-3 left-3 text-xs text-red-600`}
+                >
+                  Not enough credits
                 </div>
               </div>
 
