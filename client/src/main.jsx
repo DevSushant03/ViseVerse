@@ -10,10 +10,12 @@ import ForgetPasswordFlow from "./pages/ForgetPasswordFlow";
 import { ToastContainer } from "react-toastify";
 import { AppContextProvider } from "./context/AppContext";
 import Pricing from "./pages/Pricing";
+import ErrorPage from "./pages/ErrorPage";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Applayout />,
+    errorElement:<ErrorPage message="Page not find"/>,
     children: [
       {
         path: "/",
