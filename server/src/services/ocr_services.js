@@ -6,7 +6,7 @@ export const extractText = async (path) => {
     data: { text },
   } = await Tesseract.recognize(
     path,
-    "eng" // language
+    "eng", // language
   );
   await fs.unlink(path); // delete after OCR
 

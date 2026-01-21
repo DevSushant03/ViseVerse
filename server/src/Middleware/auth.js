@@ -7,7 +7,11 @@ export function verifyAuth(req, res, next) {
   const token = req.cookies.accessToken;
 
   if (!token) {
-    return res.json({ success: false, message: "User not login !" });
+    return res.json({
+      success: false,
+      errorType: "AUTH",
+      message: "User not login !",
+    });
   }
 
   try {

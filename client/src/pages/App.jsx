@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import { useState, useContext } from "react";
 import {
   Copy,
   FileText,
@@ -7,7 +7,6 @@ import {
   Image,
   Sparkles,
   Check,
-  ChevronDown,
 } from "lucide-react";
 import About from "../components/About";
 import { useNavigate } from "react-router-dom";
@@ -135,6 +134,14 @@ export default function App() {
       credentials: "include",
     });
     const data = await res.json();
+    if (!data.success) {
+      console.log(data.errorType);
+      if (data.errorType === "AUTH") {
+        navigate("/login");
+      } else {
+        return data.message;
+      }
+    }
     setRawText(data.ocrtext);
     return data.text;
   }
@@ -225,6 +232,12 @@ export default function App() {
       desc: "Fix errors",
     },
     {
+      id: "humanize",
+      label: "Humanise Content",
+      icon: "👱",
+      desc: "Fix errors",
+    },
+    {
       id: "translate",
       label: "Translate",
       icon: "🌐",
@@ -265,7 +278,7 @@ export default function App() {
                   className="w-full h-48 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl resize-none text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                 />
                 <div className="absolute bottom-3 right-3 text-xs text-slate-400">
-                  {rawText.length} characters
+                  {rawText?.length} characters
                 </div>
               </div>
 
