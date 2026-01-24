@@ -4,16 +4,16 @@ import logo from "/public/icon128.png";
 export default function Footer() {
   const footerLinks = {
     product: [
-      { label: "Features", href: "#features" },
-      { label: "Pricing", href: "#pricing" },
-      { label: "API", href: "#api" },
-      { label: "Documentation", href: "#docs" },
+      { label: "Features", href: "/features" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Image To Text", href: "/image-to-text" },
+      { label: "Pdf Summarizer", href: "/pdf-summarizer" },
+      { label: "Tools", href: "/tools" },
     ],
     company: [
-      { label: "About", href: "#about" },
-      { label: "Blog", href: "#blog" },
-      { label: "Careers", href: "#careers" },
-      { label: "Contact", href: "#contact" },
+      { label: "About", href: "/about" },
+      { label: "How its work", href: "/how-its-work" },
+      { label: "Contact", href: "/contact" },
     ],
     legal: [
       { label: "Privacy Policy", href: "#privacy" },

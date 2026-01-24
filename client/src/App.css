@@ -7,14 +7,12 @@ body {
   box-sizing: border-box;
 }
 ::selection {
-  background-color: #0c0c0c;
-  color: #a200ff;
+  background-color: #8c00ff;
+  color: #ffffff;
 }
 
 body {
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #1f1f48 0%, #3a1f5a 100%);
-
   width: 100%;
   height: 100%;
 }

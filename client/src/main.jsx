@@ -11,11 +11,18 @@ import { ToastContainer } from "react-toastify";
 import { AppContextProvider } from "./context/AppContext";
 import Pricing from "./pages/Pricing";
 import ErrorPage from "./pages/ErrorPage";
+import PdfSummarizer from "./pages/SEO/PdfSummarizer";
+import ImageToText from "./pages/SEO/ImageToText";
+import Features from "./pages/SEO/Features";
+import About from "./pages/SEO/About";
+import Tools from "./pages/SEO/Tools";
+import Contact from "./pages/SEO/Contact";
+import HowItsWork from "./pages/SEO/HowItsWork";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Applayout />,
-    errorElement:<ErrorPage message="Page not find"/>,
+    errorElement: <ErrorPage message="Page not find" />,
     children: [
       {
         path: "/",
@@ -37,7 +44,35 @@ const router = createBrowserRouter([
         path: "forgetpassword",
         element: <ForgetPasswordFlow />,
       },
-      
+      {
+        path: "pdf-summarizer",
+        element: <PdfSummarizer />,
+      },
+      {
+        path: "image-to-text",
+        element: <ImageToText />,
+      },
+      {
+        path: "features",
+        element: <Features />,
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "tools",
+        element: <Tools />,
+      },
+      {
+        path: "how-its-work",
+        element: <HowItsWork />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+
     ],
   },
 ]);
@@ -45,7 +80,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AppContextProvider>
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
     </AppContextProvider>
-  </StrictMode>
+  </StrictMode>,
 );

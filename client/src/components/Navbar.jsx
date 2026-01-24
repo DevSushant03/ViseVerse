@@ -16,7 +16,7 @@ export default function Navbar() {
   const { user } = useContext(AppContext);
 
   return (
-    <nav className="fixed top-0 left-0 w-full px-6 py-3.5 flex justify-between items-center bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm z-50">
+    <nav className="fixed top-0 left-0 w-full px-6 py-3.5 flex justify-between items-center bg-white border-b border-slate-200 shadow-sm z-50">
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2 cursor-pointer group">
         <div className="w-9 h-9 bg-gradient-to-br overflow-hidden from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
