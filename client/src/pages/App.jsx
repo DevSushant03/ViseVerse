@@ -20,20 +20,39 @@ export default function App() {
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
   const [title, setTitle] = useState("Result");
-  const [img, setImg] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeAction, setActiveAction] = useState("");
   const [copied, setCopied] = useState(false);
   const navigate = useNavigate();
 
+  const [file, setFile] = useState(null);
   const [preview, setpreview] = useState(null);
+  const [fileType, setfileType] = useState("");
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImg(file);
-      const imgurl = URL.createObjectURL(file);
-      setpreview(imgurl);
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+
+    if (!selectedFile) return alert("please select file!");
+
+    const fileUrl = URL.createObjectURL(selectedFile);
+    setpreview(fileUrl);
+
+    setFile(selectedFile);
+
+    const type = selectedFile.type;
+
+    if (type.startsWith("image/")) {
+      setfileType("image");
+    } else if (type === "application/pdf") {
+      setfileType("pdf");
+    } else if (
+      type === "application/msword" ||
+      type ===
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ) {
+      setfileType("docs");
+    } else {
+      alert("Unsupported file type");
     }
   };
 
@@ -151,12 +170,29 @@ export default function App() {
 
   async function ExtractText(file) {
     const formdata = new FormData();
-    formdata.append("image", file);
-    const res = await fetch(SERVER_URL + "/ocr", {
-      method: "POST",
-      body: formdata,
-      credentials: "include",
-    });
+    formdata.append(fileType, file);
+    let res = null;
+    if (fileType == "image") {
+      res = await fetch(SERVER_URL + "/ocr", {
+        method: "POST",
+        body: formdata,
+        credentials: "include",
+      });
+    }
+    if (fileType == "pdf") {
+      res = await fetch(SERVER_URL + "/pdf", {
+        method: "POST",
+        body: formdata,
+        credentials: "include",
+      });
+    }
+    if (fileType == "docs") {
+      res = await fetch(SERVER_URL + "/docs", {
+        method: "POST",
+        body: formdata,
+        credentials: "include",
+      });
+    }
     const data = await res.json();
     if (!data.success) {
       console.log(data.errorType);
@@ -166,8 +202,7 @@ export default function App() {
         return data.message;
       }
     }
-    setRawText(data.ocrtext);
-    return data.text;
+    setRawText(data.text);
   }
 
   const selectAction = async (action) => {
@@ -182,7 +217,7 @@ export default function App() {
         ttl = "Text Summary";
         break;
       case "extract-Text":
-        res = await ExtractText(img);
+        res = await ExtractText(file);
         ttl = "Extract Text";
         break;
       case "bulletFormat":
@@ -297,7 +332,6 @@ export default function App() {
               <div className="relative">
                 <textarea
                   value={rawText}
-                  maxLength={user?.tokens * 4}
                   onChange={(e) => setRawText(e.target.value)}
                   placeholder="Type or paste your text here..."
                   className={`w-full h-48 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl resize-none text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${rawText.length >= (user?.tokens || 0) * 4 && isLoggedIn ? "focus:ring-red-500" : "focus:ring-indigo-500"}  focus:border-transparent transition`}
@@ -320,37 +354,55 @@ export default function App() {
               <div className="relative">
                 <input
                   type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
+                  accept="image/*,.pdf,.doc,.docx"
+                  onChange={handleFileChange}
                   className="hidden"
-                  id="image-upload"
+                  id="file-upload"
                 />
                 <label
-                  htmlFor="image-upload"
+                  htmlFor="file-upload"
                   className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-indigo-400 hover:bg-indigo-50/50 transition group"
                 >
-                  {img ? (
-                    <img
-                      src={preview}
-                      alt="Preview"
-                      className="w-full h-full object-cover rounded-xl"
-                    />
+                  {preview ? (
+                    fileType === "image" ? (
+                      <img
+                        src={preview}
+                        alt="Preview"
+                        className="w-full h-full object-cover rounded-xl"
+                      />
+                    ) : fileType === "pdf" ? (
+                      <iframe
+                        src={preview}
+                        className="w-full h-full rounded-xl"
+                        title="PDF Preview"
+                      />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center h-full">
+                        <span className="text-5xl">📄</span>
+                        <p className="mt-2 font-semibold text-sm text-center px-2">
+                          {file.name}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          DOC/DOCX file selected
+                        </p>
+                      </div>
+                    )
                   ) : (
                     <>
                       <Image className="w-10 h-10 text-slate-400 group-hover:text-indigo-500 mb-3 transition" />
                       <span className="text-sm font-medium text-slate-600 group-hover:text-indigo-600">
-                        Click to upload image
+                        Click to upload files
                       </span>
                       <span className="text-xs text-slate-400 mt-1">
-                        PNG, JPG, WEBP up to 10MB
+                        PNG, JPG, WEBP, PDF, DOCS up to 10MB
                       </span>
                     </>
                   )}
                 </label>
-                {img && (
+                {preview && (
                   <button
                     onClick={() => {
-                      setImg(null);
+                      setFile(null);
                       setpreview(null);
                     }}
                     className="absolute top-2 right-2 px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600"
