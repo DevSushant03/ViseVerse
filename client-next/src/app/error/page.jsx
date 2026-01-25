@@ -1,3 +1,4 @@
+"use client"
 import { ArrowLeft, Home, RefreshCw, AlertTriangle, Sparkles } from "lucide-react";
 
 const ErrorPage = ({ 
