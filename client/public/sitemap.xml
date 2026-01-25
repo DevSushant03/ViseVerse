@@ -2,61 +2,66 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://viseverse.netlify.app/</loc>
+    <loc>https://viseverse.vercel.app/</loc>
     <lastmod>2026-01-25</lastmod>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://viseverse.netlify.app/about</loc>
+    <loc>https://viseverse.vercel.app/about</loc>
     <lastmod>2026-01-25</lastmod>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://viseverse.netlify.app/tools</loc>
+    <loc>https://viseverse.vercel.app/tools</loc>
     <lastmod>2026-01-25</lastmod>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://viseverse.netlify.app/how-it-works</loc>
+    <loc>https://viseverse.vercel.app/how-it-works</loc>
     <lastmod>2026-01-25</lastmod>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://viseverse.netlify.app/pricing</loc>
+    <loc>https://viseverse.vercel.app/pricing</loc>
     <lastmod>2026-01-25</lastmod>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://viseverse.netlify.app/contact</loc>
+    <loc>https://viseverse.vercel.app/contact</loc>
     <lastmod>2026-01-25</lastmod>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://viseverse.netlify.app/pdf-summarizer</loc>
+    <loc>https://viseverse.vercel.app/pdf-summarizer</loc>
     <lastmod>2026-01-25</lastmod>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://viseverse.netlify.app/image-to-text</loc>
+    <loc>https://viseverse.vercel.app/image-to-text</loc>
+    <lastmod>2026-01-25</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://viseverse.vercel.app/features</loc>
     <lastmod>2026-01-25</lastmod>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://viseverse.netlify.app/login</loc>
+    <loc>https://viseverse.vercel.app/login</loc>
     <lastmod>2026-01-25</lastmod>
     <priority>0.4</priority>
   </url>
 
   <url>
-    <loc>https://viseverse.netlify.app/register</loc>
+    <loc>https://viseverse.vercel.app/register</loc>
     <lastmod>2026-01-25</lastmod>
     <priority>0.4</priority>
   </url>
