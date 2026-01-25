@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppContextProvider } from "@/context/AppContext";
-import { Poppins  } from "next/font/google";
+import { Poppins } from "next/font/google";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -26,8 +26,8 @@ export const metadata = {
     google: "hLLV_ZPmUxhmqmfsGWjmuFq52v3N-q4EV51RRjUXgXM",
   },
   icons: {
-    icon: "/favicon.ico",
-    apple: "/icon128.png",
+    icon: "public/favicon.ico",
+    apple: "public/icon128.png",
   },
 };
 export default function RootLayout({ children }) {
