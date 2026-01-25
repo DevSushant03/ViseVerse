@@ -11,6 +11,7 @@ export default function Applayout() {
       <Navbar />
       <ToastContainer position="top-center" />
       <Outlet />
+      <Footer/>
     </>
   );
 }
