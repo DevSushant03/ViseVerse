@@ -18,10 +18,10 @@ export default function Footer() {
       { label: "Contact", href: "/contact" },
     ],
     legal: [
-      { label: "Privacy Policy", href: "#privacy" },
-      { label: "Terms of Service", href: "#terms" },
-      { label: "Cookie Policy", href: "#cookies" },
-      { label: "License", href: "#license" },
+      { label: "Privacy Policy", href: "/legal/privacy-policy" },
+      { label: "Terms of Service", href: "/legal/terms-and-conditions" },
+      { label: "Cookie Policy", href: "/legal/cookies-policy" },
+      { label: "License", href: "/legal/license" },
     ],
   };
 
