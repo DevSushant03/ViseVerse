@@ -1,26 +1,27 @@
+"use client"
 import {
   AlignJustify,
-  CircleUserRound,
   X,
-  Sparkles,
-  PlusIcon,
   PlusCircle,
 } from "lucide-react";
 import React, { useState, useContext } from "react";
-import { AppContext } from "../context/AppContext";
-import { Link, useNavigate } from "react-router-dom";
-import logo from "/public/icon128.png";
+import { AppContext } from "@/context/AppContext";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+
+import Image from "next/image";
+
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
   const { user } = useContext(AppContext);
 
   return (
     <nav className="fixed top-0 left-0 w-full px-6 py-3.5 flex justify-between items-center bg-white border-b border-slate-200 shadow-sm z-50">
       {/* Logo */}
-      <Link to="/" className="flex items-center gap-2 cursor-pointer group">
+      <Link href="/" className="flex items-center gap-2 cursor-pointer group">
         <div className="w-9 h-9 bg-gradient-to-br overflow-hidden from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
-          <img src={logo} className="w-full " />
+          <Image src="/icon128.png" alt="logo" width={100} height={100}/>
         </div>
         <span className="text-[max(5px,20px)] font-semibold text-slate-900">
           ViseVerse
@@ -45,25 +46,25 @@ function PublicMenu() {
       {/* Desktop */}
       <div className="hidden md:flex items-center gap-6">
         <Link
-          to="/"
+          href="/"
           className="text-sm font-medium text-slate-600 hover:text-slate-900"
         >
           Home
         </Link>
         <Link
-          to="/pricing"
+          href="/pricing"
           className="text-sm font-medium text-slate-600 hover:text-slate-900"
         >
           Pricing
         </Link>
         <Link
-          to="/login"
+          href="/login"
           className="text-sm font-medium text-slate-600 hover:text-slate-900"
         >
           Login
         </Link>
         <Link
-          to="/register"
+          href="/register"
           className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold"
         >
           Get Started
@@ -81,16 +82,16 @@ function PublicMenu() {
       {isOpen && (
         <div className="absolute top-full left-0 w-full bg-white border shadow-lg md:hidden">
           <div className="flex flex-col p-4 space-y-2">
-            <Link to="/" onClick={() => setIsOpen(false)}>
+            <Link href="/" onClick={() => setIsOpen(false)}>
               Home
             </Link>
-            <Link to="/pricing" onClick={() => setIsOpen(false)}>
+            <Link href="/pricing" onClick={() => setIsOpen(false)}>
               Pricing
             </Link>
-            <Link to="/login" onClick={() => setIsOpen(false)}>
+            <Link href="/login" onClick={() => setIsOpen(false)}>
               Login
             </Link>
-            <Link to="/register" onClick={() => setIsOpen(false)}>
+            <Link href="/register" onClick={() => setIsOpen(false)}>
               Get Started
             </Link>
           </div>
@@ -105,9 +106,9 @@ function PublicMenu() {
 function ProfileMenu() {
   const { user, setUser } = useContext(AppContext);
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
-  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+  const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
   const handleLogout = async () => {
     await fetch(SERVER_URL + "/logout", {
@@ -115,7 +116,7 @@ function ProfileMenu() {
       method: "POST",
     });
     setUser(null);
-    navigate("/");
+    router.push("/");
   };
 
   const handleDeleteAccount = async () => {
@@ -130,7 +131,7 @@ function ProfileMenu() {
     });
 
     setUser(null);
-    navigate("/register");
+    router.push("/register");
   };
 
   return (

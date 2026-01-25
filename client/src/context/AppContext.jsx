@@ -1,3 +1,4 @@
+"use client"
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
@@ -6,8 +7,7 @@ export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
-
-  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+ const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
   const fetchUser = async () => {
     try {

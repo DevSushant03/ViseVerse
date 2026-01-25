@@ -1,3 +1,4 @@
+"use client"
 import { Languages, Download, Sparkles, Star, FileText, Zap, Globe, Shield } from "lucide-react";
 
 export default function About() {

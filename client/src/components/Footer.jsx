@@ -1,6 +1,8 @@
+"use client"
 import React from "react";
 import { Sparkles, Twitter, Github, Linkedin, Mail, Heart } from "lucide-react";
-import logo from "/public/icon128.png";
+import Image from "next/image";
+
 export default function Footer() {
   const footerLinks = {
     product: [
@@ -32,7 +34,8 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl overflow-hidden flex items-center justify-center">
-                <img src={logo} className="w-full " />
+                <Image src="/icon128.png" alt="logo" width={40} height={40} />
+
               </div>
               <span className="text-xl font-semibold text-slate-900">
                 ViseVerse
