@@ -23,14 +23,13 @@ export const metadata = {
   ],
   authors: [{ name: "ViseVerse" }],
   verification: {
-    google: "mxOAT__9AtlEVNYM6rAeEU-zWCZRwVE0c_aDZPwQPZ8",
+    google: "hLLV_ZPmUxhmqmfsGWjmuFq52v3N-q4EV51RRjUXgXM",
   },
   icons: {
     icon: "/favicon.ico",
     apple: "/icon128.png",
   },
 };
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
