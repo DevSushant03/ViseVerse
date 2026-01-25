@@ -24,6 +24,7 @@ export default function Register() {
 
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
   const verifyEmail = async () => {
+    setLoading(true)
     try {
       const res = await axios.post(
         SERVER_URL + "/sendEmailVerificationOtp",
@@ -55,8 +56,10 @@ export default function Register() {
       );
 
       toast.success(res.data.message);
+      setLoading(false)
       setOtpPanel(true);
     } catch (error) {
+      setLoading(false)
       console.log(error);
     }
   };
