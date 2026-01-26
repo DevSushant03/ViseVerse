@@ -19,6 +19,15 @@ const resetTokensIfNeeded = async (user) => {
 };
 
 export const aiResponse = async (req, res, next) => {
+  let isCancelled = false;
+
+  const abortController = new AbortController();
+
+  req.on("aborted", () => {
+    isCancelled = true;
+    abortController.abort(); // 👈 THIS STOPS AI REQUEST
+    console.log("❌ Client cancelled → AI request aborted");
+  });
   try {
     const { text, action } = req.body || {};
 
@@ -55,7 +64,12 @@ export const aiResponse = async (req, res, next) => {
       });
     }
 
-    const data = await processText(text, action);
+    const data = await processText(text, action,abortController.signal);
+
+    if (isCancelled || req.aborted) {
+      console.log("⚠️ Request cancelled → skipping save & token deduction");
+      return;
+    }
 
     user.tokens -= estimatedTokens;
     user.tokensUsed += estimatedTokens;
@@ -64,7 +78,7 @@ export const aiResponse = async (req, res, next) => {
     return res.json({
       success: true,
       data,
-      user
+      user,
     });
   } catch (err) {
     console.log("ai controller:", err.message);

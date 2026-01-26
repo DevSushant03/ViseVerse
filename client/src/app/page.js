@@ -1,5 +1,5 @@
 "use client";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 
 import {
   Copy,
@@ -17,6 +17,7 @@ import { AppContext } from "@/context/AppContext";
 export default function Home() {
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
   const { setUser, user, isLoggedIn } = useContext(AppContext);
+  const controllerRef = useRef(null);
 
   const [rawText, setRawText] = useState("");
   const [result, setResult] = useState("");
@@ -30,6 +31,10 @@ export default function Home() {
   const [preview, setpreview] = useState(null);
   const [fileType, setfileType] = useState("");
 
+  const cancelRequest = () => {
+    controllerRef.current?.abort();
+    setLoading(false)
+  };
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
 
@@ -58,12 +63,14 @@ export default function Home() {
   };
 
   async function sendToBackground(text, action) {
+    controllerRef.current = new AbortController();
     try {
       const res = await fetch(SERVER_URL + "/aiResponse", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ text, action }),
+        signal: controllerRef.current.signal,
       });
 
       const data = await res.json();
@@ -415,6 +422,22 @@ export default function Home() {
             </div>
           </div>
 
+           {loading && (
+            <div className="p-8 border-t border-slate-200 bg-slate-50">
+              <div className="flex items-center justify-center gap-3 text-indigo-600">
+                <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                <span className="text-sm font-medium">
+                  Processing your request...
+                </span>
+                <button onClick={()=>cancelRequest()} className="text-sm font-medium bg-red-500 p-3 cursor-pointer hover:bg-red-400 text-white rounded-lg">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
+
+
           {/* Actions Section */}
           <div className="p-8 bg-slate-50/50">
             <div className="flex items-center gap-3 mb-6">
@@ -502,6 +525,9 @@ export default function Home() {
                 <span className="text-sm font-medium">
                   Processing your request...
                 </span>
+                <button onClick={()=>cancelRequest()} className="text-sm font-medium bg-red-500 p-3 cursor-pointer hover:bg-red-400 text-white rounded-lg">
+                  Cancel
+                </button>
               </div>
             </div>
           )}
