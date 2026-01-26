@@ -33,7 +33,7 @@ export default function Home() {
 
   const cancelRequest = () => {
     controllerRef.current?.abort();
-    setLoading(false)
+    setLoading(false);
   };
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -347,6 +347,12 @@ export default function Home() {
                 <div className="absolute bottom-3 right-3 text-xs text-slate-400">
                   {rawText?.length} characters
                 </div>
+                <button
+                  className="absolute top-2 right-2 px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600"
+                  onClick={() => setRawText("")}
+                >
+                  clear
+                </button>
                 <div
                   className={`${
                     rawText.length >= (user?.tokens || 0) * 4 && isLoggedIn
@@ -422,21 +428,22 @@ export default function Home() {
             </div>
           </div>
 
-           {loading && (
+          {loading && (
             <div className="p-8 border-t border-slate-200 bg-slate-50">
               <div className="flex items-center justify-center gap-3 text-indigo-600">
                 <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
                 <span className="text-sm font-medium">
                   Processing your request...
                 </span>
-                <button onClick={()=>cancelRequest()} className="text-sm font-medium bg-red-500 p-3 cursor-pointer hover:bg-red-400 text-white rounded-lg">
+                <button
+                  onClick={() => cancelRequest()}
+                  className="text-sm font-medium bg-red-500 p-3 cursor-pointer hover:bg-red-400 text-white rounded-lg"
+                >
                   Cancel
                 </button>
               </div>
             </div>
           )}
-
-
 
           {/* Actions Section */}
           <div className="p-8 bg-slate-50/50">
@@ -525,7 +532,10 @@ export default function Home() {
                 <span className="text-sm font-medium">
                   Processing your request...
                 </span>
-                <button onClick={()=>cancelRequest()} className="text-sm font-medium bg-red-500 p-3 cursor-pointer hover:bg-red-400 text-white rounded-lg">
+                <button
+                  onClick={() => cancelRequest()}
+                  className="text-sm font-medium bg-red-500 p-3 cursor-pointer hover:bg-red-400 text-white rounded-lg"
+                >
                   Cancel
                 </button>
               </div>
