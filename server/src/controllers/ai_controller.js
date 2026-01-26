@@ -1,22 +1,11 @@
 import userModel from "../models/user_model.js";
-import { processText } from "../services/ai_services.js";
+import { processText, resetTokensIfNeeded } from "../services/ai_services.js";
 
 const estimateTokens = (text) => {
   return Math.ceil(text.length / 4);
 };
 
-const resetTokensIfNeeded = async (user) => {
-  const now = Date.now();
-  const lastReset = new Date(user.lastTokenReset).getTime();
 
-  const HOURS_24 = 24 * 60 * 60 * 1000;
-
-  if (now - lastReset >= HOURS_24) {
-    user.tokens = 500;
-    user.lastTokenReset = new Date();
-    await user.save();
-  }
-};
 
 export const aiResponse = async (req, res, next) => {
   let isCancelled = false;
