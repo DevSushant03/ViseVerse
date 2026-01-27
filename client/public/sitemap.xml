@@ -53,6 +53,23 @@
     <lastmod>2026-01-27</lastmod>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://viseverse.vercel.app/note-summarizer</loc>
+    <lastmod>2026-01-27</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://viseverse.vercel.app/explain-text</loc>
+    <lastmod>2026-01-27</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://viseverse.vercel.app/paraphrase</loc>
+    <lastmod>2026-01-27</lastmod>
+    <priority>0.7</priority>
+  </url>
 
   <url>
     <loc>https://viseverse.vercel.app/ai-humanizer</loc>
