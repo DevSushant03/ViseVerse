@@ -15,13 +15,11 @@ export default function Footer() {
     company: [
       { label: "About", href: "/about" },
       { label: "How its work", href: "/how-its-work" },
-      { label: "Contact", href: "/contact" },
     ],
     legal: [
       { label: "Privacy Policy", href: "/legal/privacy-policy" },
-      { label: "Terms of Service", href: "/legal/terms-and-conditions" },
-      { label: "Cookie Policy", href: "/legal/cookies-policy" },
-      { label: "License", href: "/legal/license" },
+      { label: "Terms and conditions", href: "/legal/terms-and-conditions" },
+      { label: "Contact Us", href: "/contact" },
     ],
   };
 
@@ -87,7 +85,7 @@ export default function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="font-semibold text-slate-900 mb-4">Company</h3>
+            <h3 className="font-semibold text-slate-900 mb-4">Viseverse</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link, index) => (
                 <li key={index}>
@@ -125,7 +123,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             {/* Copyright */}
             <p className="text-sm text-slate-600">
-              © {new Date().getFullYear()} ViseVerse. All rights reserved.
+              © {new Date().getFullYear()} ViseVerse. Owned and operated by Sushant Nachanekar..
             </p>
 
             {/* Developer Credit */}
