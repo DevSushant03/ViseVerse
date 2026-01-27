@@ -12,16 +12,19 @@ export default function ParaphrasePage() {
       <h1 className="text-4xl font-bold mb-4">Free AI Paraphrasing Tool</h1>
 
       <p className="text-lg mb-4">
-        ViseVerse Paraphrasing Tool helps you rewrite sentences, paragraphs, and articles in a better
-        and more professional way without changing the meaning.
+        ViseVerse Paraphrasing Tool helps you rewrite sentences, paragraphs, and
+        articles in a better and more professional way without changing the
+        meaning.
       </p>
 
       <p className="mb-4">
-        This tool is useful for students, bloggers, content writers, and anyone who wants to improve
-        their writing or avoid repetition.
+        This tool is useful for students, bloggers, content writers, and anyone
+        who wants to improve their writing or avoid repetition.
       </p>
 
-      <h2 className="text-2xl font-semibold mt-8 mb-4">What can you do with this tool?</h2>
+      <h2 className="text-2xl font-semibold mt-8 mb-4">
+        What can you do with this tool?
+      </h2>
       <ul className="list-disc pl-6 mb-8">
         <li>Rewrite content</li>
         <li>Improve clarity</li>
