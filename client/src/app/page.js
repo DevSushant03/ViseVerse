@@ -232,11 +232,11 @@ export default function Home() {
         res = await sendToBackground(rawText, action);
         ttl = "Bullet Format";
         break;
-      case "Polish-Text":
+      case "Polish_Text":
         res = await sendToBackground(rawText, action);
         ttl = "Polish Text";
         break;
-      case "grammer_spell-Check":
+      case "grammer_spell_Check":
         res = await sendToBackground(rawText, action);
         ttl = "Grammar/Spell Check";
         break;
@@ -291,9 +291,9 @@ export default function Home() {
       icon: "•",
       desc: "Format as list",
     },
-    { id: "Polish-Text", label: "Polish", icon: "✨", desc: "Improve writing" },
+    { id: "Polish_Text", label: "Polish", icon: "✨", desc: "Improve writing" },
     {
-      id: "grammer_spell-Check",
+      id: "grammer_spell_Check",
       label: "Grammar Check",
       icon: "✓",
       desc: "Fix errors",

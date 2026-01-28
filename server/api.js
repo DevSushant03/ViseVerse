@@ -1,37 +1,41 @@
 import env from "dotenv";
+import { PROMPTS } from "../server/src/services/ai_services.js";
+
 env.config();
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-
 const MODEL = "openai/gpt-4o-mini";
 
 const api = async (text, action, signals) => {
   try {
+    if (!PROMPTS[action]) {
+      return "Invalid AI action";
+    }
+
+    const prompt = PROMPTS[action](text);
+
     const res = await fetch(OPENROUTER_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        "HTTP-Referer": "http://localhost:3000", // or your site
-        "X-Title": "Resume Maker AI", // your app name
+        "HTTP-Referer": "http://localhost:3000",
+        "X-Title": "Resume Maker AI",
       },
       body: JSON.stringify({
         model: MODEL,
         messages: [
           {
             role: "system",
-            content: "You are a strict text processing assistant.",
+            content:
+              "You are a strict text processing tool. You return only the final result.",
           },
           {
             role: "user",
-            content: `Your task is to strictly perform the given action: ${action}, on the user content.
-If action is "translate", then translate into English.
-Return only the final result with no markdown, no extra notes, no instructions.
-
-User content: ${text}`,
+            content: prompt,
           },
         ],
-        temperature: 0.2,
+        temperature: 0.1, 
         signal: signals,
       }),
     });
@@ -45,7 +49,7 @@ User content: ${text}`,
     const data = await res.json();
 
     const result =
-      data?.choices?.[0]?.message?.content || "No response from AI";
+      data?.choices?.[0]?.message?.content?.trim() || "No response from AI";
 
     return result;
   } catch (err) {
