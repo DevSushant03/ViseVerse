@@ -9,11 +9,19 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
-
 export const metadata = {
-  title: "ViseVerse – AI Tools for Productivity",
+  metadataBase: new URL("https://viseverse.vercel.app"),
+
+  title: {
+    default: "ViseVerse – AI Tools for Productivity",
+    template: "%s | ViseVerse",
+  },
+
   description:
     "ViseVerse is a free AI-powered text summarizer and explanation tool. Summarize long articles, notes, PDFs, and understand text instantly.",
+
+  applicationName: "ViseVerse",
+
   keywords: [
     "ai text summarizer",
     "text summarizer online",
@@ -32,15 +40,20 @@ export const metadata = {
     url: "https://viseverse.vercel.app",
     type: "website",
   },
-  authors: [{ name: "ViseVerse" }],
+
   verification: {
     google: "hLLV_ZPmUxhmqmfsGWjmuFq52v3N-q4EV51RRjUXgXM",
   },
+
   icons: {
-    icon: "/favicon.ico",
-    apple: "/icon128.png",
+    icon: [
+      { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
