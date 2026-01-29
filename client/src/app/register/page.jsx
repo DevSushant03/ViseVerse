@@ -9,20 +9,6 @@ import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import RegisterPageUi from "@/components/RegisterPageUi";
 
-export const metadata = {
-  title: "Create Account | ViseVerse",
-  description:
-    "Create your free ViseVerse account to access AI tools like text summarizer, text extractor, and smart document editor. Sign up now and boost your productivity.",
-  keywords: [
-    "ViseVerse register",
-    "ViseVerse signup",
-    "AI text summarizer account",
-    "free AI tools",
-    "ViseVerse create account",
-  ],
-  robots: "index, follow",
-};
-
 
 export default function Register() {
   const [name, setName] = useState("");

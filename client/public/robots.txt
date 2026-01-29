@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://viseverse.netlify.app/sitemap.xml
+Disallow: /login
+Disallow: /register
+
+Sitemap: https://viseverse.vercel.app/sitemap.xml
