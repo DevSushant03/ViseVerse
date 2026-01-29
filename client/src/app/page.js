@@ -13,6 +13,7 @@ import {
 import About from "../components/About";
 import { useRouter } from "next/navigation";
 import { AppContext } from "@/context/AppContext";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -180,6 +181,7 @@ export default function Home() {
     const formdata = new FormData();
     formdata.append(fileType, file);
     let res = null;
+    if(!fileType) return toast.info("Please select a file")
     if (fileType == "image") {
       res = await fetch(SERVER_URL + "/ocr", {
         method: "POST",
@@ -342,7 +344,7 @@ export default function Home() {
                   value={rawText}
                   onChange={(e) => setRawText(e.target.value)}
                   placeholder="Type or paste your text here..."
-                  className={`w-full h-48 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl resize-none text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${rawText.length >= (user?.tokens || 0) * 4 && isLoggedIn ? "focus:ring-red-500" : "focus:ring-indigo-500"}  focus:border-transparent transition`}
+                  className={`w-full h-48 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl resize-none text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${rawText?.length >= (user?.tokens || 0) * 4 && isLoggedIn ? "focus:ring-red-500" : "focus:ring-indigo-500"}  focus:border-transparent transition`}
                 />
                 <div className="absolute bottom-3 right-3 text-xs text-slate-400">
                   {rawText?.length} characters
@@ -355,7 +357,7 @@ export default function Home() {
                 </button>
                 <div
                   className={`${
-                    rawText.length >= (user?.tokens || 0) * 4 && isLoggedIn
+                    rawText?.length >= (user?.tokens || 0) * 4 && isLoggedIn
                       ? "absolute"
                       : "hidden"
                   } bottom-3 left-3 text-xs text-red-600`}
