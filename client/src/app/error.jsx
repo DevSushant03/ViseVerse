@@ -1,11 +1,12 @@
-"use client"
+"use client";
+
 import { ArrowLeft, Home, RefreshCw, AlertTriangle, Sparkles } from "lucide-react";
 
-const ErrorPage = ({ 
-  message = "Something went wrong", 
-  errorCode = "500",
-  errorType = "Server Error" 
-}) => {
+export default function Error({ error, reset }) {
+  const errorCode = "500";
+  const errorType = "Server Error";
+  const message = error?.message || "Something went wrong. Please try again.";
+
   const handleGoBack = () => {
     window.history.back();
   };
@@ -15,7 +16,7 @@ const ErrorPage = ({
   };
 
   const handleRefresh = () => {
-    window.location.reload();
+    reset(); // ✅ This is IMPORTANT (Next.js retry)
   };
 
   return (
@@ -38,7 +39,7 @@ const ErrorPage = ({
                 <AlertTriangle className="w-10 h-10 text-red-600" />
               </div>
             </div>
-            
+
             <div className="text-7xl font-bold text-red-600 mb-2">{errorCode}</div>
             <h1 className="text-2xl font-bold text-slate-900 mb-2">{errorType}</h1>
             <p className="text-slate-600 max-w-md mx-auto">
@@ -77,15 +78,15 @@ const ErrorPage = ({
                 <ArrowLeft className="w-5 h-5" />
                 Go Back
               </button>
-              
+
               <button
                 onClick={handleRefresh}
                 className="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-slate-100 text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition"
               >
                 <RefreshCw className="w-5 h-5" />
-                Refresh
+                Try Again
               </button>
-              
+
               <button
                 onClick={handleGoHome}
                 className="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-purple-700 transition shadow-lg shadow-indigo-200"
@@ -101,27 +102,12 @@ const ErrorPage = ({
         <div className="text-center mt-6">
           <p className="text-sm text-slate-500">
             Still having trouble?{" "}
-            <button className="text-indigo-600 hover:text-indigo-700 font-medium">
+            <a href="/contact" className="text-indigo-600 hover:text-indigo-700 font-medium">
               Contact Support
-            </button>
+            </a>
           </p>
         </div>
       </div>
     </div>
   );
-};
-
-// Demo wrapper showing different error types
-function ErrorPageDemo() {
-  return (
-    <div>
-      <ErrorPage 
-        errorCode="404" 
-        errorType="Page Not Found"
-        message="The page you're looking for doesn't exist or has been moved."
-      />
-    </div>
-  );
 }
-
-export default ErrorPageDemo;
