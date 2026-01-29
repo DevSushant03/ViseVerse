@@ -14,7 +14,6 @@ export const metadata = {
 };
 
 export default function PdfSummarizer() {
-  const router = useRouter();
 
   return (
     <div className="max-w-6xl mx-auto mt-10 px-4 py-10">
