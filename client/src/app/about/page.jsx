@@ -2,6 +2,21 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 
+export const metadata = {
+  title: "About ViseVerse | AI-Powered Productivity Tools",
+  description:
+    "Learn about ViseVerse, our mission to make reading, summarizing, and understanding content easier using AI. Discover how our tools help students, professionals, and creators.",
+  keywords: [
+    "about viseverse",
+    "about ai tools",
+    "viseverse company",
+    "ai productivity tools",
+    "viseverse mission",
+  ],
+  robots: "index, follow",
+};
+
+
 export default function About() {
   return (
     <>

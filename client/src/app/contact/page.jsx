@@ -2,6 +2,22 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 
+export const metadata = {
+  title: "Contact Us | ViseVerse",
+  description:
+    "Contact the ViseVerse team for support, feedback, or business inquiries. We are here to help you with our AI tools and services.",
+  keywords: [
+    "contact ViseVerse",
+    "ViseVerse support",
+    "ViseVerse help",
+    "AI tools support",
+    "contact AI tool website",
+  ],
+  robots: "index, follow",
+};
+
+
+
 export default function Contact() {
     
   return (

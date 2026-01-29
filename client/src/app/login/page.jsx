@@ -6,6 +6,21 @@ import { useRouter } from "next/navigation";
 
 import { AppContext } from "@/context/AppContext";
 
+export const metadata = {
+  title: "Login | ViseVerse",
+  description:
+    "Login to your ViseVerse account to access AI tools like text summarizer, text extractor, and smart document editor. Secure and fast access to your dashboard.",
+  keywords: [
+    "ViseVerse login",
+    "ViseVerse sign in",
+    "AI tools login",
+    "ViseVerse account",
+    "login to ViseVerse",
+  ],
+  robots: "index, follow",
+};
+
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

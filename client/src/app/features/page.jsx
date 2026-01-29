@@ -1,39 +1,56 @@
-"use client"
+"use client";
 import React from "react";
 import { Helmet } from "react-helmet";
+
+export const metadata = {
+  title: "Features | ViseVerse AI Tools",
+  description:
+    "Explore all features of ViseVerse including AI text summarizer, PDF summarizer, image to text OCR, text explainer, and smart document editor.",
+  keywords: [
+    "viseverse features",
+    "ai text summarizer features",
+    "pdf summarizer ai",
+    "ocr image to text",
+    "ai productivity tools",
+    "viseverse tools",
+  ],
+  robots: "index, follow",
+};
 
 export default function Features() {
   const features = [
     {
       title: "AI Text Summarization",
-      desc: "Summarize long documents, articles, PDFs, and notes into short, meaningful summaries using AI."
+      desc: "Summarize long documents, articles, PDFs, and notes into short, meaningful summaries using AI.",
     },
     {
       title: "Extract Text from Images (OCR)",
-      desc: "Upload images and extract readable text instantly using advanced OCR technology."
+      desc: "Upload images and extract readable text instantly using advanced OCR technology.",
     },
     {
       title: "Extract Text from PDF & Docs",
-      desc: "Upload PDF and DOC files and extract full text for editing, summarizing, or exporting."
+      desc: "Upload PDF and DOC files and extract full text for editing, summarizing, or exporting.",
     },
     {
       title: "Edit & Modify Documents",
-      desc: "Modify, rewrite, or improve your extracted text using AI tools."
+      desc: "Modify, rewrite, or improve your extracted text using AI tools.",
     },
     {
       title: "Export in Multiple Formats",
-      desc: "Download your content in TXT, DOC, PDF and other formats."
+      desc: "Download your content in TXT, DOC, PDF and other formats.",
     },
     {
       title: "Fast & Secure Processing",
-      desc: "Your documents are processed quickly and securely."
+      desc: "Your documents are processed quickly and securely.",
     },
   ];
 
   return (
     <>
       <Helmet>
-        <title>ViseVerse Features – AI Document Summarizer, OCR, PDF Text Extractor</title>
+        <title>
+          ViseVerse Features – AI Document Summarizer, OCR, PDF Text Extractor
+        </title>
         <meta
           name="description"
           content="Explore ViseVerse features: AI text summarization, image OCR, PDF & DOC text extraction, document editing and exporting in multiple formats."
@@ -51,7 +68,8 @@ export default function Features() {
           </h1>
 
           <p className="text-gray-400 text-center mb-12">
-            Everything you need to extract, summarize, edit and export documents using AI.
+            Everything you need to extract, summarize, edit and export documents
+            using AI.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -60,12 +78,8 @@ export default function Features() {
                 key={index}
                 className="bg-white border border-gray-800 rounded-xl p-6 hover:border-blue-500 transition"
               >
-                <h2 className="text-xl font-semibold mb-3">
-                  {feature.title}
-                </h2>
-                <p className="text-gray-400 text-sm">
-                  {feature.desc}
-                </p>
+                <h2 className="text-xl font-semibold mb-3">{feature.title}</h2>
+                <p className="text-gray-400 text-sm">{feature.desc}</p>
               </div>
             ))}
           </div>

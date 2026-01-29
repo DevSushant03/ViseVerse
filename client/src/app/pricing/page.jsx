@@ -39,6 +39,21 @@ const plans = [
   },
 ];
 
+export const metadata = {
+  title: "Pricing | ViseVerse AI Tools",
+  description:
+    "Check ViseVerse pricing plans and choose the best AI tools plan for your needs. Get access to text summarizer, PDF summarizer, OCR, and more at affordable prices.",
+  keywords: [
+    "viseverse pricing",
+    "ai tools pricing",
+    "pdf summarizer pricing",
+    "text summarizer subscription",
+    "viseverse plans",
+    "ai productivity tools price",
+  ],
+  robots: "index, follow",
+};
+
 export default function Pricing() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-20 px-6">

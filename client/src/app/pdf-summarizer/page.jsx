@@ -2,6 +2,22 @@
 import { Helmet } from "react-helmet";
 import { useRouter } from "next/navigation";
 
+export const metadata = {
+  title: "PDF Summarizer Online | ViseVerse AI",
+  description:
+    "Summarize PDF files online using ViseVerse AI. Upload your PDF and get a fast, accurate summary in seconds. Free, secure, and easy to use.",
+  keywords: [
+    "pdf summarizer",
+    "ai pdf summarizer",
+    "summarize pdf online",
+    "free pdf summarizer",
+    "pdf summary tool",
+    "viseverse pdf summarizer",
+  ],
+  robots: "index, follow",
+};
+
+
 export default function PdfSummarizer() {
 const router = useRouter();
 
