@@ -310,7 +310,7 @@ export default function Home() {
       id: "translate",
       label: "Translate",
       icon: "🌐",
-      desc: "Change language",
+      desc: "Into English",
     },
     { id: "explain", label: "Explain", icon: "💡", desc: "Clarify content" },
   ];
