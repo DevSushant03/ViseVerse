@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 export const metadata = {
   title: "PDF Summarizer Online | ViseVerse AI",
   description:
