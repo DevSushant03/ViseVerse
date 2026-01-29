@@ -1,4 +1,3 @@
-"use client"
 import { Helmet } from "react-helmet";
 import { useRouter } from "next/navigation";
 
