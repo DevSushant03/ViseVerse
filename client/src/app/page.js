@@ -181,7 +181,10 @@ export default function Home() {
     const formdata = new FormData();
     formdata.append(fileType, file);
     let res = null;
-    if(!fileType) return toast.info("Please select a file")
+    if (!fileType) {
+      toast.info("Please select a file");
+      return;
+    }
     if (fileType == "image") {
       res = await fetch(SERVER_URL + "/ocr", {
         method: "POST",
