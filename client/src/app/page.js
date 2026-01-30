@@ -237,6 +237,10 @@ export default function Home() {
         res = await sendToBackground(rawText, action);
         ttl = "Bullet Format";
         break;
+      case "humanize":
+        res = await sendToBackground(rawText, action);
+        ttl = "humanize";
+        break;
       case "Polish_Text":
         res = await sendToBackground(rawText, action);
         ttl = "Polish Text";
