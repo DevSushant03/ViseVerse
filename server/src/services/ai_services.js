@@ -31,7 +31,17 @@ Do not add anything extra.
 Text:
 ${text}
 `,
+  humanize: (text) => `
+Rewrite the text to sound natural and human.
 
+- Keep the meaning same
+- Improve flow and readability
+- Remove robotic language
+- Do not add new information
+
+Text:
+${text}
+`,
   bulletFormat: (text) => `
 Convert the following text into clean "•" bullet points.
 Do not add headings or explanations.
