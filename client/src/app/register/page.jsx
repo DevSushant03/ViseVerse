@@ -164,15 +164,12 @@ export default function Register() {
             </div>
           </div>
         ) : (
-          <div className="w-full max-w-2xl mt-20">
+          <div className="w-full max-w-2xl mt-15">
             {/* Heading */}
-            <div className="mb-8">
+            <div className="mb-4">
               <h1 className="text-3xl font-bold text-slate-900 mb-2">
                 Create your account
               </h1>
-              <a href="http://localhost:5000/auth/google/calback">
-                Sign up with Google
-              </a>
             </div>
 
             {/* Register Form */}
@@ -290,6 +287,17 @@ export default function Register() {
                   </>
                 )}
               </button>
+              <a
+                href={`${SERVER_URL}/auth/google/callback`}
+                className="flex items-center justify-center gap-3 w-full border border-slate-300 py-2.5 rounded-lg hover:bg-slate-50 transition font-medium"
+              >
+                <img
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  alt="Google"
+                  className="w-5 h-5"
+                />
+                Continue with Google
+              </a>
             </div>
 
             {/* Login Link */}
