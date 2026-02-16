@@ -144,7 +144,7 @@ export default function Login() {
             </button>
 
             <a
-              href={`${SERVER_URL}/auth/google`}
+              href={`${SERVER_URL}/auth/google/callback`}
               className="flex items-center justify-center gap-3 w-full border border-slate-300 py-2.5 rounded-lg hover:bg-slate-50 transition font-medium"
             >
               <img
