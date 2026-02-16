@@ -7,7 +7,7 @@ export function verifyAuth(req, res, next) {
   const token = req.cookies.accessToken;
 
   if (!token) {
-    return res.json({
+    return res.status(401).json({
       success: false,
       errorType: "AUTH",
       message: "User not login !",
@@ -15,7 +15,7 @@ export function verifyAuth(req, res, next) {
   }
 
   try {
-    const DecodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const DecodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
     if (DecodedToken.id) {
       req.user = { userid: DecodedToken.id };
@@ -28,6 +28,6 @@ export function verifyAuth(req, res, next) {
       });
     }
   } catch (err) {
-    return res.json({ success: false, message: err.message });
+    return res.status(401).json({ success: false, message: err.message });
   }
 }

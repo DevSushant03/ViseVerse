@@ -9,7 +9,6 @@ import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import RegisterPageUi from "@/components/RegisterPageUi";
 
-
 export default function Register() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -25,7 +24,7 @@ export default function Register() {
 
   const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
   const verifyEmail = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await axios.post(
         SERVER_URL + "/sendEmailVerificationOtp",
@@ -57,10 +56,10 @@ export default function Register() {
       );
 
       toast.success(res.data.message);
-      setLoading(false)
+      setLoading(false);
       setOtpPanel(true);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       console.log(error);
     }
   };
@@ -171,9 +170,9 @@ export default function Register() {
               <h1 className="text-3xl font-bold text-slate-900 mb-2">
                 Create your account
               </h1>
-              <p className="text-slate-600">
-                Join thousands of professionals transforming their workflow
-              </p>
+              <a href="http://localhost:5000/auth/google/calback">
+                Sign up with Google
+              </a>
             </div>
 
             {/* Register Form */}

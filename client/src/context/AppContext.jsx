@@ -1,22 +1,18 @@
-"use client"
+"use client";
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
+import api from "@/app/api";
 
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
- const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get(SERVER_URL + "/userData", {
-        withCredentials: true,
-      });
+      const res = await api.get("/userData");
 
       if (res.data.success) {
-        
         setUser(res.data.user);
       } else {
         setUser(null);
@@ -28,9 +24,15 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+    // Avoid fetching user on auth pages or while a redirect is happening
+    useEffect(() => {
+      try {
+        const pathname = window.location.pathname;
+        if (pathname === "/login" || window.__redirectingToLogin) return;
+      } catch (e) {}
+
+      fetchUser();
+    }, []);
 
   const value = {
     user,

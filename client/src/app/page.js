@@ -291,16 +291,27 @@ export default function Home() {
       id: "extract-Text",
       label: "Extract Text",
       icon: "📝",
-      desc: "Pull text from images",
+      desc: "Pull text from documents",
+      isFree: true,
     },
-    { id: "summarize", label: "Summarize", icon: "📊", desc: "Get key points" },
+    {
+      id: "summarize",
+      label: "Summarize",
+      icon: "📊",
+      desc: "Get key points",
+    },
     {
       id: "bulletFormat",
       label: "Bullet Points",
       icon: "•",
       desc: "Format as list",
     },
-    { id: "Polish_Text", label: "Polish", icon: "✨", desc: "Improve writing" },
+    {
+      id: "Polish_Text",
+      label: "Polish",
+      icon: "✨",
+      desc: "Improve writing",
+    },
     {
       id: "grammer_spell_Check",
       label: "Grammar Check",
@@ -319,7 +330,12 @@ export default function Home() {
       icon: "🌐",
       desc: "Into English",
     },
-    { id: "explain", label: "Explain", icon: "💡", desc: "Clarify content" },
+    {
+      id: "explain",
+      label: "Explain",
+      icon: "💡",
+      desc: "Clarify content",
+    },
   ];
 
   return (
@@ -476,12 +492,21 @@ export default function Home() {
                   key={action.id}
                   onClick={() => selectAction(action.id)}
                   disabled={loading}
-                  className={`p-4 rounded-xl border-2 transition text-left disabled:opacity-50 disabled:cursor-not-allowed ${
+                  className={`p-4 rounded-xl relative border-2 transition text-left disabled:opacity-50 disabled:cursor-not-allowed ${
                     activeAction === action.id
                       ? "border-indigo-500 bg-indigo-50 shadow-sm"
                       : "border-slate-200 bg-white hover:border-indigo-300 hover:shadow-sm"
                   }`}
                 >
+                  {action.isFree ? (
+                    <div className="absolute top-2 right-2 bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">
+                      Free
+                    </div>
+                  ) : (
+                    <div className="w-5 h-5 absolute top-2 right-2 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white text-sm font-bold">
+                      ⚡
+                    </div>
+                  )}
                   <div className="text-2xl mb-2">{action.icon}</div>
                   <div className="text-sm font-semibold text-slate-900">
                     {action.label}
@@ -495,6 +520,9 @@ export default function Home() {
 
             {/* Download Actions */}
             <div className="border-t border-slate-200 pt-6 mt-6">
+              <div className="w-10 bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">
+                Free
+              </div>
               <h3 className="text-sm font-medium text-slate-700 mb-3">
                 Export Options
               </h3>

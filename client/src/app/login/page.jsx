@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 
 import { AppContext } from "@/context/AppContext";
 
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -145,6 +144,8 @@ export default function Login() {
                 </>
               )}
             </button>
+
+            <a href={SERVER_URL + "/auth/google/callback"}>Continue with Google</a>
           </div>
 
           {/* Sign Up Link */}

@@ -1,13 +1,16 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/user_model.js";
+import crypto from "crypto";
 import {
   createAccessToken,
+  createRefreshToken,
   deleteAccessToken,
   setNewPassword,
 } from "../services/auth_services.js";
 import DeletedAccountModel from "../models/deletedAccount_model.js";
 import otpModel from "../models/OtpStorage.js";
+import { Session } from "../models/session_model.js";
 
 //! Login functionality---------------------------------------
 export const login = async (req, res) => {
@@ -38,6 +41,7 @@ export const login = async (req, res) => {
     }
 
     createAccessToken(jwt, user, res);
+    await createRefreshToken(jwt, user, res, req);
 
     res.json({
       success: true,
@@ -99,22 +103,7 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    let tokens = 500;
-    let lastTokenReset = new Date();
-
-    // 🔍 Check if user existed before
-    const oldUser = await DeletedAccountModel.findOne({ email });
-
-    if (oldUser) {
-      const now = new Date();
-      const hoursPassed = (now - oldUser.lastTokenReset) / (1000 * 60 * 60);
-
-      if (hoursPassed < 24) {
-        // ♻ Restore previous tokens
-        tokens = oldUser.tokensLeft;
-        lastTokenReset = oldUser.lastTokenReset;
-      }
-    }
+    const { tokens, lastTokenReset } = await OldUserExist(email);
 
     const user = new userModel({
       name,
@@ -139,15 +128,91 @@ export const register = async (req, res) => {
     });
   }
 };
+
+//! refresh token functionality---------------------------------
+export const refreshAccessToken = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    console.log("No refresh token cookie found");
+    return res.sendStatus(401);
+  }
+
+  let payload;
+  try {
+    payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    console.log(`Refresh token verified for user ${payload.id}`);
+  } catch (err) {
+    console.log("Invalid or expired refresh token:", err.message);
+    // clear the cookie so client won't keep sending an expired token
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+    return res.sendStatus(401);
+  }
+
+  const tokenHash = crypto
+    .createHash("sha256")
+    .update(refreshToken)
+    .digest("hex");
+
+  const session = await Session.findOne({
+    userId: payload.id,
+    tokenHash,
+  });
+
+  if (!session) {
+    console.log(
+      "No session found for refresh token (user:",
+      payload.id,
+      " tokenHash:",
+      tokenHash + ")",
+    );
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+    return res.sendStatus(401);
+  }
+
+  createAccessToken(jwt, { _id: payload.id }, res);
+
+  return res
+    .status(200)
+    .json({ success: true, message: "Access token refreshed" });
+};
+
 //! logout functionality------------------------------------
 export const logout = async (req, res) => {
   const { userid } = req.user;
+  const refreshToken = req.cookies.refreshToken;
+
   try {
     const user = await userModel.findById(userid);
     if (!user) {
       return res.json({ success: false, message: "User not found" });
     }
-    deleteAccessToken(res);
+    if (refreshToken) {
+      const hash = crypto
+        .createHash("sha256")
+        .update(refreshToken)
+        .digest("hex");
+      await Session.deleteOne({ tokenHash: hash });
+    }
+
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+
     return res.json({ success: true, message: "Logout successfully" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
@@ -222,7 +287,6 @@ export const sendEmailVerificationOtp = async (req, res) => {
     return res.json({ success: false, message: "Failed to generate OTP" });
   }
 };
-
 
 //! Reset password functionality---------------------------------
 export const sendResetotp = async (req, res) => {
