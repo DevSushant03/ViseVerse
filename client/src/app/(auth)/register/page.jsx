@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
-import RegisterPageUi from "@/components/RegisterPageUi";
+import RegisterPageUi from "@/shared/components/RegisterPageUi";
 
 export default function Register() {
   const [name, setName] = useState("");

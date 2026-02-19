@@ -10,7 +10,7 @@ import {
   Sparkles,
   Check,
 } from "lucide-react";
-import About from "../components/About";
+import About from "../shared/components/About";
 import { useRouter } from "next/navigation";
 import { AppContext } from "@/context/AppContext";
 import { toast } from "react-toastify";
