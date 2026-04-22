@@ -8,7 +8,7 @@ export const downloadPdf = async (req, res) => {
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader(
     "Content-Disposition",
-    "attachment; filename=SnapGuruResult.pdf"
+    "attachment; filename=viseverse.pdf"
   );
   createPdf(res, rawText);
   } catch (error) {
@@ -26,7 +26,7 @@ export const downloadDocx = async (req, res) => {
   );
   res.setHeader(
     "Content-Disposition",
-    "attachment; filename=SnapGuruResult.docx"
+    "attachment; filename=viseverse.docx"
   );
 
   const buffer = await createDocx(rawText);

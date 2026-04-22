@@ -5,7 +5,6 @@ const estimateTokens = (text) => {
   return Math.ceil(text.length / 4);
 };
 
-
 export const aiResponse = async (req, res, next) => {
   let isCancelled = false;
 
@@ -39,7 +38,7 @@ export const aiResponse = async (req, res, next) => {
     if (user.tokens <= 0) {
       return res.status(403).json({
         success: false,
-        message: "No tokens left. Please upgrade your plan.",
+        message: "Out of tokens. Wait 24h or Upgrade Now.",
       });
     }
 
@@ -48,12 +47,13 @@ export const aiResponse = async (req, res, next) => {
     if (user.tokens < estimatedTokens) {
       return res.status(403).json({
         success: false,
-        message: "Not enough tokens. Please recharge.",
+        message: "Out of tokens. Wait 24h or Upgrade Now.",
       });
     }
 
-    const data = await processText(text, action,abortController.signal);
+    const data = await processText(text, action, abortController.signal);
 
+    console.log("controller", data);
     if (isCancelled || req.aborted) {
       console.log("⚠️ Request cancelled → skipping save & token deduction");
       return;

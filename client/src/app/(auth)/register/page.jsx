@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
-import RegisterPageUi from "@/components/RegisterPageUi";
+import RegisterPageUi from "@/shared/components/RegisterPageUi";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -27,7 +27,7 @@ export default function Register() {
     setLoading(true);
     try {
       const res = await axios.post(
-        SERVER_URL + "/sendEmailVerificationOtp",
+        SERVER_URL + "sendEmailVerificationOtp",
         {
           email,
         },
@@ -40,6 +40,7 @@ export default function Register() {
       );
       if (!res.data.success) {
         alert(res.data.message);
+        setLoading(false);
         return;
       }
 
@@ -71,7 +72,7 @@ export default function Register() {
 
     try {
       const res = await axios.post(
-        SERVER_URL + "/register",
+        SERVER_URL + "register",
         {
           name,
           surname,
