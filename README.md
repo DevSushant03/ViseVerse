@@ -52,8 +52,18 @@
 ---
 
 ## 🖼️ Preview
-<img width="500" alt="image" src="https://github.com/user-attachments/assets/d56b46b9-9c59-4c20-8f66-ccb07f9eeec4" />
 
+<p align="center">
+  <img width="800" src="https://github.com/user-attachments/assets/19bc1e68-8fcc-4ba6-9407-e510aa27780c" />
+</p>
+
+<p align="center">
+  <img width="800" src="https://github.com/user-attachments/assets/d153ead2-feae-4093-9359-0f63f9aec006" />
+</p>
+
+<p align="center">
+  <img width="800" src="https://github.com/user-attachments/assets/f700d39a-2678-47c8-9574-cdb03863fc13" />
+</p>
 
 ---
 
