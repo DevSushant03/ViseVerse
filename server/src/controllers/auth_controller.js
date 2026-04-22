@@ -6,6 +6,7 @@ import {
   createAccessToken,
   createRefreshToken,
   deleteAccessToken,
+  OldUserExist,
   setNewPassword,
 } from "../services/auth_services.js";
 import DeletedAccountModel from "../models/deletedAccount_model.js";
@@ -31,6 +32,7 @@ export const login = async (req, res) => {
           "Email not recognized. Kindly check your input or create a new account.",
       });
     }
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -70,6 +72,15 @@ export const register = async (req, res) => {
       });
     }
 
+    const UserAlreadyExist = await userModel.findOne({ email });
+
+    if (UserAlreadyExist && UserAlreadyExist.password !== null) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "An account with this email already exists. Please log in instead.",
+      });
+    }
     const otpDoc = await otpModel.findOne({ email });
 
     if (!otpDoc) {
@@ -104,6 +115,19 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const { tokens, lastTokenReset } = await OldUserExist(email);
+
+    if (UserAlreadyExist && !UserAlreadyExist.password) {
+      UserAlreadyExist.name = name;
+      UserAlreadyExist.surname = surname;
+      UserAlreadyExist.password = hashedPassword;
+      UserAlreadyExist.tokens = tokens;
+      UserAlreadyExist.lastTokenReset = lastTokenReset;
+      await UserAlreadyExist.save();
+      return res.status(201).json({
+        success: true,
+        message: "Registered successfully",
+      });
+    }
 
     const user = new userModel({
       name,
@@ -257,7 +281,7 @@ export const sendEmailVerificationOtp = async (req, res) => {
     const { email } = req.body;
 
     const user = await userModel.findOne({ email });
-    if (user) {
+    if (user && user.password) {
       return res.json({
         success: false,
         message:

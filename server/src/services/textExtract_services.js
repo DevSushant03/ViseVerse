@@ -2,6 +2,7 @@ import Tesseract from "tesseract.js";
 import fs from "fs/promises";
 import mammoth from "mammoth";
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
+import { log } from "console";
 
 export const extractTextFromImg = async (path) => {
   const {
@@ -23,6 +24,7 @@ export const extractTextFromDocs = async (path) => {
   return result.value;
 };
 export const extractTextFromPdf = async (path) => {
+
   const buffer = await fs.readFile(path);
   const data = new Uint8Array(buffer); // ✅ FIX HERE
 
@@ -39,6 +41,7 @@ export const extractTextFromPdf = async (path) => {
   }
 
   await fs.unlink(path); // delete file after processing
+
 
   return fullText;
 };

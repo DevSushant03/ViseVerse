@@ -27,7 +27,7 @@ export default function Register() {
     setLoading(true);
     try {
       const res = await axios.post(
-        SERVER_URL + "/sendEmailVerificationOtp",
+        SERVER_URL + "sendEmailVerificationOtp",
         {
           email,
         },
@@ -40,6 +40,7 @@ export default function Register() {
       );
       if (!res.data.success) {
         alert(res.data.message);
+        setLoading(false);
         return;
       }
 
@@ -71,7 +72,7 @@ export default function Register() {
 
     try {
       const res = await axios.post(
-        SERVER_URL + "/register",
+        SERVER_URL + "register",
         {
           name,
           surname,

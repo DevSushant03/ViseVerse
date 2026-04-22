@@ -5,7 +5,6 @@ const estimateTokens = (text) => {
   return Math.ceil(text.length / 4);
 };
 
-
 export const aiResponse = async (req, res, next) => {
   let isCancelled = false;
 
@@ -52,8 +51,9 @@ export const aiResponse = async (req, res, next) => {
       });
     }
 
-    const data = await processText(text, action,abortController.signal);
+    const data = await processText(text, action, abortController.signal);
 
+    console.log("controller", data);
     if (isCancelled || req.aborted) {
       console.log("⚠️ Request cancelled → skipping save & token deduction");
       return;

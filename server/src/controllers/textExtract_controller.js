@@ -24,10 +24,10 @@ export const handleExtractTextFromPdf = async (req, res) => {
       return res.status(400).json({ error: "No pdf file uploaded" });
     }
 
-    console.log(req.file.path);
-    
     const text = await extractTextFromPdf(req.file.path);
 
+    console.log(text);
+    
     return res.json({ success: true, text });
   } catch (error) {
     return res.json({ success: false, message: error.message });

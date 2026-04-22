@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../styles/globals.css";
 import Navbar from "@/shared/components/Navbar";
 import Footer from "@/shared/components/Footer";
 import { ToastContainer } from "react-toastify";

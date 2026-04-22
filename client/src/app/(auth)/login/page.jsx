@@ -21,7 +21,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
 
-    const res = await fetch(SERVER_URL + "/login", {
+    const res = await fetch(SERVER_URL + "login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -144,7 +144,7 @@ export default function Login() {
             </button>
 
             <a
-              href={`${SERVER_URL}/auth/google/callback`}
+              href={`${SERVER_URL}auth/google/callback`}
               className="flex items-center justify-center gap-3 w-full border border-slate-300 py-2.5 rounded-lg hover:bg-slate-50 transition font-medium"
             >
               <img

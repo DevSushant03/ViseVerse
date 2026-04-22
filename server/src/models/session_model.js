@@ -10,7 +10,7 @@ const sessionSchema = new mongoose.Schema(
     tokenHash: { type: String, required: true },
     ipAddress: { type: String },
     userAgent: { type: String },
-    expiresAt: { type: Date, required: true },
+    expiresAt: { type: Date, required: true, index: { expires: 0 } },
   },
   { timestamps: true },
 );

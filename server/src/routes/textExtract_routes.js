@@ -10,7 +10,7 @@ const upload = multer({ dest: "uploads/" });
 const router = Router();
 
 router.post(
-  "/ocr",
+  "/image",
   verifyAuth,
   upload.single("image"),
   handleExtractTextFromImg,
