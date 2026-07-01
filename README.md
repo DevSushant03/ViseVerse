@@ -18,7 +18,6 @@
 ✅ **OCR with Tesseract.js** – Extract text from images and screenshots  
 ✅ **AI Summarization** – Get clean, readable summaries using advanced AI models  
 ✅ **Text Cleaning** – Automatically removes unnecessary lines or formatting issues  
-✅ **Multi-language Support** – Works with multiple languages and fonts  
 ✅ **Lightweight UI** – Minimal, responsive, and modern design built with React  
 ✅ **Instant Copy** – Copy summarized text with one click  
 
@@ -26,10 +25,10 @@
 
 ## 🧩 Tech Stack
 
-- **Frontend:** React.js, Tailwind CSS  
+- **Frontend:** Next.js, Tailwind CSS  
 - **AI Integration:** Gemini Model  
 - **OCR Engine:** Tesseract.js  
-- **Hosting:** Netlify & Render
+- **Hosting:** vercel & Render
 - **State Management:** React Hooks  
 <img width="895" height="375" alt="Screenshot (84)" src="https://github.com/user-attachments/assets/a94655d7-18dc-4947-a47a-6c1516c7cdda" />
 
@@ -81,7 +80,7 @@ Let AI extract, clean, and summarize — so you get straight to the insight.
 
 📍 Mumbai, India  
 📧 [[Portfolio link](https://devsushant03.netlify.app/)]  
-🌐 [Visit Website](https://viseverse.netlify.app)
+🌐 [Visit Website](https://viseverse.vercel.app)
 
 ---
 
